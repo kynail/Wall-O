@@ -1,0 +1,411 @@
+FORMAT: 1A
+HOST: http://localhost:8080
+
+# Wall-O
+
+Wall-O API
+
+# Group Users
+
+## Register [/users/register]
+
+### Ajouter un nouvel utilisateur [POST]
+
+Cette route prend un objet JSON contenant :
++ un e-mail.
++ le nom de l'utilisateur.
++ le prénom de l'utilisateur.
++ l'age de l'utilisateur *(optionnel)*.
++ le sexe de l'utilisateur *(optionnel)*.
++ le mot de passe de l'utilisateur.
+
+:::note
+# Format de la reponse
+
+L'adresse email de l'utilisateur doit être **unique**, sinon la route retournera le code **HTTP 400**
+
+En cas de succès, la réponse retourne le code **HTTP 201** et contient les informations de l'utilisateur en format JSON.
+
+S'il manque les informations obligatoires, le code **HTTP 401** et un message d'erreur est retourné.
+
++ Request Nouvel utilisateur (application/json)
+
+    + Body
+
+            {
+                "mail": "toto.tata@mail.com",
+                "lastName": "Tata",
+                "firstName": "Toto",
+                "age": "20",
+                "gender": "H",
+                "password": "password"
+            }
+
++ Response 201 (application/json)
+
+        {
+            "success": true,
+            "message": "New user added successfully",
+            "data": {
+                "id": "5e993dbbf58a111642343861",
+                "firstName": "Toto",
+                "lastName": "Tata",
+                "age": "20",
+                "gender": "H",
+            }
+        }
+
++ Response 401 (application/json)
+
+        {
+            "success": false,
+            "message": "User informations are missing",
+        }
+
++ Response 400 (application/json)
+
+        {
+            "success": false,
+            "message": "This user already exist",
+        }
+
++ Response 500 (application/json)
+
+        {
+            "success": false,
+            "message": "Cannot create user",
+        }
+
+## Login [/users/login]
+
+### Connecter un utilisateur [GET]
+
+Cette route prend un objet JSON contenant :
++ un e-mail.
++ un mot de passe
+
+:::note
+# Format de la reponse
+En cas de succès, la réponse retourne le code **HTTP 200** et contient les informations de l'utilisateur en format JSON.
+
+En cas d'erreur, si l'adresse e-mail contenu dans l'objet JSON ne correspond à aucun compte interne, le code **HTTP 404** et un message d'erreur est retourné.
+
+Si le mot de passe ne correspond pas, le code **HTTP 400** et un message d'erreur est retourné.
+
++ Request Login (application/json)
+
+    + Body
+
+            {
+                "mail": "toto.tata@mail.com"
+                "password": "password" 
+            }
+
++ Response 200 (application/json)
+
+        {
+            "success": true,
+            "message": "Login successfull",
+            "data": {
+                "id": "5e993dbbf58a111642343861",
+                "firstName": "Toto",
+                "lastName": "Tata",
+                "age": "20",
+                "gender": "H",
+            }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "success": false,
+            "message": "Incorrect password",
+        }
+
++ Response 404 (application/json)
+
+        {
+            "success": false,
+            "message": "Cannot find this user",
+        }
+
++ Response 500 (application/json)
+
+        {
+            "success": false,
+            "message": "Cannot log this user",
+        }
+
+# Group Auth
+
+## Se connecter ou s'inscrire avec Facebook [/users/auth/facebook]
+
+### Se connecter ou s'inscrire avec Facebook [POST]
+
+Cette route permet la connexion avec le service Facebook.
+
+Cette route ne prend aucun paramètre.
+
+:::note
+# Format de la reponse
+
+En cas de succès, si l'utilisateur n'est pas déjà présent dans la base données, le serveur retourne le code **HTTP 201** et ajoute l'utilisateur dans la base de données.
+
+si l'utilisateur est déjà présent dans la base données, le serveur retourne le code **HTTP 200** et les informations de l'utilisateur sont présents dans la réponse.
+
+Si la connexion à échoué, le code **HTTP 500** et un message d'erreur est retouné.
+
++ Response 201 (application/json)
+
+        {
+            "success": true,
+            "message": "Connexion avec Facebook réussi",
+            "data": {
+                "id": "5e993dbbf58a111642343861",
+                "firstName": "utilisateur facebook",
+                "lastName": "utilisateur facebook"
+            }
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": true,
+            "message": "Connexion avec Facebook réussi",
+            "data": {
+                "id": "5e993dbbf58a111642343861",
+                "firstName": "utilisateur facebook",
+                "lastName": "utilisateur facebook",
+                "age" : 20
+                ...
+            }
+        }
+
++ Response 500 (application/json)
+
+        {
+            "success": false,
+            "message": "Server error",
+            "data": {
+                ...
+            }
+        }
+
+## Se connecter ou s'inscrire avec Google [/users/auth/google]
+
+### Se connecter ou s'inscrire avec Google [POST]
+
+Cette route permet la connexion avec le service Google.
+
+Cette route ne prend aucun paramètre.
+
+:::note
+# Format de la reponse
+
+En cas de succès, si l'utilisateur n'est pas déjà présent dans la base données, le serveur retourne le code **HTTP 201** et ajoute l'utilisateur dans la base de données.
+
+si l'utilisateur est déjà présent dans la base données, le serveur retourne le code **HTTP 200** et les informations de l'utilisateur sont présents dans la réponse.
+
+Si la connexion à échoué, le code **HTTP 500** et un message d'erreur est retouné.
+
++ Response 201 (application/json)
+
+        {
+            "success": true,
+            "message": "Connexion avec Google réussi",
+            "data": {
+                "id": "5e993dbbf58a111642343861",
+                "firstName": "utilisateur google",
+                "lastName": "utilisateur google"
+            }
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": true,
+            "message": "Connexion avec Google réussi",
+            "data": {
+                "id": "5e993dbbf58a111642343861",
+                "firstName": "utilisateur Google",
+                "lastName": "utilisateur Google",
+                "age" : 20
+                ...
+            }
+        }
+
++ Response 500 (application/json)
+
+        {
+            "success": false,
+            "message": "Server error",
+            "data": {
+                ...
+            }
+        }
+
+## Envoyer l'email de reinitialisation [/users/auth/forget]
+
+### Envoyer l'email de reinitialisation [POST]
+Cette route permet d'envoyer l'email de reinitialisation de mot de passe à un utlisateur.
+
+Cette route prend un objet JSON contenant :
++ un e-mail.
+
+:::note
+# Format de la reponse
+
+En cas de succès, la réponse retourne le code **HTTP 200** et un email est envoyé à l'utilisateur.
+
+S'il l'e-mail contenu dans l'objet JSON ne correspond à aucun compte, le code **HTTP 404** et un message d'erreur est retouné.
+
+S'il l'e-mail n'as pas pu être envoyé à l'utilisateur, le code **HTTP 500** et un message d'erreur est retouné
+
++ Request Exemple (application/json)
+
+    + Body
+
+            {
+                "mail": "toto.tata@mail.com",
+            }
+
++ Response 200 (application/json)
+
+        {
+            "success": true,
+            "message": "Mail send successfully",
+        }
+
++ Response 404 (application/json)
+
+        {
+            "success": false,
+            "message": "Cannot find this user",
+        }
+
++ Response 500 (application/json)
+
+        {
+            "success": false,
+            "message": "Server error",
+            "data": {
+                ...
+            }
+        }
+
+## Reinitialiser le mot de passe d'un utilisateur [/users/auth/reset]
+
+### Reinitialiser le mot de passe d'un utilisateur [POST]
+Cette route permet à un utilisateur de reinitialiser son mot de passe.
+
+Cette route prend un objet JSON contenant :
++ un token.
++ le nouveau mot de passe.
++ la confirmation du mot de passe
+
+:::note
+# Format de la reponse
+
+En cas de succès, la réponse retourne le code **HTTP 201**, remplace le mot de passe de l'utilisateur et envoi un email lui confirmant le succès de sa reinitialisation.
+
+Si les mots de passes ne correspondent pas, le code **HTTP 422** et un message d'erreur est retouné.
+
+Si le token a expiré ou s'il est invalide, le code **HTTP 400** et un message d'erreur est retouné.
+
++ Request Exemple (application/json)
+
+    + Body
+
+            {
+                "token": "00d2f0a192722c6c3bde17a34a9b570d30b3ff6d"
+                "newPassword": "newpassword",
+                "verifyPassword": "newpassword",
+            }
+
++ Response 201 (application/json)
+
+        {
+            "success": true,
+            "message": "Password reset",
+        }
+
++ Response 421 (application/json)
+
+        {
+            "success": false,
+            "message": "Password did not match",
+        }
+
++ Response 400 (application/json)
+
+        {
+            "success": false,
+            "message": "Token is invalid or has expired",
+        }
+
++ Response 500 (application/json)
+
+        {
+            "success": false,
+            "message": "Server error",
+            "data": {
+                ...
+            }
+        }
+
+
+# Group Find
+
+## Analyse de données [/find]
+
+### Analyse d'image [POST]
+
+Cette route permet de faire communiquer l’API avec le serveur d’analyse en envoyant l’image de l’utilisateur au serveur TCP afin de l’analyser et recevoir le nom de l’espèce.
+
+Cette route prend un objet JSON contenant :
++ une image en base64.
+
+:::note
+# Format de la reponse
+
+En cas de succès, le serveur retourne le code **HTTP 201** et le nom du poisson est indiqué dans la réponse.
+
+Si le body ne contient pas une image en base64, le serveur retourne le code **HTTP 400**.
+
+En cas d'erreur entre l'API ou le serveur TCP, le code **HTTP 500** et un message d'erreur est retouné.
+
+
++ Request envoi image (application/json)
+
+    + Body
+
+            {
+                "imageData": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQD..."
+            }
+
++ Response 201 (application/json)
+
+        {
+            "success": true,
+            "message": "Poisson trouvé",
+            "data": {
+                "Poisson Clown"
+            }
+        }
+
++ Response 400 (application/json)
+
+        {
+            "success": false,
+            "message": "Image manquante",
+        }
+
++ Response 500 (application/json)
+
+        {
+            "success": false,
+            "message": "Server error",
+            "data": {
+                ...
+            }
+        }

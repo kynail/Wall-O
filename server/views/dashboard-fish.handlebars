@@ -1,0 +1,28 @@
+<main>
+    <div class="title-background">
+        <img src={{thumbnail}}>
+        <h1>{{fishName}}</h1>
+        <p>Total : {{total}}</p>
+        <a name="{{fishName}}" id="remove-fish" class="button">Supprimer</a>
+    </div>
+    <div style="padding: 1rem;">
+        <div class="main-content fish" style="padding: 1rem;">
+            {{#each imagesGroup}}
+            <div class="date">
+                {{this.date}}
+            </div>
+            <div class="grid-container">
+
+                {{#each this.images}}
+
+                <img src="data:image/jpeg;base64, {{this}}">
+
+                {{/each}}
+
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</main>
+
+<script src="/js/fish.js"></script>

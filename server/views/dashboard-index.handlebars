@@ -1,0 +1,39 @@
+<main class="padding">
+    <div class="search-input">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Entrez le nom d’un poisson..." name="fish-search">
+    </div>
+    <div class="main-content">
+        <div class="table">
+            <div class="table-top">
+                <div class="first-child">
+                    <p>Nom ({{totalFish}})</p>
+                </div>
+                <div class="last-child">
+                    <p>Total ({{totalPhotos}})</p>
+                </div>
+            </div>
+            <div id="table-child">
+
+                {{#each fishData}}
+
+                <div class="child-container" id="{{this.fishName}}">
+                    <div class="first-child">
+                        <div class="rounded-icon">
+                            <img src={{this.thumbnail}}>
+                            <p>{{this.fishName}}</p>
+                        </div>
+                    </div>
+                    <div class="last-child">
+                        <p>{{this.total}}</p>
+                    </div>
+                </div>
+
+                {{/each}}
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="/js/index.js"></script>
