@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:wallo_flutter/models/user.dart';
+import 'package:wallo_flutter/redux/store.dart';
+// import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 class SignIn extends StatelessWidget {
   const SignIn({Key key}) : super(key: key);
+
+  void handleLogin(BuildContext context) {
+    Navigator.pushReplacementNamed(context, "/home");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +28,19 @@ class SignIn extends StatelessWidget {
                   style: TextStyle(fontSize: 20, color: Colors.white))),
           ElevatedButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, "/home");
+                handleLogin(context);
               },
               child: Text("Accueil",
                   style: TextStyle(fontSize: 20, color: Colors.white))),
+          StoreConnector<AppState, User>(
+            distinct: true,
+            converter: (store) => store.state.userState.user,
+            builder: (context, user) {
+              return Text(
+                user.name,
+              );
+            },
+          )
         ]),
       ),
     );

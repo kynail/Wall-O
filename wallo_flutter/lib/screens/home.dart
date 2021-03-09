@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wallo_flutter/redux/store.dart';
 import 'package:wallo_flutter/widgets/custom_drawer.dart';
+import 'package:wallo_flutter/redux/user/user_actions.dart';
 
 class Home extends StatelessWidget {
   const Home({Key key}) : super(key: key);
@@ -12,10 +14,18 @@ class Home extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
       ),
       drawer: CustomDrawer(),
-      body: Container(
-        child: Center(
-            child: Text("Ceci est la page Accueil",
-                style: TextStyle(fontSize: 20))),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+              child: Text("Ceci est la page Accueil",
+                  style: TextStyle(fontSize: 20))),
+          ElevatedButton(
+              onPressed: (() {
+                Redux.store.dispatch((store) => setName(store, "lol"));
+              }),
+              child: Text("Change user name"))
+        ],
       ),
     );
   }
