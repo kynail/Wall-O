@@ -1,9 +1,11 @@
 class User {
-  User({this.name});
+  User({this.lastName, this.fistName, this.mail});
 
-  String name;
+  String lastName;
+  String fistName;
+  String mail;
 
   User.setName(String name) {
-    this.name = name;
+    // this.name = name;
   }
 }

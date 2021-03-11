@@ -1,14 +1,34 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:redux/redux.dart';
 import 'package:meta/meta.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:wallo_flutter/redux/store.dart';
+import 'package:http/http.dart' as http;
 
 @immutable
 class SetUserStateAction {
   final UserState userState;
 
   SetUserStateAction(this.userState);
+}
+
+void fetchUser(Store<AppState> store) async {
+  final response = await http.post(Uri.http("localhost:8080", "users/login"),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: {'mail': "brice.deguigne@epitech.eu", 'password': 'password'});
+
+  if (response.statusCode == 200) {
+    print(response.body);
+  } else {
+    log("fail");
+    throw Exception('Failed to load album');
+  }
+  // store.dispatch(
+
+  // )
 }
 
 setName(Store<AppState> store, String name) {
