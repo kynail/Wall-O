@@ -24,7 +24,7 @@ class Profile extends StatelessWidget {
             converter: (store) => store.state.userState.user,
             builder: (context, user) {
               return new Text(
-                user.name,
+                user.firstName,
               );
             },
           )

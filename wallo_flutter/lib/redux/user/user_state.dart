@@ -10,7 +10,7 @@ class UserState {
   UserState({this.isError, this.isLoading, this.user});
 
   factory UserState.initial() =>
-      UserState(isLoading: false, isError: false, user: User(name: "bob"));
+      UserState(isLoading: false, isError: false, user: User());
 
   UserState copyWith({
     @required bool isError,

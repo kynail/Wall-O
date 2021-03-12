@@ -15,20 +15,28 @@ class SetUserStateAction {
   SetUserStateAction(this.userState);
 }
 
-void fetchUser(Store<AppState> store) async {
+Future<User> fetchUser(Store<AppState> store) async {
   final response = await http.post(Uri.http("localhost:8080", "users/login"),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: {'mail': "brice.deguigne@epitech.eu", 'password': 'password'});
 
   if (response.statusCode == 200) {
-    print(response.body);
+    return User.fromJson(jsonDecode(response.body)["data"]);
   } else {
     log("fail");
     throw Exception('Failed to load album');
   }
-  // store.dispatch(
+}
 
-  // )
+void logUser(Store<AppState> store) {
+  fetchUser(store).then((user) => {
+        print(user),
+        store.dispatch(
+          SetUserStateAction(
+            UserState(isLoading: false, user: user),
+          ),
+        )
+      });
 }
 
 setName(Store<AppState> store, String name) {

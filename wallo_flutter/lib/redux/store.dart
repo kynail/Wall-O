@@ -1,5 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:redux/redux.dart';
+import 'package:redux_remote_devtools/redux_remote_devtools.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
 import 'package:wallo_flutter/redux/user/user_reducer.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
@@ -45,7 +46,6 @@ class Redux {
 
   static Future<void> init() async {
     final userStateInitial = UserState.initial();
-
     _store = Store<AppState>(
       appReducer,
       middleware: [thunkMiddleware],

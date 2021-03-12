@@ -1,11 +1,25 @@
+import 'dart:convert';
+
 class User {
-  User({this.lastName, this.fistName, this.mail});
+  User({this.lastName = "", this.firstName = "", this.mail = ""});
 
   String lastName;
-  String fistName;
+  String firstName;
   String mail;
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+        lastName: json['lastName'],
+        firstName: json['firstName'],
+        mail: json['mail']);
+  }
 
   User.setName(String name) {
     // this.name = name;
+  }
+
+  @override
+  String toString() {
+    return 'User: {user: $lastName, fistName: $firstName}';
   }
 }
