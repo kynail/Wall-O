@@ -9,8 +9,8 @@ class SignIn extends StatelessWidget {
   const SignIn({Key key}) : super(key: key);
 
   void handleLogin(BuildContext context) {
-    Redux.store.dispatch(logUser);
-    //Navigator.pushReplacementNamed(context, "/home");
+    // Redux.store.dispatch(logUser);
+    Navigator.pushReplacementNamed(context, "/home");
   }
 
   @override
