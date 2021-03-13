@@ -26,4 +26,5 @@ class AppTheme {
   final MaterialColor primarySwatch = createMaterialColor(Color(0xFF5ACCBF));
   final Color primaryColor = Color(0xFF5ACCBF);
   final Color secondaryColor = Color(0xFFFFF7D4);
+  final Color errorColor = Color(0xffF44336);
 }

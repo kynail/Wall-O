@@ -6,6 +6,7 @@ userReducer(UserState prevState, SetUserStateAction action) {
 
   return prevState.copyWith(
     isError: payload.isError,
+    errorMessage: payload.errorMessage,
     isLoading: payload.isLoading,
     user: payload.user,
   );

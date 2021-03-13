@@ -16,27 +16,50 @@ class SetUserStateAction {
 }
 
 Future<User> fetchUser(Store<AppState> store) async {
-  final response = await http.post(Uri.http("localhost:8080", "users/login"),
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: {'mail': "brice.deguigne@epitech.eu", 'password': 'password'});
+  try {
+    final response = await http.post(Uri.http("localhost:8080", "users/login"),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: {'mail': "brice.deguigne@epitech.eu", 'password': 'password'});
 
-  if (response.statusCode == 200) {
-    return User.fromJson(jsonDecode(response.body)["data"]);
-  } else {
-    log("fail");
-    throw Exception('Failed to load album');
+    if (response.statusCode == 200) {
+      return User.fromJson(jsonDecode(response.body)["data"]);
+    } else {
+      return null;
+      //throw Exception('Failed to find this user');
+    }
+  } on Exception catch (_) {
+    print("OKAY LETZGO");
+    store.dispatch(SetUserStateAction(
+      UserState(isError: true, errorMessage: "Connexion au serveur impossible"),
+    ));
+    throw Exception("Connexion au serveur impossible");
   }
 }
 
 void logUser(Store<AppState> store) {
-  fetchUser(store).then((user) => {
-        print(user),
-        store.dispatch(
-          SetUserStateAction(
-            UserState(isLoading: false, user: user),
-          ),
-        )
-      });
+  try {
+    fetchUser(store).then((user) => {
+          if (user == null)
+            {
+              store.dispatch(SetUserStateAction(
+                UserState(
+                    isError: true, errorMessage: "Utilisateur introuvable"),
+              ))
+            }
+          else
+            {
+              print("USER ="),
+              print(user),
+              store.dispatch(
+                SetUserStateAction(
+                  UserState(isError: false, isLoading: false, user: user),
+                ),
+              )
+            }
+        });
+  } on Exception catch (_) {
+    print("IN CATCH");
+  }
 }
 
 setName(Store<AppState> store, String name) {
