@@ -5,6 +5,7 @@ import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/widgets/custom_drawer.dart';
 import 'package:wallo_flutter/redux/store.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:wallo_flutter/widgets/handle_error.dart';
 
 class Profile extends StatelessWidget {
   const Profile({Key key}) : super(key: key);
@@ -14,6 +15,9 @@ class Profile extends StatelessWidget {
     return StoreConnector<AppState, UserState>(
         distinct: true,
         converter: (store) => store.state.userState,
+        onWillChange: (state, userState) {
+          handleError(context, userState);
+        },
         builder: (context, userState) {
           return Scaffold(
             appBar: AppBar(

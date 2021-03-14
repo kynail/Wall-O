@@ -20,11 +20,6 @@ class Home extends StatelessWidget {
           Center(
               child: Text("Ceci est la page Accueil",
                   style: TextStyle(fontSize: 20))),
-          ElevatedButton(
-              onPressed: (() {
-                Redux.store.dispatch((store) => setName(store, "lol"));
-              }),
-              child: Text("Change user name"))
         ],
       ),
     );

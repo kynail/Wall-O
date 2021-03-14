@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/screens/profile/avatar_bottom_sheet.dart';
 import 'package:wallo_flutter/theme.dart';
+import 'package:wallo_flutter/models/avatar.dart';
 
 class ProfileMainInfo extends StatelessWidget {
   const ProfileMainInfo({
@@ -19,7 +20,7 @@ class ProfileMainInfo extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.0),
         ),
         builder: (BuildContext context) {
-          return AvatarBottomSheet();
+          return AvatarBottomSheet(user: user);
         });
   }
 
@@ -32,7 +33,7 @@ class ProfileMainInfo extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Avatar(),
+              AvatarLayout(avatar: user.avatar),
               Positioned.fill(
                 child: Material(
                   color: Colors.transparent,
@@ -83,22 +84,30 @@ class ProfileMainInfo extends StatelessWidget {
   }
 }
 
-class Avatar extends StatelessWidget {
-  const Avatar({
+class AvatarLayout extends StatelessWidget {
+  const AvatarLayout({
     Key key,
+    this.avatar,
   }) : super(key: key);
+
+  final Avatar avatar;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SvgPicture.network(
-          'https://avatars.dicebear.com/api/male/test.svg?r=50&b=%23fff7d4',
-          semanticsLabel: 'Avatar',
-          width: 100,
-          placeholderBuilder: (BuildContext context) =>
-              Container(child: const CircularProgressIndicator()),
-        ),
+        (avatar?.seed != null && avatar?.type != null)
+            ? SvgPicture.network(
+                'https://avatars.dicebear.com/api/${avatar.type}/${avatar.seed}.svg?r=50&b=%23fff7d4',
+                semanticsLabel: 'Avatar',
+                width: 100,
+                placeholderBuilder: (BuildContext context) =>
+                    Container(child: const CircularProgressIndicator()),
+              )
+            : CircleAvatar(
+                backgroundImage: AssetImage("assets/avatar.png"),
+                radius: 50,
+              ),
         Positioned(
           bottom: 0.0,
           right: 0.0,

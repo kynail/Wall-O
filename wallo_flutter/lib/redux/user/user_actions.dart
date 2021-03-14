@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:redux/redux.dart';
 import 'package:meta/meta.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:wallo_flutter/redux/store.dart';
+import 'package:wallo_flutter/models/avatar.dart';
 import 'package:http/http.dart' as http;
 
 @immutable
@@ -25,10 +25,8 @@ Future<User> fetchUser(Store<AppState> store) async {
       return User.fromJson(jsonDecode(response.body)["data"]);
     } else {
       return null;
-      //throw Exception('Failed to find this user');
     }
   } on Exception catch (_) {
-    print("OKAY LETZGO");
     store.dispatch(SetUserStateAction(
       UserState(isError: true, errorMessage: "Connexion au serveur impossible"),
     ));
@@ -62,33 +60,31 @@ void logUser(Store<AppState> store) {
   }
 }
 
-setName(Store<AppState> store, String name) {
-  store.dispatch(
-    SetUserStateAction(
-      UserState(
-        isLoading: false,
-        user: User.setName(name),
-      ),
-    ),
-  );
+void setAvatar(Store<AppState> store, Avatar avatar, User user) async {
+  try {
+    final response = await http.put(Uri.http("localhost:8080", "/game/avatar"),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: {'id': user.id, "type": avatar.type, "seed": avatar.seed});
+
+    if (response.statusCode == 201) {
+      user.avatar = avatar;
+
+      store.dispatch(
+        SetUserStateAction(
+          UserState(isError: false, isLoading: false, user: user),
+        ),
+      );
+    } else {
+      print("ERRROR");
+      SetUserStateAction(UserState(
+          isError: true,
+          errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+      return;
+    }
+  } on Exception catch (_) {
+    SetUserStateAction(UserState(
+        isError: true,
+        errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+    throw Exception("Connexion au serveur impossible");
+  }
 }
-
-// Future<void> fetchPostsAction(Store<AppState> store) async {
-//   store.dispatch(SetPostsStateAction(PostsState(isLoading: true)));
-
-//   try {
-//     final response = await http.get('https://jsonplaceholder.typicode.com/posts');
-//     assert(response.statusCode == 200);
-//     final jsonData = json.decode(response.body);
-//     store.dispatch(
-//       SetPostsStateAction(
-//         PostsState(
-//           isLoading: false,
-//           posts: IPost.listFromJson(jsonData),
-//         ),
-//       ),
-//     );
-//   } catch (error) {
-//     store.dispatch(SetPostsStateAction(PostsState(isLoading: false)));
-//   }
-// }

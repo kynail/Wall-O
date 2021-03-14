@@ -99,6 +99,53 @@ router.put("/level", async (req, res) => {
         })
 })
 
+//AVATAR
+
+router.put("/avatar", async (req, res) => {
+    const id = req.body.id;
+    const type = req.body.type;
+    const seed = req.body.seed;
+    const remove = req.body.remove;
+
+    User.findOne({
+        "_id": id
+    },
+        function (err, success) {
+            if (err)
+                res.status(500).json(writeResponse(false, "Cannot find this user", err))
+            else {
+                if (success && success.length == 0) {
+                    res.status(400).json(writeResponse(false, "avatar error", id));
+                }
+                else {
+                    User.updateOne(
+                        { _id: id },
+                        {
+                            $set: {
+                                "info.avatar": {
+                                    type: remove ? null : type,
+                                    seed: remove ? null : seed
+                                }
+                            }
+
+                        },
+                        function (error, model) {
+                            if (error) {
+                                res.status(500).json(writeResponse(false, "Impossible de changer l'avatar", error))
+                            }
+                            else {
+                                if (model.n == 0)
+                                    res.status(404).json(writeResponse(false, "Utilisateur introuvable"))
+                                else
+                                    res.status(201).json(writeResponse(true, "Avatar modifié"));
+                            }
+                        }
+                    );
+                }
+            }
+        })
+});
+
 //Classement trié par rapport au niveau des joueurs
 router.get("/rank", async (req, res) => {
     const users = await User.find();

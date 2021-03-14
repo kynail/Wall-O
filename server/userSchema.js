@@ -10,6 +10,10 @@ const userSchema = new Schema({
         age: Number,
         gender: String,
         password: String,
+        avatar: {
+            seed: { type: String, default: null },
+            type: { type: String, default: null },
+        }
     },
     facebook: { type: Boolean, default: false },
     google: { type: Boolean, default: false },

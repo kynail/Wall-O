@@ -29,4 +29,11 @@ class AppTheme {
   static const Color errorColor = Color(0xffF44336);
   static const Color secondaryText = Color(0xff606060);
   static const Color lightGrey = Color(0xffc6c6c6);
+
+  //Palette
+  static const Color colorA = Color(0xff2B8076);
+  static const Color colorB = Color(0xff8AFFF1);
+  static const Color colorC = Color(0xff5ACCBF);
+  static const Color colorD = Color(0xff803D1F);
+  static const Color colorE = Color(0xffCC7D5A);
 }

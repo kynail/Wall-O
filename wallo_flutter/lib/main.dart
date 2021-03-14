@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:wallo_flutter/route_generator.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/redux/store.dart';

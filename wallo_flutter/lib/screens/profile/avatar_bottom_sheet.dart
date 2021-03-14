@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/screens/profile/edit_avatar.dart';
 
 class AvatarBottomSheet extends StatefulWidget {
   const AvatarBottomSheet({
     Key key,
+    this.user,
   }) : super(key: key);
+
+  final User user;
 
   @override
   _AvatarBottomSheetState createState() => _AvatarBottomSheetState();
@@ -27,7 +31,7 @@ class _AvatarBottomSheetState extends State<AvatarBottomSheet> {
                   style: TextStyle(color: Colors.white, fontSize: 18)),
               onPressed: () {
                 setState(() {
-                  _animatedWidget = editAvatarWidget();
+                  _animatedWidget = EditAvatar(user: widget.user);
                   _size = 500;
                 });
               },
@@ -69,10 +73,6 @@ class _AvatarBottomSheetState extends State<AvatarBottomSheet> {
         ),
       ),
     );
-  }
-
-  Widget editAvatarWidget() {
-    return EditAvatar();
   }
 
   @override
