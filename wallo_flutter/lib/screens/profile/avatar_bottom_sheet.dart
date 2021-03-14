@@ -88,10 +88,6 @@ class _AvatarBottomSheetState extends State<AvatarBottomSheet> {
         curve: Curves.fastOutSlowIn,
         height: _size,
         child: AnimatedSwitcher(
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return ScaleTransition(child: child, scale: animation);
-            },
-            duration: Duration(milliseconds: 300),
-            child: _animatedWidget));
+            duration: Duration(milliseconds: 400), child: _animatedWidget));
   }
 }
