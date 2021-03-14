@@ -11,7 +11,7 @@ class UserState {
   UserState({this.isError, this.errorMessage, this.isLoading, this.user});
 
   factory UserState.initial() => UserState(
-      errorMessage: null, isLoading: false, isError: false, user: User());
+      errorMessage: null, isLoading: false, isError: false, user: null);
 
   UserState copyWith({
     @required bool isError,

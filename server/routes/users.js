@@ -41,6 +41,8 @@ router.post("/login", async (req, res) => {
               "lastName": user.info.lastName,
               "age": user.info.age,
               "gender": user.info.gender,
+              "mail": user.info.mail,
+              "game": user.jeu
             }));
           }
         }

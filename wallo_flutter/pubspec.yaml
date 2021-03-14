@@ -27,6 +27,7 @@ dependencies:
   redux_thunk: ^0.3.0
   http: ^0.13.0
   redux_remote_devtools: ^2.0.0
+  flutter_svg: ^0.19.3
 
 
 

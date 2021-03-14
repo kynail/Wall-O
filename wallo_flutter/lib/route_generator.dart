@@ -5,7 +5,7 @@ import 'package:wallo_flutter/screens/contact.dart';
 import 'package:wallo_flutter/screens/home.dart';
 import 'package:wallo_flutter/screens/login.dart';
 import 'package:wallo_flutter/screens/sign_in.dart';
-import 'package:wallo_flutter/screens/profile.dart';
+import 'package:wallo_flutter/screens/profile/profile.dart';
 import 'package:wallo_flutter/redux/store.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

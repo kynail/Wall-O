@@ -15,12 +15,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  void handleLogin(BuildContext context, bool isError) {
+  void handleLogin(BuildContext context, bool isError, User user) {
     Redux.store.dispatch(logUser);
-
-    if (isError == false) {
-      Navigator.pushReplacementNamed(context, "/home");
-    }
   }
 
   @override
@@ -30,10 +26,12 @@ class _SignInState extends State<SignIn> {
         converter: (store) => store.state.userState,
         onWillChange: (state, userState) {
           handleError(context, userState);
+
+          if (userState.isError == false && userState.user != null) {
+            Navigator.pushReplacementNamed(context, "/home");
+          }
         },
         builder: (context, userState) {
-          print("IN SIGN IN");
-          print(userState);
           return Scaffold(
             appBar: AppBar(
               title: Text("Inscription"),
@@ -50,7 +48,7 @@ class _SignInState extends State<SignIn> {
                         style: TextStyle(fontSize: 20, color: Colors.white))),
                 ElevatedButton(
                     onPressed: () {
-                      handleLogin(context, userState.isError);
+                      handleLogin(context, userState.isError, userState.user);
                     },
                     child: Text("Accueil",
                         style: TextStyle(fontSize: 20, color: Colors.white))),

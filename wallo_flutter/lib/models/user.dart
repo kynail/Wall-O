@@ -8,6 +8,7 @@ class User {
   String mail;
 
   factory User.fromJson(Map<String, dynamic> json) {
+    print(json);
     return User(
         lastName: json['lastName'],
         firstName: json['firstName'],
@@ -20,6 +21,6 @@ class User {
 
   @override
   String toString() {
-    return 'User: {user: $lastName, fistName: $firstName}';
+    return 'User: {user: $lastName, firstName: $firstName, mail: $mail}';
   }
 }
