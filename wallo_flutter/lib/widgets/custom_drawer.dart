@@ -7,32 +7,21 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
-    final theme = AppTheme();
     return Stack(
       children: [
         Container(
-          color: theme.primaryColor,
+          color: AppTheme.primaryColor,
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              MenuButton(
-                  text: "Mon profil", theme: theme, redirectRoute: "/profile"),
-              MenuButton(
-                  text: "Analyser une photo",
-                  theme: theme,
-                  redirectRoute: "/home"),
-              MenuButton(
-                  text: "Mon Aquadex",
-                  theme: theme,
-                  redirectRoute: "/aquarium"),
-              MenuButton(
-                  text: "Classements",
-                  theme: theme,
-                  redirectRoute: "/classement"),
-              MenuButton(text: "Aide", theme: theme, redirectRoute: "/contact"),
+              MenuButton(text: "Mon profil", redirectRoute: "/profile"),
+              MenuButton(text: "Analyser une photo", redirectRoute: "/home"),
+              MenuButton(text: "Mon Aquadex", redirectRoute: "/aquarium"),
+              MenuButton(text: "Classements", redirectRoute: "/classement"),
+              MenuButton(text: "Aide", redirectRoute: "/contact"),
             ],
           ),
         ),
@@ -53,14 +42,9 @@ class CustomDrawer extends StatelessWidget {
 }
 
 class MenuButton extends StatelessWidget {
-  const MenuButton(
-      {Key key,
-      @required this.text,
-      @required this.theme,
-      @required this.redirectRoute})
+  const MenuButton({Key key, @required this.text, @required this.redirectRoute})
       : super(key: key);
 
-  final AppTheme theme;
   final String text;
   final String redirectRoute;
 
@@ -74,12 +58,12 @@ class MenuButton extends StatelessWidget {
           height: 70,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                primary: theme.secondaryColor,
+                primary: AppTheme.secondaryColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(16.0))),
             child: Text(text,
-                style:
-                    TextStyle(color: theme.primarySwatch[600], fontSize: 25)),
+                style: TextStyle(
+                    color: AppTheme().primarySwatch[600], fontSize: 25)),
             onPressed: () {
               Navigator.of(context).pushReplacementNamed(redirectRoute);
             },

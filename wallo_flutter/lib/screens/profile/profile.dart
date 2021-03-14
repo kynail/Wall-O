@@ -20,7 +20,7 @@ class Profile extends StatelessWidget {
                 title: Text("Mon Profil"),
                 iconTheme: IconThemeData(color: Colors.white)),
             drawer: CustomDrawer(),
-            backgroundColor: AppTheme().secondaryColor,
+            backgroundColor: AppTheme.secondaryColor,
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -36,10 +36,10 @@ class Profile extends StatelessWidget {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 28,
-                                  color: AppTheme().primaryColor)),
+                                  color: AppTheme.primaryColor)),
                           Text(
                             "Nombre de poissons trouvés",
-                            style: TextStyle(color: AppTheme().secondaryText),
+                            style: TextStyle(color: AppTheme.secondaryText),
                           ),
                         ],
                       ),
@@ -49,10 +49,9 @@ class Profile extends StatelessWidget {
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 28,
-                                  color: AppTheme().primaryColor)),
+                                  color: AppTheme.primaryColor)),
                           Text("Nombre d'espèces trouvées",
-                              style:
-                                  TextStyle(color: AppTheme().secondaryText)),
+                              style: TextStyle(color: AppTheme.secondaryText)),
                         ],
                       ),
                     ],

@@ -32,13 +32,7 @@ class ProfileMainInfo extends StatelessWidget {
         children: [
           Stack(
             children: [
-              SvgPicture.network(
-                'https://avatars.dicebear.com/api/male/test.svg?r=50&b=%23fff7d4',
-                semanticsLabel: 'Avatar',
-                width: 100,
-                placeholderBuilder: (BuildContext context) =>
-                    Container(child: const CircularProgressIndicator()),
-              ),
+              Avatar(),
               Positioned.fill(
                 child: Material(
                   color: Colors.transparent,
@@ -71,21 +65,52 @@ class ProfileMainInfo extends StatelessWidget {
               value: 0.2,
               semanticsLabel: 'Linear progress indicator',
               valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
-              backgroundColor: AppTheme().lightGrey,
+              backgroundColor: AppTheme.lightGrey,
             ),
             SizedBox(height: 12),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               Text("20 / 100",
                   style:
-                      TextStyle(fontSize: 16, color: AppTheme().secondaryText)),
+                      TextStyle(fontSize: 16, color: AppTheme.secondaryText)),
               Text("Expérience",
-                  style:
-                      TextStyle(fontSize: 16, color: AppTheme().secondaryText))
+                  style: TextStyle(fontSize: 16, color: AppTheme.secondaryText))
             ]),
           ]),
           SizedBox(height: 18),
         ],
       ),
+    );
+  }
+}
+
+class Avatar extends StatelessWidget {
+  const Avatar({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        SvgPicture.network(
+          'https://avatars.dicebear.com/api/male/test.svg?r=50&b=%23fff7d4',
+          semanticsLabel: 'Avatar',
+          width: 100,
+          placeholderBuilder: (BuildContext context) =>
+              Container(child: const CircularProgressIndicator()),
+        ),
+        Positioned(
+          bottom: 0.0,
+          right: 0.0,
+          child: Container(
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Icon(Icons.edit),
+              )),
+        )
+      ],
     );
   }
 }

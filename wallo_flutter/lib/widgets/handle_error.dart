@@ -16,7 +16,7 @@ void handleError(BuildContext context, UserState userState) {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      backgroundColor: AppTheme().errorColor,
+      backgroundColor: AppTheme.errorColor,
     ));
   }
 }

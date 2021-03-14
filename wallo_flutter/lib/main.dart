@@ -11,8 +11,6 @@ void main() async {
 }
 
 class WallO extends StatelessWidget {
-  final AppTheme theme = new AppTheme();
-
   @override
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
@@ -20,7 +18,7 @@ class WallO extends StatelessWidget {
         child: MaterialApp(
           title: 'Wall-O',
           theme: ThemeData(
-            primarySwatch: theme.primarySwatch,
+            primarySwatch: AppTheme().primarySwatch,
             primaryTextTheme:
                 TextTheme(headline6: TextStyle(color: Colors.white)),
           ),

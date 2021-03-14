@@ -24,9 +24,9 @@ class AppTheme {
   AppTheme();
 
   final MaterialColor primarySwatch = createMaterialColor(Color(0xFF5ACCBF));
-  final Color primaryColor = Color(0xFF5ACCBF);
-  final Color secondaryColor = Color(0xFFFFFEF1);
-  final Color errorColor = Color(0xffF44336);
-  final Color secondaryText = Color(0xff606060);
-  final Color lightGrey = Color(0xffc6c6c6);
+  static const Color primaryColor = Color(0xFF5ACCBF);
+  static const Color secondaryColor = Color(0xFFFFFEF1);
+  static const Color errorColor = Color(0xffF44336);
+  static const Color secondaryText = Color(0xff606060);
+  static const Color lightGrey = Color(0xffc6c6c6);
 }
