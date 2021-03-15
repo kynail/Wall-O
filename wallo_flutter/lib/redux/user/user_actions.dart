@@ -17,10 +17,14 @@ class SetUserStateAction {
 }
 
 Future<User> fetchUser(Store<AppState> store) async {
+  // CONNEXION EN DUR //
+  const String mail = "brice.deguigne@epitech.eu";
+  const String passw = "password";
+
   try {
     final response = await http.post(Uri.http("localhost:8080", "users/login"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: {'mail': "brice.deguigne@epitech.eu", 'password': 'password'});
+        body: {'mail': mail, 'password': passw});
 
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(response.body)["data"]);
@@ -113,6 +117,36 @@ void setExp(Store<AppState> store, User user, double exp) async {
       );
     } else {
       print("ERRROR");
+      SetUserStateAction(UserState(
+          isError: true,
+          errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+      return;
+    }
+  } on Exception catch (_) {
+    SetUserStateAction(UserState(
+        isError: true,
+        errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+    throw Exception("Connexion au serveur impossible");
+  }
+}
+
+void sendContact(
+    Store<AppState> store, User user, String object, String body) async {
+  try {
+    final response = await http.post(
+        Uri.http("localhost:8080", "/users/contact"),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: {'object': object, "message": body, "id": user.id});
+
+    if (response.statusCode == 200) {
+      print("CONTACT MAIL OK");
+      store.dispatch(
+        SetUserStateAction(
+          UserState(isError: false, isLoading: false),
+        ),
+      );
+    } else {
+      print("CONTACT MAIL ERREUR");
       SetUserStateAction(UserState(
           isError: true,
           errorMessage: "Une erreur s'est produite, veuillez réessayer"));

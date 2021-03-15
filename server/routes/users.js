@@ -279,6 +279,47 @@ router.post("/auth/forget", async (req, res) => {
   })
 })
 
+// CONTACT
+router.post("/contact", async (req, res) => {
+  const obj = req.body.object;
+  const message = req.body.message;
+  const id = req.body.id;
+
+  User.findOne({
+    "_id": id
+  }, function (err, user) {
+    if (err) {
+      res.status(500).json(writeResponse(false, "Impossible d'envoyer l'email", err));
+    } else {
+      if (user === null) {
+        res.status(404).json(writeResponse(false, "Utilisateur introuvable", err));
+      } else {
+        var mailData = {
+          to: process.env.WALL_O_MAIL,
+          from: process.env.WALL_O_MAIL,
+          template: "contactMail",
+          subject: "[Contact Wall-O] " + obj,
+          context: {
+            mail: user.info.mail,
+            id: user._id,
+            body: message
+          }
+        };
+        transporter.sendMail(mailData, function (error, info) {
+          if (error) {
+            console.log("SEND MAIL", error);
+            res.status(500).json(writeResponse(false, "Cannot send mail", error));
+          } else {
+            res.status(200).json(writeResponse(true, "Mail send successfully"))
+            console.log('Message sent: ' + info.response);
+          }
+        });
+        transporter.close();
+      }
+    }
+  })
+})
+
 /* Password reset */
 
 router.post("/auth/reset", async (req, res) => {
