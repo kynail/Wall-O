@@ -8,7 +8,7 @@ router.get("/level", async (req, res) => {
     User.findOne({
         "_id": id
     }, function (err, data) {
-        var level = data.jeu;
+        var level = data?.jeu;
         res.status(200).json(writeResponse(true, "infos level", level));
     }
     )
@@ -17,6 +17,7 @@ router.get("/level", async (req, res) => {
 router.put("/level", async (req, res) => {
     const id = req.body.id;
     const exp = req.body.exp;
+    const reset = req.body.reset;
     var lvl;
     var needxp;
 
@@ -25,75 +26,110 @@ router.put("/level", async (req, res) => {
     },
         function (err, success) {
             if (err)
-                res.status(500).json(writeResponse(false, "Cannot find this user", err))
+                res.status(500).json(writeResponse(false, "Utilisateur introuvable", err))
             else {
-                console.log(success.jeu)
                 if (success && success.length == 0) {
-                    res.status(400).json(writeResponse(false, "exp error", id));
+                    res.status(400).json(writeResponse(false, "Erreur sur l'ajout d'xps", id));
                 }
-                else {
-                    //console.log("LEVEL FUCK11: " + level)
-                    var newxp = success.jeu.nxtlvl - exp
-                    var level = success.jeu.userlvl;
-                    var xptotal = Number(success.jeu.xpscore) - (-exp);
-                    console.log(success.jeu.xptotal)
-                    console.log("XP TOTAL " + xptotal)
-                    //console.log("LEVEL FUCK22: " + level)
-                    if (newxp > 0) {
+                else if (success) {
+                    if (reset) {
                         User.updateOne(
                             { _id: id },
                             {
                                 $set: {
                                     "jeu": {
-                                        xpscore: xptotal,
-                                        nxtlvl: newxp,
-                                        userlvl: level
+                                        xpscore: 0,
+                                        nxtlvl: 50,
+                                        userlvl: 1
                                     }
                                 }
                             },
                             function (error, model) {
                                 if (error) {
-                                    res.status(500).json(writeResponse(false, "Cannot change exp", error))
+                                    res.status(500).json(writeResponse(false, "Impossible d'ajouter des points d'xps", error))
                                 }
                                 else {
                                     //console.log(model);
                                     if (model.n == 0)
-                                        res.status(404).json(writeResponse(false, "Cannot find this user", "userid"))
+                                        res.status(404).json(writeResponse(false, "Utilisateur introuvable", "userid"))
                                     else
-                                        res.status(201).json(writeResponse(true, "exp changed successfully", exp));
+                                        res.status(201).json(writeResponse(true, "Expérience réinitialisé"));
                                 }
                             }
                         );
-                    }
-                    else if (newxp < 0) {
-                        newxp = newxp + 100;
-                        level = level + 1
-                        //console.log("LEVEL FUCK33: " + level)
-                        User.updateOne(
-                            { _id: id },
-                            {
-                                $set: {
-                                    "jeu": {
-                                        xpscore: xptotal,
-                                        nxtlvl: newxp,
-                                        userlvl: level
+                    } else {
+                        var level = success.jeu.userlvl;
+                        var xptotal = +success.jeu.xpscore + +exp;
+                        console.log("XP TOTAL " + xptotal)
+                        console.log("NEXT LVL " + success.jeu.nxtlvl)
+                        console.log("XPSCORE " + success.jeu.xpscore)
+                        console.log("XP " + xptotal)
+
+                        if (success.jeu.nxtlvl > xptotal) {
+                            User.updateOne(
+                                { _id: id },
+                                {
+                                    $set: {
+                                        "jeu": {
+                                            xpscore: xptotal,
+                                            nxtlvl: success.jeu.nxtlvl,
+                                            userlvl: level
+                                        }
+                                    }
+                                },
+                                function (error, model) {
+                                    if (error) {
+                                        res.status(500).json(writeResponse(false, "Impossible d'ajouter des points d'xps", error))
+                                    }
+                                    else {
+                                        //console.log(model);
+                                        if (model.n == 0)
+                                            res.status(404).json(writeResponse(false, "Utilisateur introuvable", "userid"))
+                                        else
+                                            res.status(201).json(writeResponse(true, "Vous avez gagné " + exp + " points d'expériences !", {
+                                                xpscore: xptotal,
+                                                nxtlvl: success.jeu.nxtlvl,
+                                                userlvl: level
+                                            }));
                                     }
                                 }
-                            },
-                            function (error, model) {
-                                if (error) {
-                                    res.status(500).json(writeResponse(false, "Cannot change exp", error))
+                            );
+                        }
+                        else {
+                            var newxp = success.jeu.nxtlvl + 10;
+                            level = level + 1
+                            User.updateOne(
+                                { _id: id },
+                                {
+                                    $set: {
+                                        "jeu": {
+                                            xpscore: 0,
+                                            nxtlvl: newxp,
+                                            userlvl: level
+                                        }
+                                    }
+                                },
+                                function (error, model) {
+                                    if (error) {
+                                        res.status(500).json(writeResponse(false, "Cannot change exp", error))
+                                    }
+                                    else {
+                                        //console.log(model);
+                                        if (model.n == 0)
+                                            res.status(404).json(writeResponse(false, "Cannot find this user", "userid"))
+                                        else
+                                            res.status(201).json(writeResponse(true, "Félicitations, vous êtes passé niveau " + level + " !", {
+                                                xpscore: 0,
+                                                nxtlvl: newxp,
+                                                userlvl: level
+                                            }));
+                                    }
                                 }
-                                else {
-                                    //console.log(model);
-                                    if (model.n == 0)
-                                        res.status(404).json(writeResponse(false, "Cannot find this user", "userid"))
-                                    else
-                                        res.status(201).json(writeResponse(true, "level up successful", exp));
-                                }
-                            }
-                        );
+                            );
+                        }
                     }
+                } else {
+                    res.status(404).json(writeResponse(false, "Cannot find this user"));
                 }
             }
         })

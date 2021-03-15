@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:redux/redux.dart';
 import 'package:meta/meta.dart';
+import 'package:wallo_flutter/models/level.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:wallo_flutter/redux/store.dart';
@@ -68,6 +69,42 @@ void setAvatar(Store<AppState> store, Avatar avatar, User user) async {
 
     if (response.statusCode == 201) {
       user.avatar = avatar;
+
+      store.dispatch(
+        SetUserStateAction(
+          UserState(isError: false, isLoading: false, user: user),
+        ),
+      );
+    } else {
+      print("ERRROR");
+      SetUserStateAction(UserState(
+          isError: true,
+          errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+      return;
+    }
+  } on Exception catch (_) {
+    SetUserStateAction(UserState(
+        isError: true,
+        errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+    throw Exception("Connexion au serveur impossible");
+  }
+}
+
+void setExp(Store<AppState> store, User user, double exp) async {
+  try {
+    final response = await http.put(Uri.http("localhost:8080", "/game/level"),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: {'id': user.id, "exp": exp.toStringAsFixed(0)});
+
+    print("SET XP");
+    print(exp.toString());
+
+    if (response.statusCode == 201) {
+      print("BODY");
+      print(response.body);
+      user.level = Level.fromJson(jsonDecode(response.body)["data"]);
+      print("NEW USER LEVEL");
+      print(user.level);
 
       store.dispatch(
         SetUserStateAction(

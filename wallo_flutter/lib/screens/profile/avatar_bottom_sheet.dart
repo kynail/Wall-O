@@ -27,7 +27,7 @@ class _AvatarBottomSheetState extends State<AvatarBottomSheet> {
             Text('Modifier sa photo de profil', style: TextStyle(fontSize: 22)),
             SizedBox(height: 18),
             ElevatedButton(
-              child: const Text('Modifier son avatar',
+              child: const Text('Générer son avatar',
                   style: TextStyle(color: Colors.white, fontSize: 18)),
               onPressed: () {
                 setState(() {

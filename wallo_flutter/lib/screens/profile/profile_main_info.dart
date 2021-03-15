@@ -1,14 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallo_flutter/models/user.dart';
+import 'package:wallo_flutter/redux/store.dart';
 import 'package:wallo_flutter/screens/profile/avatar_bottom_sheet.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/models/avatar.dart';
+import 'package:wallo_flutter/redux/user/user_actions.dart';
 
-class ProfileMainInfo extends StatelessWidget {
+class ProfileMainInfo extends StatefulWidget {
   const ProfileMainInfo({
     Key key,
     this.user,
+  }) : super(key: key);
+
+  final User user;
+
+  @override
+  _ProfileMainInfoState createState() => _ProfileMainInfoState();
+}
+
+class _ProfileMainInfoState extends State<ProfileMainInfo> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          UserInfo(user: widget.user),
+          SizedBox(height: 28),
+          XpBar(user: widget.user),
+          SizedBox(height: 18),
+        ],
+      ),
+    );
+  }
+}
+
+class XpBar extends StatelessWidget {
+  const XpBar({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text("Niveau : " + user.level.level.toString(),
+          style: TextStyle(fontSize: 18)),
+      SizedBox(height: 12),
+      LinearProgressIndicator(
+        value: (user.level.xp / user.level.nextLvl.toDouble() * 100) / 100,
+        semanticsLabel: "Indicateur d'expérience",
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
+        backgroundColor: AppTheme.lightGrey,
+      ),
+      SizedBox(height: 12),
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(
+            (user.level.xp).toStringAsFixed(0) +
+                " / " +
+                user.level.nextLvl.toDouble().toStringAsFixed(0),
+            style: TextStyle(fontSize: 16, color: AppTheme.secondaryText)),
+        Text("Expérience",
+            style: TextStyle(fontSize: 16, color: AppTheme.secondaryText))
+      ]),
+    ]);
+  }
+}
+
+class UserInfo extends StatelessWidget {
+  const UserInfo({
+    Key key,
+    @required this.user,
   }) : super(key: key);
 
   final User user;
@@ -26,60 +92,79 @@ class ProfileMainInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Stack(
-            children: [
-              AvatarLayout(avatar: user.avatar),
-              Positioned.fill(
-                child: Material(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(50),
-                  child: InkWell(
-                    customBorder: CircleBorder(),
-                    onTap: () {
-                      onAvatarTap(context);
-                    },
-                  ),
+    return Column(
+      children: [
+        Stack(
+          children: [
+            AvatarLayout(avatar: user.avatar),
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(50),
+                child: InkWell(
+                  customBorder: CircleBorder(),
+                  onTap: () {
+                    onAvatarTap(context);
+                  },
                 ),
               ),
-            ],
-          ),
-          SizedBox(height: 12),
-          Text(
-            user.firstName + " " + user.lastName,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 4),
-          Text(
-            "(" + user.mail + ")",
-            style: TextStyle(fontSize: 14),
-          ),
-          SizedBox(height: 28),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text("Niveau : 1", style: TextStyle(fontSize: 18)),
-            SizedBox(height: 12),
-            LinearProgressIndicator(
-              value: 0.2,
-              semanticsLabel: 'Linear progress indicator',
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
-              backgroundColor: AppTheme.lightGrey,
             ),
-            SizedBox(height: 12),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Text("20 / 100",
-                  style:
-                      TextStyle(fontSize: 16, color: AppTheme.secondaryText)),
-              Text("Expérience",
-                  style: TextStyle(fontSize: 16, color: AppTheme.secondaryText))
-            ]),
-          ]),
-          SizedBox(height: 18),
-        ],
-      ),
+          ],
+        ),
+        SizedBox(height: 12),
+        Text(
+          user.firstName + " " + user.lastName,
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 4),
+        Text(
+          "(" + user.mail + ")",
+          style: TextStyle(fontSize: 14),
+        ),
+      ],
+    );
+  }
+}
+
+class AddExp extends StatefulWidget {
+  const AddExp({
+    Key key,
+    this.user,
+  }) : super(key: key);
+
+  final User user;
+
+  @override
+  _AddExpState createState() => _AddExpState();
+}
+
+class _AddExpState extends State<AddExp> {
+  double _plusValue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Center(
+          child: IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Redux.store.dispatch(
+                    (store) => setExp(store, widget.user, _plusValue));
+              }),
+        ),
+        SizedBox(width: 25),
+        Flexible(
+          child: TextField(
+            onChanged: (value) {
+              setState(() {
+                _plusValue = double.parse(value);
+              });
+            },
+            decoration: InputDecoration(labelText: "Nombre"),
+          ),
+        ),
+      ],
     );
   }
 }

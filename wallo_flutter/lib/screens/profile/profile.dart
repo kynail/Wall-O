@@ -31,39 +31,53 @@ class Profile extends StatelessWidget {
                 children: [
                   ProfileMainInfo(user: userState.user),
                   SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Column(
-                        children: [
-                          Text("26",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 28,
-                                  color: AppTheme.primaryColor)),
-                          Text(
-                            "Nombre de poissons trouvés",
-                            style: TextStyle(color: AppTheme.secondaryText),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text("5",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 28,
-                                  color: AppTheme.primaryColor)),
-                          Text("Nombre d'espèces trouvées",
-                              style: TextStyle(color: AppTheme.secondaryText)),
-                        ],
-                      ),
-                    ],
-                  )
+                  ProfileFishInfo(),
+                  SizedBox(height: 60),
+                  Divider(thickness: 2),
+                  AddExp(user: userState.user)
                 ],
               ),
             ),
           );
         });
+  }
+}
+
+class ProfileFishInfo extends StatelessWidget {
+  const ProfileFishInfo({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Column(
+          children: [
+            Text("26",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28,
+                    color: AppTheme.primaryColor)),
+            Text(
+              "Nombre de poissons trouvés",
+              style: TextStyle(color: AppTheme.secondaryText),
+            ),
+          ],
+        ),
+        Column(
+          children: [
+            Text("5",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 28,
+                    color: AppTheme.primaryColor)),
+            Text("Nombre d'espèces trouvées",
+                style: TextStyle(color: AppTheme.secondaryText)),
+          ],
+        ),
+      ],
+    );
   }
 }

@@ -25,9 +25,9 @@ const userSchema = new Schema({
         xpscore:
             { type: Number, default: 0 },
         nxtlvl:
-            { type: Number, default: 100 },
+            { type: Number, default: 50 },
         userlvl:
-            { type: Number, default: 1 }
+            { type: Number, default: 1 },
     }
 })
 

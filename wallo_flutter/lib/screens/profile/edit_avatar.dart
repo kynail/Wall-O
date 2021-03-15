@@ -63,7 +63,6 @@ class _EditAvatarState extends State<EditAvatar> {
                 'female',
                 'human',
                 'identicon',
-                'initials',
                 'bottts',
                 'avataaars',
                 'jdenticon',

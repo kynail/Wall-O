@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:wallo_flutter/models/avatar.dart';
+import 'package:wallo_flutter/models/level.dart';
 
 class User {
   User(
@@ -8,13 +9,15 @@ class User {
       this.firstName = "",
       this.mail = "",
       this.id = "",
-      this.avatar});
+      this.avatar,
+      this.level});
 
   String lastName;
   String firstName;
   String mail;
   String id;
   Avatar avatar;
+  Level level;
 
   factory User.fromJson(Map<String, dynamic> json) {
     print("JSON");
@@ -24,7 +27,8 @@ class User {
         firstName: json['firstName'],
         mail: json['mail'],
         id: json['id'],
-        avatar: Avatar.fromJson(json['avatar']));
+        avatar: Avatar.fromJson(json['avatar']),
+        level: Level.fromJson(json['game']));
   }
 
   User.setAvatar(Avatar avatar) {
@@ -33,6 +37,6 @@ class User {
 
   @override
   String toString() {
-    return 'User: {user: $lastName, firstName: $firstName, mail: $mail, id: $id, avatar: $avatar}';
+    return 'User: {user: $lastName, firstName: $firstName, mail: $mail, id: $id, avatar: $avatar, level: $level}';
   }
 }
