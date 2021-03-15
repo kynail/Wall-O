@@ -172,9 +172,6 @@ router.post("/register", async (req, res) => {
           age: age,
           gender: gender,
         },
-        jeu: {
-          userlvl: lvl
-        }
       });
       new_user.info.password = new_user.generateHash(password);
       new_user.save(function (err) {
@@ -187,6 +184,9 @@ router.post("/register", async (req, res) => {
             "lastName": new_user.info.lastName,
             "age": new_user.info.age,
             "gender": new_user.info.gender,
+            "mail": new_user.info.mail,
+            "game": new_user.jeu,
+            "avatar": new_user.info.avatar
           }));
         }
       })

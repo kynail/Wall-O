@@ -16,11 +16,7 @@ class SetUserStateAction {
   SetUserStateAction(this.userState);
 }
 
-Future<User> fetchUser(Store<AppState> store) async {
-  // CONNEXION EN DUR //
-  const String mail = "brice.deguigne@epitech.eu";
-  const String passw = "password";
-
+Future<User> fetchUser(Store<AppState> store, String mail, String passw) async {
   try {
     final response = await http.post(Uri.http("localhost:8080", "users/login"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -39,9 +35,9 @@ Future<User> fetchUser(Store<AppState> store) async {
   }
 }
 
-void logUser(Store<AppState> store) {
+void logUser(Store<AppState> store, String mail, String passw) {
   try {
-    fetchUser(store).then((user) => {
+    fetchUser(store, mail, passw).then((user) => {
           if (user == null)
             {
               store.dispatch(SetUserStateAction(
@@ -62,6 +58,38 @@ void logUser(Store<AppState> store) {
         });
   } on Exception catch (_) {
     print("IN CATCH");
+  }
+}
+
+void registerUser(Store<AppState> store, String name, String firstName,
+    String mail, String passw) async {
+  try {
+    final response = await http
+        .post(Uri.http("localhost:8080", "users/register"), headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }, body: {
+      'mail': mail,
+      'password': passw,
+      "lastName": name,
+      "firstName": firstName
+    });
+
+    if (response.statusCode == 201) {
+      store.dispatch(SetUserStateAction(
+        UserState(
+            isError: false,
+            user: User.fromJson(jsonDecode(response.body)["data"])),
+      ));
+    } else {
+      UserState(
+          isError: true,
+          errorMessage: "Une erreur s'est produite, veuillez réessayer");
+    }
+  } on Exception catch (_) {
+    store.dispatch(SetUserStateAction(
+      UserState(isError: true, errorMessage: "Connexion au serveur impossible"),
+    ));
+    throw Exception("Connexion au serveur impossible");
   }
 }
 
