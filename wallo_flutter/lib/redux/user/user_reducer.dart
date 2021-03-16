@@ -8,6 +8,7 @@ userReducer(UserState prevState, SetUserStateAction action) {
     isError: payload.isError,
     errorMessage: payload.errorMessage,
     isLoading: payload.isLoading,
+    successMessage: payload.successMessage,
     user: payload.user,
   );
 }

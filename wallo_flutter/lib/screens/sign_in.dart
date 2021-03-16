@@ -37,7 +37,7 @@ class _SignInState extends State<SignIn> {
         distinct: true,
         converter: (store) => store.state.userState,
         onWillChange: (state, userState) {
-          handleError(context, userState);
+          // handleError(context, userState);
 
           if (userState.isError == false && userState.user != null) {
             Navigator.pushReplacementNamed(context, "/home");
@@ -193,7 +193,7 @@ class _SignInState extends State<SignIn> {
                                 width: 200,
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      Navigator.of(context).pushNamed("/login");
+                                      Navigator.of(context).pop();
                                     },
                                     child: Text(
                                       "Connexion",

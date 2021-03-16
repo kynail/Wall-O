@@ -16,6 +16,14 @@ class SetUserStateAction {
   SetUserStateAction(this.userState);
 }
 
+String getErrorMessage(http.Response response) {
+  String message = jsonDecode(response.body)["message"];
+
+  return message != null
+      ? message
+      : "Une erreur s'est produite, veuillez réessayer";
+}
+
 Future<User> fetchUser(Store<AppState> store, String mail, String passw) async {
   try {
     final response = await http.post(Uri.http("localhost:8080", "users/login"),
@@ -51,13 +59,18 @@ void logUser(Store<AppState> store, String mail, String passw) {
               print(user),
               store.dispatch(
                 SetUserStateAction(
-                  UserState(isError: false, isLoading: false, user: user),
+                  UserState(
+                      isError: false,
+                      isLoading: false,
+                      user: user,
+                      successMessage: "Bienvenue, " + user.firstName),
                 ),
               )
             }
         });
   } on Exception catch (_) {
-    print("IN CATCH");
+    store.dispatch(UserState(
+        isError: true, errorMessage: "Connexion au serveur impossible"));
   }
 }
 
@@ -81,9 +94,9 @@ void registerUser(Store<AppState> store, String name, String firstName,
             user: User.fromJson(jsonDecode(response.body)["data"])),
       ));
     } else {
-      UserState(
+      store.dispatch(UserState(
           isError: true,
-          errorMessage: "Une erreur s'est produite, veuillez réessayer");
+          errorMessage: "Une erreur s'est produite, veuillez réessayer"));
     }
   } on Exception catch (_) {
     store.dispatch(SetUserStateAction(
@@ -109,15 +122,15 @@ void setAvatar(Store<AppState> store, Avatar avatar, User user) async {
       );
     } else {
       print("ERRROR");
-      SetUserStateAction(UserState(
+      store.dispatch(SetUserStateAction(UserState(
           isError: true,
-          errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+          errorMessage: "Une erreur s'est produite, veuillez réessayer")));
       return;
     }
   } on Exception catch (_) {
-    SetUserStateAction(UserState(
+    store.dispatch(SetUserStateAction(UserState(
         isError: true,
-        errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+        errorMessage: "Une erreur s'est produite, veuillez réessayer")));
     throw Exception("Connexion au serveur impossible");
   }
 }
@@ -145,15 +158,15 @@ void setExp(Store<AppState> store, User user, double exp) async {
       );
     } else {
       print("ERRROR");
-      SetUserStateAction(UserState(
+      store.dispatch(SetUserStateAction(UserState(
           isError: true,
-          errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+          errorMessage: "Une erreur s'est produite, veuillez réessayer")));
       return;
     }
   } on Exception catch (_) {
-    SetUserStateAction(UserState(
+    store.dispatch(SetUserStateAction(UserState(
         isError: true,
-        errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+        errorMessage: "Une erreur s'est produite, veuillez réessayer")));
     throw Exception("Connexion au serveur impossible");
   }
 }
@@ -175,15 +188,86 @@ void sendContact(
       );
     } else {
       print("CONTACT MAIL ERREUR");
-      SetUserStateAction(UserState(
+      store.dispatch(SetUserStateAction(UserState(
           isError: true,
-          errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+          errorMessage: "Une erreur s'est produite, veuillez réessayer")));
       return;
     }
   } on Exception catch (_) {
-    SetUserStateAction(UserState(
+    store.dispatch(SetUserStateAction(UserState(
         isError: true,
-        errorMessage: "Une erreur s'est produite, veuillez réessayer"));
+        errorMessage: "Une erreur s'est produite, veuillez réessayer")));
+    throw Exception("Connexion au serveur impossible");
+  }
+}
+
+void sendForget(Store<AppState> store, String email) async {
+  try {
+    store.dispatch(
+      SetUserStateAction(
+        UserState(isLoading: true, isError: false),
+      ),
+    );
+    final response = await http.post(
+        Uri.http("localhost:8080", "/users/auth/forget"),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: {'mail': email});
+
+    if (response.statusCode == 200) {
+      store.dispatch(
+        SetUserStateAction(
+          UserState(
+              isError: false,
+              isLoading: false,
+              successMessage: "Veuillez vérifier votre boîte mail."),
+        ),
+      );
+    } else {
+      store.dispatch(SetUserStateAction(UserState(
+          isError: true,
+          isLoading: false,
+          errorMessage: getErrorMessage(response))));
+      return;
+    }
+  } on Exception catch (_) {
+    store.dispatch(SetUserStateAction(UserState(
+        isError: true,
+        isLoading: false,
+        errorMessage: "Une erreur s'est produite, veuillez réessayer")));
+    throw Exception("Connexion au serveur impossible");
+  }
+}
+
+void resetPassword(Store<AppState> store, String password,
+    String confirmPassword, String token) async {
+  try {
+    final response = await http
+        .post(Uri.http("localhost:8080", "/users/auth/reset"), headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }, body: {
+      'token': token,
+      "newPassword": password,
+      "verifyPassword": confirmPassword
+    });
+
+    if (response.statusCode == 201) {
+      print("RESET password OK");
+      store.dispatch(
+        SetUserStateAction(
+          UserState(isError: false, isLoading: false),
+        ),
+      );
+    } else {
+      print("RESET password ERREUR");
+      store.dispatch(SetUserStateAction(UserState(
+          isError: true,
+          errorMessage: "Une erreur s'est produite, veuillez réessayer")));
+      return;
+    }
+  } on Exception catch (_) {
+    store.dispatch(SetUserStateAction(UserState(
+        isError: true,
+        errorMessage: "Une erreur s'est produite, veuillez réessayer")));
     throw Exception("Connexion au serveur impossible");
   }
 }

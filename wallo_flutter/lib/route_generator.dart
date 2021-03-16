@@ -2,22 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:wallo_flutter/screens/aquarium.dart';
 import 'package:wallo_flutter/screens/classement.dart';
 import 'package:wallo_flutter/screens/contact.dart';
+import 'package:wallo_flutter/screens/forget_password.dart';
 import 'package:wallo_flutter/screens/home.dart';
 import 'package:wallo_flutter/screens/login.dart';
+import 'package:wallo_flutter/screens/reset_password_form.dart';
 import 'package:wallo_flutter/screens/sign_in.dart';
 import 'package:wallo_flutter/screens/profile/profile.dart';
-import 'package:wallo_flutter/redux/store.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
-
+    List<String> pathComponents = settings.name.split('/');
     switch (settings.name) {
       case "/":
-        return MaterialPageRoute(builder: (context) => SignIn());
-      case "/login":
         return MaterialPageRoute(builder: (context) => Login());
+      case "/signin":
+        return MaterialPageRoute(builder: (context) => SignIn());
+      case "/forget":
+        return MaterialPageRoute(builder: (context) => ForgetPassword());
+      case "/reset":
+        return MaterialPageRoute(builder: (context) => ResetPasswordForm());
       case "/home":
         return MaterialPageRoute(builder: (context) => Home());
       case "/profile":
@@ -29,7 +33,12 @@ class RouteGenerator {
       case "/classement":
         return MaterialPageRoute(builder: (context) => Classement());
       default:
-        return _errorRoute();
+        if (pathComponents[1] == "reset")
+          return MaterialPageRoute(
+              builder: (context) =>
+                  ResetPasswordForm(token: pathComponents.last));
+        else
+          return _errorRoute();
     }
   }
 

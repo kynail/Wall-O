@@ -18,6 +18,17 @@ dotenv.config();
 
 /* GET */
 
+// Deep link redirect
+router.get("/redirect", async (req, res) => {
+  const url = req.query.url;
+  if (url) {
+    res.redirect(url);
+    res.status(200);
+  } else {
+    res.status(400).json(writeResponse(false, "Please provide a url"));
+  }
+});
+
 router.post("/login", async (req, res) => {
   const mail = req.body.mail;
   const password = req.body.password;
@@ -209,7 +220,7 @@ function findUser(mail, next) {
           next(err, user)
         }
         else
-          next({ status: 404, message: "Cannot find this user", data: mail });
+          next({ status: 404, message: "Utilisateur introuvable", data: mail });
       }
     });
 }
@@ -261,7 +272,7 @@ router.post("/auth/forget", async (req, res) => {
         template: "forgotPasswordMail",
         subject: "réinitialisation de votre mot de passe - Wall-O",
         context: {
-          url: "http://wall_o.com/forget/" + token,
+          url: "http://localhost:8080/users/redirect?url=wallo://walloapp.re/reset/" + token,
           name: user.info.firstName
         }
       };
