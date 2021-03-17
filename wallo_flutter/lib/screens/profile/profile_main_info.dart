@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/store.dart';
+import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:wallo_flutter/screens/profile/avatar_bottom_sheet.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/models/avatar.dart';
@@ -71,7 +73,7 @@ class XpBar extends StatelessWidget {
   }
 }
 
-class UserInfo extends StatelessWidget {
+class UserInfo extends StatefulWidget {
   const UserInfo({
     Key key,
     @required this.user,
@@ -79,50 +81,60 @@ class UserInfo extends StatelessWidget {
 
   final User user;
 
-  void onAvatarTap(BuildContext context) {
+  @override
+  _UserInfoState createState() => _UserInfoState();
+}
+
+class _UserInfoState extends State<UserInfo> {
+  void onAvatarTap(BuildContext context, UserState userState) {
     showModalBottomSheet<void>(
         context: context,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
         ),
         builder: (BuildContext context) {
-          return AvatarBottomSheet(user: user);
+          return AvatarBottomSheet(user: widget.user);
         });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          children: [
-            AvatarLayout(avatar: user.avatar),
-            Positioned.fill(
-              child: Material(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(50),
-                child: InkWell(
-                  customBorder: CircleBorder(),
-                  onTap: () {
-                    onAvatarTap(context);
-                  },
-                ),
+    return StoreConnector<AppState, UserState>(
+        distinct: true,
+        converter: (store) => store.state.userState,
+        builder: (context, userState) {
+          return Column(
+            children: [
+              Stack(
+                children: [
+                  AvatarLayout(avatar: widget.user.avatar),
+                  Positioned.fill(
+                    child: Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(50),
+                      child: InkWell(
+                        customBorder: CircleBorder(),
+                        onTap: () {
+                          onAvatarTap(context, userState);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-        SizedBox(height: 12),
-        Text(
-          user.firstName + " " + user.lastName,
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 4),
-        Text(
-          "(" + user.mail + ")",
-          style: TextStyle(fontSize: 14),
-        ),
-      ],
-    );
+              SizedBox(height: 12),
+              Text(
+                widget.user.firstName + " " + widget.user.lastName,
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 4),
+              Text(
+                "(" + widget.user.mail + ")",
+                style: TextStyle(fontSize: 14),
+              ),
+            ],
+          );
+        });
   }
 }
 

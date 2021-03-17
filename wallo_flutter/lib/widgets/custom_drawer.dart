@@ -22,6 +22,16 @@ class CustomDrawer extends StatelessWidget {
               MenuButton(text: "Mon Aquadex", redirectRoute: "/aquarium"),
               MenuButton(text: "Classements", redirectRoute: "/classement"),
               MenuButton(text: "Aide", redirectRoute: "/contact"),
+              SizedBox(height: 20),
+              Container(
+                width: 300,
+                child: Divider(
+                  color: AppTheme.secondaryColor,
+                  thickness: 3,
+                ),
+              ),
+              SizedBox(height: 20),
+              MenuButton(text: "Déconnexion", redirectRoute: "/"),
             ],
           ),
         ),

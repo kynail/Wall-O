@@ -86,6 +86,7 @@ class _LoginState extends State<Login> {
                                     }
                                     return null;
                                   },
+                                  autocorrect: false,
                                   decoration: InputDecoration(
                                     hintText: 'Entrez une adresse e-mail',
                                     border: InputBorder.none,

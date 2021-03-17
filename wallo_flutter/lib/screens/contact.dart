@@ -4,6 +4,7 @@ import 'package:wallo_flutter/redux/store.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:wallo_flutter/widgets/custom_drawer.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
+import 'package:wallo_flutter/widgets/handle_error.dart';
 
 class Contact extends StatefulWidget {
   @override
@@ -38,6 +39,13 @@ class MyCustomFormState extends State<Contact> {
     return StoreConnector<AppState, UserState>(
         distinct: true,
         converter: (store) => store.state.userState,
+        onWillChange: (state, userState) {
+          handleError(context, userState);
+
+          if (userState.isError == false && userState.isLoading == false) {
+            Navigator.of(context).pushReplacementNamed("/home");
+          }
+        },
         builder: (context, userState) {
           return Scaffold(
             appBar: AppBar(
@@ -80,19 +88,44 @@ class MyCustomFormState extends State<Contact> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Validate returns true if the form is valid, or false
-                          // otherwise.
-                          if (_formKey.currentState.validate()) {
-                            Redux.store.dispatch((store) => sendContact(
-                                store,
-                                userState.user,
-                                myController.text,
-                                myController2.text));
-                          }
-                        },
-                        child: Text('Envoyer'),
+                      child: Container(
+                        width: userState.isLoading ? 160 : 100,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Validate returns true if the form is valid, or false
+                            // otherwise.
+                            if (_formKey.currentState.validate()) {
+                              Redux.store.dispatch((store) => sendContact(
+                                  store,
+                                  userState.user,
+                                  myController.text,
+                                  myController2.text));
+                            }
+                          },
+                          child: userState.isLoading
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CircularProgressIndicator(
+                                          value: null,
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                                  Colors.white)),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'Envoyer',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                )
+                              : Text(
+                                  'Envoyer',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                        ),
                       ),
                     ),
                   ],

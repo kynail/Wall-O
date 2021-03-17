@@ -86,7 +86,7 @@ router.put("/level", async (req, res) => {
                                         if (model.n == 0)
                                             res.status(404).json(writeResponse(false, "Utilisateur introuvable", "userid"))
                                         else
-                                            res.status(201).json(writeResponse(true, "Vous avez gagné " + exp + " points d'expériences !", {
+                                            res.status(201).json(writeResponse(true, "Vous avez gagné " + exp + " points d'expérience !", {
                                                 xpscore: xptotal,
                                                 nxtlvl: success.jeu.nxtlvl,
                                                 userlvl: level

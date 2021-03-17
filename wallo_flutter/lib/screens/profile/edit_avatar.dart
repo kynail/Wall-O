@@ -79,13 +79,18 @@ class _EditAvatarState extends State<EditAvatar> {
         Padding(
           padding: const EdgeInsets.only(left: 12.0, right: 12.0),
           child: TextField(
-            onChanged: (value) {
-              setState(() {
-                _seed = value;
-              });
-            },
-            decoration: InputDecoration(labelText: "Ecrivez quelque chose"),
-          ),
+              onChanged: (value) {
+                setState(() {
+                  _seed = value;
+                });
+              },
+              autocorrect: false,
+              decoration: InputDecoration(
+                hintText: 'Ecrivez quelque chose',
+                border: InputBorder.none,
+                fillColor: Color(0xfffff6d4),
+                filled: true,
+              )),
         ),
         SizedBox(height: 20),
         ElevatedButton(

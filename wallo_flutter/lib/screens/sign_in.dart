@@ -135,6 +135,7 @@ class _SignInState extends State<SignIn> {
                                     }
                                     return null;
                                   },
+                                  autocorrect: false,
                                   decoration: InputDecoration(
                                     hintText: 'Entrez une adresse e-mail',
                                     border: InputBorder.none,

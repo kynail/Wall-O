@@ -24,6 +24,7 @@ void handleError(BuildContext context, UserState userState) {
       backgroundColor: AppTheme.errorColor,
     ));
   } else if (userState.isError == false &&
+      userState.isLoading == false &&
       userState.successMessage.length > 0) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Row(

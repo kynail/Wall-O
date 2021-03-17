@@ -16,12 +16,14 @@ class SetUserStateAction {
   SetUserStateAction(this.userState);
 }
 
-String getErrorMessage(http.Response response) {
+String getServerMessage(http.Response response, bool isError) {
   String message = jsonDecode(response.body)["message"];
 
   return message != null
       ? message
-      : "Une erreur s'est produite, veuillez réessayer";
+      : isError
+          ? "Une erreur s'est produite, veuillez réessayer"
+          : null;
 }
 
 Future<User> fetchUser(Store<AppState> store, String mail, String passw) async {
@@ -108,6 +110,11 @@ void registerUser(Store<AppState> store, String name, String firstName,
 
 void setAvatar(Store<AppState> store, Avatar avatar, User user) async {
   try {
+    store.dispatch(
+      SetUserStateAction(
+        UserState(isError: false, isLoading: true),
+      ),
+    );
     final response = await http.put(Uri.http("localhost:8080", "/game/avatar"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'id': user.id, "type": avatar.type, "seed": avatar.seed});
@@ -117,19 +124,25 @@ void setAvatar(Store<AppState> store, Avatar avatar, User user) async {
 
       store.dispatch(
         SetUserStateAction(
-          UserState(isError: false, isLoading: false, user: user),
+          UserState(
+              isError: false,
+              isLoading: false,
+              user: user,
+              successMessage: "Votre avatar a correctement été modifié"),
         ),
       );
     } else {
       print("ERRROR");
       store.dispatch(SetUserStateAction(UserState(
           isError: true,
+          isLoading: false,
           errorMessage: "Une erreur s'est produite, veuillez réessayer")));
       return;
     }
   } on Exception catch (_) {
     store.dispatch(SetUserStateAction(UserState(
         isError: true,
+        isLoading: false,
         errorMessage: "Une erreur s'est produite, veuillez réessayer")));
     throw Exception("Connexion au serveur impossible");
   }
@@ -141,19 +154,19 @@ void setExp(Store<AppState> store, User user, double exp) async {
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'id': user.id, "exp": exp.toStringAsFixed(0)});
 
-    print("SET XP");
-    print(exp.toString());
+    // print("SET XP");
+    // print(exp.toString());
 
     if (response.statusCode == 201) {
-      print("BODY");
-      print(response.body);
       user.level = Level.fromJson(jsonDecode(response.body)["data"]);
-      print("NEW USER LEVEL");
-      print(user.level);
 
       store.dispatch(
         SetUserStateAction(
-          UserState(isError: false, isLoading: false, user: user),
+          UserState(
+              isError: false,
+              isLoading: false,
+              user: user,
+              successMessage: getServerMessage(response, false)),
         ),
       );
     } else {
@@ -174,6 +187,11 @@ void setExp(Store<AppState> store, User user, double exp) async {
 void sendContact(
     Store<AppState> store, User user, String object, String body) async {
   try {
+    store.dispatch(
+      SetUserStateAction(
+        UserState(isError: false, isLoading: true),
+      ),
+    );
     final response = await http.post(
         Uri.http("localhost:8080", "/users/contact"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -183,19 +201,24 @@ void sendContact(
       print("CONTACT MAIL OK");
       store.dispatch(
         SetUserStateAction(
-          UserState(isError: false, isLoading: false),
+          UserState(
+              isError: false,
+              isLoading: false,
+              successMessage: "Votre message a été envoyé avec succès"),
         ),
       );
     } else {
       print("CONTACT MAIL ERREUR");
       store.dispatch(SetUserStateAction(UserState(
           isError: true,
+          isLoading: false,
           errorMessage: "Une erreur s'est produite, veuillez réessayer")));
       return;
     }
   } on Exception catch (_) {
     store.dispatch(SetUserStateAction(UserState(
         isError: true,
+        isLoading: false,
         errorMessage: "Une erreur s'est produite, veuillez réessayer")));
     throw Exception("Connexion au serveur impossible");
   }
@@ -226,7 +249,7 @@ void sendForget(Store<AppState> store, String email) async {
       store.dispatch(SetUserStateAction(UserState(
           isError: true,
           isLoading: false,
-          errorMessage: getErrorMessage(response))));
+          errorMessage: getServerMessage(response, true))));
       return;
     }
   } on Exception catch (_) {
@@ -241,6 +264,14 @@ void sendForget(Store<AppState> store, String email) async {
 void resetPassword(Store<AppState> store, String password,
     String confirmPassword, String token) async {
   try {
+    store.dispatch(
+      SetUserStateAction(
+        UserState(
+          isError: false,
+          isLoading: true,
+        ),
+      ),
+    );
     final response = await http
         .post(Uri.http("localhost:8080", "/users/auth/reset"), headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -254,19 +285,24 @@ void resetPassword(Store<AppState> store, String password,
       print("RESET password OK");
       store.dispatch(
         SetUserStateAction(
-          UserState(isError: false, isLoading: false),
+          UserState(
+              isError: false,
+              isLoading: false,
+              successMessage: "Votre mot de passe a été modifié avec succès !"),
         ),
       );
     } else {
       print("RESET password ERREUR");
       store.dispatch(SetUserStateAction(UserState(
           isError: true,
-          errorMessage: "Une erreur s'est produite, veuillez réessayer")));
+          isLoading: false,
+          errorMessage: getServerMessage(response, true))));
       return;
     }
   } on Exception catch (_) {
     store.dispatch(SetUserStateAction(UserState(
         isError: true,
+        isLoading: false,
         errorMessage: "Une erreur s'est produite, veuillez réessayer")));
     throw Exception("Connexion au serveur impossible");
   }

@@ -15,7 +15,7 @@ class AvatarBottomSheet extends StatefulWidget {
 }
 
 class _AvatarBottomSheetState extends State<AvatarBottomSheet> {
-  double _size = 300;
+  double _size = 500;
   Widget _animatedWidget;
 
   Widget mainWidget() {
@@ -78,7 +78,7 @@ class _AvatarBottomSheetState extends State<AvatarBottomSheet> {
   @override
   void initState() {
     super.initState();
-    _animatedWidget = mainWidget();
+    _animatedWidget = EditAvatar(user: widget.user);
   }
 
   @override
