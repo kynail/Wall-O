@@ -24,21 +24,7 @@ class _LoginState extends State<Login> {
 
   showMyAlertDialog(BuildContext context) {
     // Create SimpleDialog
-    // SimpleDialog dialog = SimpleDialog(
-    //   children: <Widget>[
-    //     Container(
-    //         width: 300,
-    //         height: 450,
-    //         child: Webview(url: "http://localhost:8080/users/auth/google"))
-    //   ],
-    // );
 
-    // // Call showDialog function to show dialog.
-    // showDialog(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return dialog;
-    //     });
     Navigator.pushNamed(context, "/webview");
   }
 

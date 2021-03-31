@@ -27,7 +27,24 @@ class _WebviewState extends State<Webview> {
         title: Text("hello"),
       ),
       body: WebView(
+        javascriptMode: JavascriptMode.unrestricted,
+        userAgent: "wallo",
         initialUrl: 'http://192.168.1.6:8080/users/auth/google',
+        navigationDelegate: (NavigationRequest request) {
+          if (request.url.startsWith('https://www.youtube.com/')) {
+            print('blocking navigation to $request}');
+            return NavigationDecision.prevent;
+          }
+          print('allowing navigation to $request');
+          return NavigationDecision.navigate;
+        },
+        onPageStarted: (String url) {
+          print('Page started loading: $url');
+        },
+        onPageFinished: (String url) {
+          print('Page finished loading: $url');
+        },
+        gestureNavigationEnabled: true,
       ),
     );
   }

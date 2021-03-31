@@ -21,7 +21,7 @@ module.exports = function () {
   passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL,
+    callbackURL: process.env.SERVER_ADDRESS + process.env.GOOGLE_CALLBACK_URL,
     passReqToCallback: true
   },
     function (request, accessToken, refreshToken, profile, done) {
@@ -84,7 +84,7 @@ module.exports = function () {
       {
         clientID: process.env.FACEBOOK_CLIENT_ID,
         clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-        callbackURL: process.env.FACEBOOK_CALLBACK_URL,
+        callbackURL:  process.env.SERVER_ADDRESS + process.env.FACEBOOK_CALLBACK_URL,
         profileFields: ["name"]
       },
       function (accessToken, refreshToken, profile, done) {

@@ -18,6 +18,9 @@ const APIport = 8080;
 const serverAddr = "127.0.0.1";
 const serverPort = 8083;
 
+console.log("SERVER", process.env.SERVER_ADDRESS)
+console.log("GOOGLE", process.env.GOOGLE_CALLBACK_URL)
+
 require('./routes/usersController')(passport);
 app.use(passport.initialize());
 app.use(bodyParser.json({limit: '50mb'}));
