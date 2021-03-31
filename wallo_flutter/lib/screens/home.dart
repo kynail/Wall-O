@@ -14,13 +14,15 @@ class Home extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
       ),
       drawer: CustomDrawer(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-              child: Text("Ceci est la page Accueil",
-                  style: TextStyle(fontSize: 20))),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+                child: Text("Ceci est la page Accueil",
+                    style: TextStyle(fontSize: 20))),
+          ],
+        ),
       ),
     );
   }

@@ -11,11 +11,13 @@ class Aquarium extends StatelessWidget {
             title: Text("Aquarium"),
             iconTheme: IconThemeData(color: Colors.white)),
         drawer: CustomDrawer(),
-        body: SizedBox.expand(
-            child: Stack(
-          children: [
-            Text("Bonjour"),
-          ],
-        )));
+        body: SingleChildScrollView(
+          child: SizedBox.expand(
+              child: Stack(
+            children: [
+              Text("Bonjour"),
+            ],
+          )),
+        ));
   }
 }

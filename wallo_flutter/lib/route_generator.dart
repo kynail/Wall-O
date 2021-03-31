@@ -8,6 +8,7 @@ import 'package:wallo_flutter/screens/login.dart';
 import 'package:wallo_flutter/screens/reset_password_form.dart';
 import 'package:wallo_flutter/screens/sign_in.dart';
 import 'package:wallo_flutter/screens/profile/profile.dart';
+import 'package:wallo_flutter/widgets/webview.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -32,6 +33,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => Contact());
       case "/classement":
         return MaterialPageRoute(builder: (context) => Classement());
+      case "/webview":
+        return MaterialPageRoute(builder: (context) => Webview());
       default:
         if (pathComponents[1] == "reset")
           return MaterialPageRoute(

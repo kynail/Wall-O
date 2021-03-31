@@ -28,7 +28,8 @@ String getServerMessage(http.Response response, bool isError) {
 
 Future<User> fetchUser(Store<AppState> store, String mail, String passw) async {
   try {
-    final response = await http.post(Uri.http("localhost:8080", "users/login"),
+    final response = await http.post(
+        Uri.http("192.168.1.6:8080", "users/login"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'mail': mail, 'password': passw});
 
@@ -80,7 +81,7 @@ void registerUser(Store<AppState> store, String name, String firstName,
     String mail, String passw) async {
   try {
     final response = await http
-        .post(Uri.http("localhost:8080", "users/register"), headers: {
+        .post(Uri.http("192.168.1.6:8080", "users/register"), headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }, body: {
       'mail': mail,
@@ -93,16 +94,22 @@ void registerUser(Store<AppState> store, String name, String firstName,
       store.dispatch(SetUserStateAction(
         UserState(
             isError: false,
+            isLoading: false,
+            successMessage: "Bienvenue, " + firstName,
             user: User.fromJson(jsonDecode(response.body)["data"])),
       ));
     } else {
       store.dispatch(UserState(
           isError: true,
+          isLoading: false,
           errorMessage: "Une erreur s'est produite, veuillez réessayer"));
     }
   } on Exception catch (_) {
     store.dispatch(SetUserStateAction(
-      UserState(isError: true, errorMessage: "Connexion au serveur impossible"),
+      UserState(
+          isError: true,
+          isLoading: false,
+          errorMessage: "Connexion au serveur impossible"),
     ));
     throw Exception("Connexion au serveur impossible");
   }
@@ -115,7 +122,8 @@ void setAvatar(Store<AppState> store, Avatar avatar, User user) async {
         UserState(isError: false, isLoading: true),
       ),
     );
-    final response = await http.put(Uri.http("localhost:8080", "/game/avatar"),
+    final response = await http.put(
+        Uri.http("192.168.1.6:8080", "/game/avatar"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'id': user.id, "type": avatar.type, "seed": avatar.seed});
 
@@ -150,7 +158,7 @@ void setAvatar(Store<AppState> store, Avatar avatar, User user) async {
 
 void setExp(Store<AppState> store, User user, double exp) async {
   try {
-    final response = await http.put(Uri.http("localhost:8080", "/game/level"),
+    final response = await http.put(Uri.http("192.168.1.6:8080", "/game/level"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'id': user.id, "exp": exp.toStringAsFixed(0)});
 
@@ -193,7 +201,7 @@ void sendContact(
       ),
     );
     final response = await http.post(
-        Uri.http("localhost:8080", "/users/contact"),
+        Uri.http("192.168.1.6:8080", "/users/contact"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'object': object, "message": body, "id": user.id});
 
@@ -232,7 +240,7 @@ void sendForget(Store<AppState> store, String email) async {
       ),
     );
     final response = await http.post(
-        Uri.http("localhost:8080", "/users/auth/forget"),
+        Uri.http("192.168.1.6:8080", "/users/auth/forget"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'mail': email});
 
@@ -273,7 +281,7 @@ void resetPassword(Store<AppState> store, String password,
       ),
     );
     final response = await http
-        .post(Uri.http("localhost:8080", "/users/auth/reset"), headers: {
+        .post(Uri.http("192.168.1.6:8080", "/users/auth/reset"), headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }, body: {
       'token': token,

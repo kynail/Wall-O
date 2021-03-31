@@ -34,85 +34,87 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
             appBar: AppBar(
               title: Text("Réinitialisation de mot de passe"),
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Nouveau mot de passe"),
-                    SizedBox(height: 10),
-                    TextFormField(
-                        controller: passwController,
-                        onChanged: (value) {
-                          // setState(() {
-                          //   _mail = value;
-                          // });
-                        },
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Entrez un mot de passe',
-                          border: InputBorder.none,
-                          fillColor: Color(0xfffff6d4),
-                          filled: true,
-                        )),
-                    SizedBox(height: 20),
-                    Text("Confirmation du mot de passe"),
-                    SizedBox(height: 10),
-                    TextFormField(
-                        obscureText: true,
-                        controller: passw1Controller,
-                        onChanged: (value) {
-                          // setState(() {
-                          //   _mail = value;
-                          // });
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Réécrivez votre mot de passe',
-                          border: InputBorder.none,
-                          fillColor: Color(0xfffff6d4),
-                          filled: true,
-                        )),
-                    SizedBox(height: 20),
-                    Center(
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Nouveau mot de passe"),
+                      SizedBox(height: 10),
+                      TextFormField(
+                          controller: passwController,
+                          onChanged: (value) {
+                            // setState(() {
+                            //   _mail = value;
+                            // });
+                          },
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            hintText: 'Entrez un mot de passe',
+                            border: InputBorder.none,
+                            fillColor: Color(0xfffff6d4),
+                            filled: true,
+                          )),
+                      SizedBox(height: 20),
+                      Text("Confirmation du mot de passe"),
+                      SizedBox(height: 10),
+                      TextFormField(
+                          obscureText: true,
+                          controller: passw1Controller,
+                          onChanged: (value) {
+                            // setState(() {
+                            //   _mail = value;
+                            // });
+                          },
+                          decoration: InputDecoration(
+                            hintText: 'Réécrivez votre mot de passe',
+                            border: InputBorder.none,
+                            fillColor: Color(0xfffff6d4),
+                            filled: true,
+                          )),
+                      SizedBox(height: 20),
+                      Center(
+                          child: Container(
                         child: Container(
-                      child: Container(
-                        width: userState.isLoading ? 300 : 230,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                Redux.store.dispatch((store) => resetPassword(
-                                    store,
-                                    passwController.text,
-                                    passw1Controller.text,
-                                    widget.token));
-                              }
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (userState.isLoading)
-                                  Row(children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CircularProgressIndicator(
-                                          value: null,
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  Colors.white)),
-                                    ),
-                                    SizedBox(width: 8),
-                                  ]),
-                                Text(
-                                  "Modifier votre mot de passe",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ],
-                            )),
-                      ),
-                    )),
-                  ],
+                          width: userState.isLoading ? 300 : 230,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState.validate()) {
+                                  Redux.store.dispatch((store) => resetPassword(
+                                      store,
+                                      passwController.text,
+                                      passw1Controller.text,
+                                      widget.token));
+                                }
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (userState.isLoading)
+                                    Row(children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CircularProgressIndicator(
+                                            value: null,
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                                    Colors.white)),
+                                      ),
+                                      SizedBox(width: 8),
+                                    ]),
+                                  Text(
+                                    "Modifier votre mot de passe",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              )),
+                        ),
+                      )),
+                    ],
+                  ),
                 ),
               ),
             ),

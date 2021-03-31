@@ -25,17 +25,19 @@ class Profile extends StatelessWidget {
                 iconTheme: IconThemeData(color: Colors.white)),
             drawer: CustomDrawer(),
             backgroundColor: AppTheme.secondaryColor,
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  ProfileMainInfo(user: userState.user),
-                  SizedBox(height: 12),
-                  ProfileFishInfo(),
-                  SizedBox(height: 60),
-                  Divider(thickness: 2),
-                  AddExp(user: userState.user)
-                ],
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    ProfileMainInfo(user: userState.user),
+                    SizedBox(height: 12),
+                    ProfileFishInfo(),
+                    SizedBox(height: 60),
+                    Divider(thickness: 2),
+                    AddExp(user: userState.user)
+                  ],
+                ),
               ),
             ),
           );

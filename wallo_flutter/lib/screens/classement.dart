@@ -11,10 +11,12 @@ class Classement extends StatelessWidget {
           title: Text("Classement"),
           iconTheme: IconThemeData(color: Colors.white)),
       drawer: CustomDrawer(),
-      body: Container(
-        child: Center(
-            child: Text("Ceci est la page Classement",
-                style: TextStyle(fontSize: 20))),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Center(
+              child: Text("Ceci est la page Classement",
+                  style: TextStyle(fontSize: 20))),
+        ),
       ),
     );
   }

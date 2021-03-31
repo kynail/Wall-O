@@ -53,82 +53,84 @@ class MyCustomFormState extends State<Contact> {
               iconTheme: IconThemeData(color: Colors.white),
             ),
             drawer: CustomDrawer(),
-            body: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      child: Center(
-                          child: Text("Besoin d'aide ?",
-                              style: TextStyle(fontSize: 20))),
-                    ),
-                    Text("Objet :", style: TextStyle(fontSize: 15)),
-                    TextFormField(
-                      controller: myController,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Veuillez remplir ce champ';
-                        }
-                        return null;
-                      },
-                    ),
-                    Text("Détails de votre requête :",
-                        style: TextStyle(fontSize: 15)),
-                    TextFormField(
-                      controller: myController2,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Veuillez remplir ce champ';
-                        }
-                        return null;
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Container(
-                        width: userState.isLoading ? 160 : 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Validate returns true if the form is valid, or false
-                            // otherwise.
-                            if (_formKey.currentState.validate()) {
-                              Redux.store.dispatch((store) => sendContact(
-                                  store,
-                                  userState.user,
-                                  myController.text,
-                                  myController2.text));
-                            }
-                          },
-                          child: userState.isLoading
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CircularProgressIndicator(
-                                          value: null,
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  Colors.white)),
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Envoyer',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ],
-                                )
-                              : Text(
-                                  'Envoyer',
-                                  style: TextStyle(color: Colors.white),
-                                ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: Center(
+                            child: Text("Besoin d'aide ?",
+                                style: TextStyle(fontSize: 20))),
+                      ),
+                      Text("Objet :", style: TextStyle(fontSize: 15)),
+                      TextFormField(
+                        controller: myController,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Veuillez remplir ce champ';
+                          }
+                          return null;
+                        },
+                      ),
+                      Text("Détails de votre requête :",
+                          style: TextStyle(fontSize: 15)),
+                      TextFormField(
+                        controller: myController2,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Veuillez remplir ce champ';
+                          }
+                          return null;
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Container(
+                          width: userState.isLoading ? 160 : 100,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Validate returns true if the form is valid, or false
+                              // otherwise.
+                              if (_formKey.currentState.validate()) {
+                                Redux.store.dispatch((store) => sendContact(
+                                    store,
+                                    userState.user,
+                                    myController.text,
+                                    myController2.text));
+                              }
+                            },
+                            child: userState.isLoading
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CircularProgressIndicator(
+                                            value: null,
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                                    Colors.white)),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Envoyer',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ],
+                                  )
+                                : Text(
+                                    'Envoyer',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
