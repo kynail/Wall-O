@@ -13,7 +13,7 @@ const gameRouter = require("./routes/game");
 const fishesRouter = require("./routes/fishes");
 
 let app = express();
-const APIport = 8080;
+const APIport = process.env.PORT || 4000;
 
 const serverAddr = "127.0.0.1";
 const serverPort = 8083;
@@ -47,7 +47,7 @@ app.use("/dashboard", dashboardRouter);
 app.use("/fishes", fishesRouter);
 
 const server = app.listen(APIport, function () {
-    console.log('Wall-O API listening on port 8080!');
+    console.log('Wall-O API listening on port ', APIport);
     // var client = TCPClient.connect(serverPort, serverAddr);
     // if (client) {
     //     TCPClient.setSocket(client);

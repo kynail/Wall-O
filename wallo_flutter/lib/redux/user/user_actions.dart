@@ -29,7 +29,7 @@ String getServerMessage(http.Response response, bool isError) {
 Future<User> fetchUser(Store<AppState> store, String mail, String passw) async {
   try {
     final response = await http.post(
-        Uri.http("192.168.1.6:8080", "users/login"),
+        Uri.https("wall-o.herokuapp.com", "users/login"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'mail': mail, 'password': passw});
 
@@ -77,11 +77,29 @@ void logUser(Store<AppState> store, String mail, String passw) {
   }
 }
 
+void logUserGoogle(Store<AppState> store, String url) async {
+  try {
+    final response = await http.get(Uri.parse(url));
+
+    User user = User.fromJson(jsonDecode(response.body)["data"]);
+    print('RESPONSE GOOGLE');
+    print(user);
+  } on Exception catch (_) {
+    store.dispatch(SetUserStateAction(
+      UserState(
+          isError: true,
+          isLoading: false,
+          errorMessage: "Connexion au serveur impossible"),
+    ));
+    throw Exception("Connexion au serveur impossible");
+  }
+}
+
 void registerUser(Store<AppState> store, String name, String firstName,
     String mail, String passw) async {
   try {
     final response = await http
-        .post(Uri.http("192.168.1.6:8080", "users/register"), headers: {
+        .post(Uri.https("wall-o.herokuapp.com", "users/register"), headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }, body: {
       'mail': mail,
@@ -123,7 +141,7 @@ void setAvatar(Store<AppState> store, Avatar avatar, User user) async {
       ),
     );
     final response = await http.put(
-        Uri.http("192.168.1.6:8080", "/game/avatar"),
+        Uri.https("wall-o.herokuapp.com", "/game/avatar"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'id': user.id, "type": avatar.type, "seed": avatar.seed});
 
@@ -158,7 +176,8 @@ void setAvatar(Store<AppState> store, Avatar avatar, User user) async {
 
 void setExp(Store<AppState> store, User user, double exp) async {
   try {
-    final response = await http.put(Uri.http("192.168.1.6:8080", "/game/level"),
+    final response = await http.put(
+        Uri.https("wall-o.herokuapp.com", "/game/level"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'id': user.id, "exp": exp.toStringAsFixed(0)});
 
@@ -201,7 +220,7 @@ void sendContact(
       ),
     );
     final response = await http.post(
-        Uri.http("192.168.1.6:8080", "/users/contact"),
+        Uri.https("wall-o.herokuapp.com", "/users/contact"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'object': object, "message": body, "id": user.id});
 
@@ -240,7 +259,7 @@ void sendForget(Store<AppState> store, String email) async {
       ),
     );
     final response = await http.post(
-        Uri.http("192.168.1.6:8080", "/users/auth/forget"),
+        Uri.https("wall-o.herokuapp.com", "/users/auth/forget"),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: {'mail': email});
 
@@ -281,7 +300,7 @@ void resetPassword(Store<AppState> store, String password,
       ),
     );
     final response = await http
-        .post(Uri.http("192.168.1.6:8080", "/users/auth/reset"), headers: {
+        .post(Uri.https("wall-o.herokuapp.com", "/users/auth/reset"), headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
     }, body: {
       'token': token,

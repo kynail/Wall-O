@@ -117,7 +117,13 @@ router.get("/auth/google/callback",
   passport.authenticate('google', { failureRedirect: '/users/failure' }),
   (req, res) => {
     console.log(req.user);
-    res.status(201).json(writeResponse(true, "Connexion avec Google réussi", req.user));
+    res.status(201).json(writeResponse(true, "Connexion avec Google réussi", {
+      "id": req.user.id,
+      "firstName": req.user.given_name,
+      "lastName": req.user.family_name,
+      "game": {},
+      "avatar": {}
+    }));
   }
 );
 
