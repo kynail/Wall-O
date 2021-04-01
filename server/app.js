@@ -26,7 +26,7 @@ app.use(passport.initialize());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
-mongoose.connect('mongodb://localhost:27017/wall-o', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+mongoose.connect(process.env.DB_ADDRESS, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 app.use(cors())
 app.use(
     bodyParser.urlencoded({
