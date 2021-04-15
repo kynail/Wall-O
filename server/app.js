@@ -13,7 +13,7 @@ const gameRouter = require("./routes/game");
 const fishesRouter = require("./routes/fishes");
 
 let app = express();
-const APIport = process.env.PORT || 4000;
+const APIport = process.env.PORT || 8080;
 
 const serverAddr = "127.0.0.1";
 const serverPort = 8083;

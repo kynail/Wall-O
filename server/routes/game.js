@@ -8,7 +8,7 @@ router.get("/level", async (req, res) => {
     User.findOne({
         "_id": id
     }, function (err, data) {
-        var level = data?.jeu;
+        var level = data.jeu;
         res.status(200).json(writeResponse(true, "infos level", level));
     }
     )
