@@ -5,8 +5,10 @@ import 'package:wallo_flutter/redux/store.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
+import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/widgets/handle_error.dart';
 import 'package:wallo_flutter/widgets/customAppbar.dart';
+import 'package:wallo_flutter/widgets/loading_button.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key key}) : super(key: key);
@@ -177,7 +179,8 @@ class _SignInState extends State<SignIn> {
                             Center(
                                 child: Container(
                               width: 200,
-                              child: ElevatedButton(
+                              child: LoadingButton(
+                                  isLoading: userState.isLoading,
                                   onPressed: () {
                                     handleLogin(context, userState.isError,
                                         userState.user);
@@ -187,20 +190,20 @@ class _SignInState extends State<SignIn> {
                                     style: TextStyle(color: Colors.white),
                                   )),
                             )),
-                            SizedBox(height: 3),
+                            SizedBox(height: 18),
                             Center(
                                 child: Container(
                               width: 200,
-                              child: ElevatedButton(
+                              child: TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
                                   child: Text(
                                     "Connexion",
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: AppTheme.colorD),
                                   )),
                             )),
-                            SizedBox(height: 30),
+                            SizedBox(height: 18),
                             Center(
                                 child: Container(
                               width: 250,

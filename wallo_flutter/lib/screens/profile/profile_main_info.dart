@@ -107,7 +107,8 @@ class _UserInfoState extends State<UserInfo> {
             children: [
               Stack(
                 children: [
-                  AvatarLayout(avatar: widget.user.avatar),
+                  if (widget.user.avatar != null)
+                    AvatarLayout(avatar: widget.user.avatar),
                   Positioned.fill(
                     child: Material(
                       color: Colors.transparent,
@@ -123,15 +124,17 @@ class _UserInfoState extends State<UserInfo> {
                 ],
               ),
               SizedBox(height: 12),
-              Text(
-                widget.user.firstName + " " + widget.user.lastName,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
+              if (widget.user.firstName != null && widget.user.lastName != null)
+                Text(
+                  widget.user.firstName + " " + widget.user.lastName,
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
               SizedBox(height: 4),
-              Text(
-                "(" + widget.user.mail + ")",
-                style: TextStyle(fontSize: 14),
-              ),
+              if (widget.user.mail != null)
+                Text(
+                  "(" + widget.user.mail + ")",
+                  style: TextStyle(fontSize: 14),
+                ),
             ],
           );
         });

@@ -16,7 +16,7 @@ class Profile extends StatelessWidget {
         distinct: true,
         converter: (store) => store.state.userState,
         onWillChange: (state, userState) {
-          handleError(context, userState);
+          // handleError(context, userState);
         },
         builder: (context, userState) {
           return Scaffold(

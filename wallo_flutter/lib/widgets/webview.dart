@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wallo_flutter/redux/store.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
+import 'package:wallo_flutter/widgets/handle_error.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
 import 'dart:io';
@@ -28,6 +29,13 @@ class _WebviewState extends State<Webview> {
     return StoreConnector<AppState, UserState>(
         distinct: true,
         converter: (store) => store.state.userState,
+        onWillChange: (state, userState) {
+          // handleError(context, userState);
+
+          if (userState.isError == false && userState.user != null) {
+            Navigator.pushReplacementNamed(context, "/home");
+          }
+        },
         builder: (context, userState) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -37,10 +45,10 @@ class _WebviewState extends State<Webview> {
             body: WebView(
               javascriptMode: JavascriptMode.unrestricted,
               userAgent: "wallo",
-              initialUrl: 'http://192.168.1.6:4000/users/auth/google',
+              initialUrl: 'https://wall-o.herokuapp.com/users/auth/google',
               navigationDelegate: (NavigationRequest request) {
                 if (request.url.startsWith(
-                    'http://192.168.1.6:4000/users/auth/google/callback')) {
+                    'https://wall-o.herokuapp.com/users/auth/google/callback')) {
                   print('blocking navigation to $request}');
 
                   Redux.store

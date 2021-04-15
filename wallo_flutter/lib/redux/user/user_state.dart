@@ -23,21 +23,21 @@ class UserState {
       user: null,
       successMessage: null);
 
-  UserState copyWith({
-    @required bool isError,
-    @required String errorMessage,
-    @required String successMessage,
-    @required bool isLoading,
-    @required User user,
-  }) {
-    return UserState(
-      isError: isError ?? this.isError,
-      errorMessage: errorMessage ?? this.errorMessage,
-      successMessage: successMessage ?? this.successMessage,
-      isLoading: isLoading ?? this.isLoading,
-      user: user ?? this.user,
-    );
-  }
+  // UserState copyWith({
+  //   @required bool isError,
+  //   @required String errorMessage,
+  //   @required String successMessage,
+  //   @required bool isLoading,
+  //   @required User user,
+  // }) {
+  //   return UserState(
+  //     isError: isError ?? this.isError,
+  //     errorMessage: errorMessage ?? this.errorMessage,
+  //     successMessage: successMessage ?? this.successMessage,
+  //     isLoading: isLoading ?? this.isLoading,
+  //     user: user ?? this.user,
+  //   );
+  // }
 
   @override
   String toString() {

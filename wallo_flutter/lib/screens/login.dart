@@ -6,6 +6,7 @@ import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/widgets/customAppbar.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
 import 'package:wallo_flutter/widgets/handle_error.dart';
+import 'package:wallo_flutter/widgets/loading_button.dart';
 import 'package:wallo_flutter/widgets/webview.dart';
 
 class Login extends StatefulWidget {
@@ -34,6 +35,7 @@ class _LoginState extends State<Login> {
         distinct: true,
         converter: (store) => store.state.userState,
         onWillChange: (state, userState) {
+          print("HANDLE ERROR IN LOGIN");
           handleError(context, userState);
 
           if (userState.isError == false && userState.user != null) {
@@ -135,7 +137,8 @@ class _LoginState extends State<Login> {
                             Center(
                                 child: Container(
                               width: 200,
-                              child: ElevatedButton(
+                              child: LoadingButton(
+                                  isLoading: userState.isLoading,
                                   onPressed: () {
                                     if (_formKey.currentState.validate()) {
                                       Redux.store.dispatch((store) => logUser(
@@ -149,20 +152,19 @@ class _LoginState extends State<Login> {
                                     style: TextStyle(color: Colors.white),
                                   )),
                             )),
-                            SizedBox(height: 3),
+                            SizedBox(height: 18),
                             Center(
                                 child: Container(
                               width: 200,
-                              child: ElevatedButton(
+                              child: TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pushNamed("/signin");
                                   },
                                   child: Text(
                                     "Inscription",
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: AppTheme.colorD),
                                   )),
                             )),
-                            SizedBox(height: 18),
                             Center(
                               child: TextButton(
                                   onPressed: () {
