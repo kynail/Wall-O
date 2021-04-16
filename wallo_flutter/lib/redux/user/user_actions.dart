@@ -26,65 +26,65 @@ String getServerMessage(http.Response response, bool isError) {
           : null;
 }
 
-Future<User> fetchUser(Store<AppState> store, String mail, String passw) async {
-  try {
-    final response = await http.post(Uri.http("localhost:8080", "users/login"),
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: {'mail': mail, 'password': passw});
+// Future<User> fetchUser(Store<AppState> store, String mail, String passw) async {
+//   try {
+//     final response = await http.post(Uri.http("localhost:8080", "users/login"),
+//         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+//         body: {'mail': mail, 'password': passw});
 
-    if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body)["data"]);
-    } else {
-      return null;
-    }
-  } on Exception catch (_) {
-    store.dispatch(SetUserStateAction(
-      UserState(
-          isError: true,
-          isLoading: false,
-          errorMessage: "Connexion au serveur impossible"),
-    ));
-    throw Exception("Connexion au serveur impossible");
-  }
-}
+//     if (response.statusCode == 200) {
+//       return User.fromJson(jsonDecode(response.body)["data"]);
+//     } else {
+//       return null;
+//     }
+//   } on Exception catch (_) {
+//     store.dispatch(SetUserStateAction(
+//       UserState(
+//           isError: true,
+//           isLoading: false,
+//           errorMessage: "Connexion au serveur impossible"),
+//     ));
+//     throw Exception("Connexion au serveur impossible");
+//   }
+// }
 
-void logUser(Store<AppState> store, String mail, String passw) {
-  try {
-    store.dispatch(
-        SetUserStateAction(UserState(isError: false, isLoading: true)));
-    fetchUser(store, mail, passw).then((user) => {
-          if (user == null)
-            {
-              store.dispatch(SetUserStateAction(
-                UserState(
-                    isError: true,
-                    isLoading: false,
-                    errorMessage: "Utilisateur introuvable"),
-              ))
-            }
-          else
-            {
-              print("USER ="),
-              print(user),
-              store.dispatch(
-                SetUserStateAction(
-                  UserState(
-                      isError: false,
-                      isLoading: false,
-                      user: user,
-                      successMessage: "Bienvenue, " + user.firstName),
-                ),
-              )
-            }
-        });
-  } on Exception catch (_) {
-    print("ERREURER");
-    store.dispatch(UserState(
-        isError: true,
-        isLoading: false,
-        errorMessage: "Connexion au serveur impossible"));
-  }
-}
+// void logUser(Store<AppState> store, String mail, String passw) {
+//   try {
+//     store.dispatch(
+//         SetUserStateAction(UserState(isError: false, isLoading: true)));
+//     fetchUser(store, mail, passw).then((user) => {
+//           if (user == null)
+//             {
+//               store.dispatch(SetUserStateAction(
+//                 UserState(
+//                     isError: true,
+//                     isLoading: false,
+//                     errorMessage: "Utilisateur introuvable"),
+//               ))
+//             }
+//           else
+//             {
+//               print("USER ="),
+//               print(user),
+//               store.dispatch(
+//                 SetUserStateAction(
+//                   UserState(
+//                       isError: false,
+//                       isLoading: false,
+//                       user: user,
+//                       successMessage: "Bienvenue, " + user.firstName),
+//                 ),
+//               )
+//             }
+//         });
+//   } on Exception catch (_) {
+//     print("ERREURER");
+//     store.dispatch(UserState(
+//         isError: true,
+//         isLoading: false,
+//         errorMessage: "Connexion au serveur impossible"));
+//   }
+// }
 
 void logUserGoogle(Store<AppState> store, String url) async {
   try {

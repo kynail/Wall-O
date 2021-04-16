@@ -24,6 +24,12 @@ class AppState {
     @required this.userState,
   });
 
+  factory AppState.initial() {
+    return AppState(
+      userState: UserState.initial(),
+    );
+  }
+
   AppState copyWith({
     UserState userState,
   }) {
@@ -31,6 +37,16 @@ class AppState {
       userState: userState ?? this.userState,
     );
   }
+
+  @override
+  int get hashCode =>
+      //isLoading.hash Code ^
+      userState.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AppState && userState == other.userState;
 }
 
 class Redux {
@@ -49,7 +65,7 @@ class Redux {
     _store = Store<AppState>(
       appReducer,
       middleware: [thunkMiddleware],
-      initialState: AppState(userState: userStateInitial),
+      initialState: new AppState.initial(),
     );
   }
 }

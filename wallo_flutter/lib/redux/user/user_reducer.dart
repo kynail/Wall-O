@@ -1,16 +1,37 @@
+import 'package:redux/redux.dart';
+import 'package:wallo_flutter/redux/actions/login_actions.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
 
-userReducer(UserState prevState, SetUserStateAction action) {
-  final payload = action.userState;
+final userReducer = combineReducers<UserState>([
+  TypedReducer<UserState, LoginSuccessAction>(_loginSuccess),
+  TypedReducer<UserState, LoginFailedAction>(_loginFailed),
+  TypedReducer<UserState, StartLoadingAction>(_startLoading),
+]);
 
-  return payload;
+UserState _loginSuccess(UserState state, LoginSuccessAction action) {
+  return state.copyWith(
+      user: action.user,
+      isLoading: false,
+      isError: false,
+      errorMessage: null,
+      successMessage: null);
+}
 
-  // return prevState.copyWith(
-  //   isError: payload.isError,
-  //   errorMessage: payload.errorMessage,
-  //   isLoading: payload.isLoading,
-  //   successMessage: payload.successMessage,
-  //   user: payload.user,
-  // );
+UserState _loginFailed(UserState state, LoginFailedAction action) {
+  return state.copyWith(
+      user: null,
+      isLoading: false,
+      isError: true,
+      errorMessage: null,
+      successMessage: null);
+}
+
+UserState _startLoading(UserState state, StartLoadingAction action) {
+  return state.copyWith(
+      user: null,
+      isLoading: true,
+      isError: false,
+      errorMessage: null,
+      successMessage: null);
 }

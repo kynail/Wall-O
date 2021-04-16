@@ -16,7 +16,7 @@ class RouteGenerator {
     List<String> pathComponents = settings.name.split('/');
     switch (settings.name) {
       case "/":
-        return MaterialPageRoute(builder: (context) => Login());
+        return MaterialPageRoute(builder: (context) => LoginScreen());
       case "/signin":
         return MaterialPageRoute(builder: (context) => SignIn());
       case "/forget":
