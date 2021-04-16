@@ -11,10 +11,11 @@ ThunkAction logUser(String mail, String password) {
       print(password);
       store.dispatch(new StartLoadingAction());
       login(mail, password).then((user) {
+        print("HEYYY");
         store.dispatch(new LoginSuccessAction(user));
         // Keys.navKey.currentState.pushNamed(Routes.homeScreen);
-      }, onError: (error) {
-        store.dispatch(new LoginFailedAction());
+      }, onError: (errorMessage) {
+        store.dispatch(new LoginFailedAction(errorMessage));
       });
     });
   };
@@ -31,5 +32,7 @@ class LoginSuccessAction {
 }
 
 class LoginFailedAction {
-  LoginFailedAction();
+  final String errorMessage;
+
+  LoginFailedAction(this.errorMessage);
 }

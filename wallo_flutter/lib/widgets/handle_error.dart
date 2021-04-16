@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:wallo_flutter/theme.dart';
 
-void handleError(BuildContext context, UserState userState) {
+void handleError(BuildContext context, String errorMessage,
+    String successMessage, bool isError, bool isLoading) {
   print("CHANGE");
-  print(userState);
 
-  if (userState.isError == true) {
+  if (isError == true) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Flexible(
         child: Row(
           children: [
             Icon(Icons.error_outline, color: Colors.white),
             SizedBox(width: 20),
-            Flexible(child: Text(userState.errorMessage)),
+            Flexible(child: Text(errorMessage)),
           ],
         ),
       ),
@@ -23,15 +22,15 @@ void handleError(BuildContext context, UserState userState) {
       ),
       backgroundColor: AppTheme.errorColor,
     ));
-  } else if (userState.isError == false &&
-      userState.isLoading == false &&
-      userState.successMessage.length > 0) {
+  } else if (isError == false &&
+      isLoading == false &&
+      successMessage.length > 0) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Row(
         children: [
           Icon(Icons.check_circle, color: Colors.white),
           SizedBox(width: 20),
-          Flexible(child: Text(userState.successMessage)),
+          Flexible(child: Text(successMessage)),
         ],
       ),
       behavior: SnackBarBehavior.floating,

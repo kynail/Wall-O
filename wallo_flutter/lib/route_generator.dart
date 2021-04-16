@@ -4,7 +4,7 @@ import 'package:wallo_flutter/screens/classement.dart';
 import 'package:wallo_flutter/screens/contact.dart';
 import 'package:wallo_flutter/screens/forget_password.dart';
 import 'package:wallo_flutter/screens/home.dart';
-import 'package:wallo_flutter/screens/login.dart';
+import 'package:wallo_flutter/screens/login_screen.dart';
 import 'package:wallo_flutter/screens/reset_password_form.dart';
 import 'package:wallo_flutter/screens/sign_in.dart';
 import 'package:wallo_flutter/screens/profile/profile.dart';

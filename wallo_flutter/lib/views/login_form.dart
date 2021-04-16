@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:wallo_flutter/models/login/login_viewmodel.dart';
-import 'package:wallo_flutter/redux/actions/login_actions.dart';
-import 'package:wallo_flutter/redux/store.dart';
-import 'package:wallo_flutter/widgets/customAppbar.dart';
 import 'package:wallo_flutter/widgets/loading_button.dart';
 
 import '../theme.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key, this.viewModel}) : super(key: key);
+class LoginForm extends StatefulWidget {
+  final Function(String, String) onLoginValidationSuccess;
+  final bool isError;
+  final bool isLoading;
 
-  LoginViewModel viewModel;
+  LoginForm(
+      {Key key,
+      @required this.onLoginValidationSuccess,
+      @required this.isError,
+      @required this.isLoading})
+      : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginFormState createState() => _LoginFormState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginFormState extends State<LoginForm> {
   bool isObscur = true;
   final _formKey = GlobalKey<FormState>();
   final mailController = TextEditingController();
   final passwController = TextEditingController();
 
-  Widget buildContent(LoginViewModel viewModel) {
-    widget.viewModel = viewModel;
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
           padding: const EdgeInsets.all(30.0),
@@ -101,13 +103,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Container(
                 width: 200,
                 child: LoadingButton(
-                    isLoading: false, // AFFICHER LE STATE ,
+                    isLoading: widget.isLoading,
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        widget.viewModel
-                            .login(mailController.text, passwController.text);
-                        // Redux.store.dispatch((store) =>
-                        //     logUser(mailController.text, passwController.text));
+                        widget.onLoginValidationSuccess(
+                            mailController.text, passwController.text);
                       }
                     },
                     child: Text(
@@ -181,39 +181,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ))
             ]),
           )),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        height: 180,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-              image: AssetImage("assets/wallo.png"),
-              width: 200,
-              height: 120,
-            ),
-            Text(
-              "Bienvenue",
-              style: TextStyle(color: Colors.white, fontSize: 23),
-            ),
-          ],
-        ),
-      ),
-      body: Container(
-          child: new StoreConnector<AppState, LoginViewModel>(
-        converter: (store) => LoginViewModel.fromStore(store),
-        builder: (_, viewModel) => buildContent(viewModel),
-        onDidChange: (viewModel) {
-          if (viewModel.isError) {
-            print("ERROR");
-          }
-        },
-      )),
     );
   }
 }

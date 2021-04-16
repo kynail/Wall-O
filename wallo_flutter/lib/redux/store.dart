@@ -7,13 +7,9 @@ import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
 AppState appReducer(AppState state, dynamic action) {
-  if (action is SetUserStateAction) {
-    final nextUserState = userReducer(state.userState, action);
-
-    return state.copyWith(userState: nextUserState);
-  }
-
-  return state;
+  return AppState(
+    userState: userReducer(state.userState, action),
+  );
 }
 
 @immutable

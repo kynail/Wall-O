@@ -19,11 +19,12 @@ UserState _loginSuccess(UserState state, LoginSuccessAction action) {
 }
 
 UserState _loginFailed(UserState state, LoginFailedAction action) {
+  print("LOGIN FAILED !");
   return state.copyWith(
       user: null,
       isLoading: false,
       isError: true,
-      errorMessage: null,
+      errorMessage: action.errorMessage,
       successMessage: null);
 }
 

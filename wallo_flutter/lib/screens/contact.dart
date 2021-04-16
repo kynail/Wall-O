@@ -41,7 +41,7 @@ class MyCustomFormState extends State<Contact> {
         converter: (store) => store.state.userState,
         onWillChange: (state, userState) {
           print("HANDLE ERROR IN CONTACT");
-          handleError(context, userState);
+          // handleError(context, userState);
 
           if (userState.isError == false && userState.isLoading == false) {
             Navigator.of(context).pushReplacementNamed("/home");
