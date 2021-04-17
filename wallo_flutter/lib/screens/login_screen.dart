@@ -19,7 +19,8 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading: viewModel.isLoading,
         isError: viewModel.isError,
         onLoginValidationSuccess: (mail, password) =>
-            viewModel.login(mail, password));
+            Navigator.pushReplacementNamed(context, "/home"));
+    // viewModel.login(mail, password));
   }
 
   @override

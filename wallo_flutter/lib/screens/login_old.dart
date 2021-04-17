@@ -36,7 +36,7 @@ class _LoginState extends State<Login> {
         converter: (store) => store.state.userState,
         onWillChange: (state, userState) {
           print("HANDLE ERROR IN LOGIN");
-          handleError(context, userState);
+          // handleError(context, userState);
 
           if (userState.isError == false && userState.user != null) {
             Navigator.pushReplacementNamed(context, "/home");
