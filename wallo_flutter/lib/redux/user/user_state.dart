@@ -3,6 +3,7 @@ import 'package:wallo_flutter/models/user.dart';
 
 @immutable
 class UserState {
+  final bool showSnackbar;
   final bool isError;
   final String errorMessage;
   final bool isLoading;
@@ -10,13 +11,15 @@ class UserState {
   final User user;
 
   UserState(
-      {@required this.isError,
+      {@required this.showSnackbar,
+      @required this.isError,
       @required this.errorMessage,
       @required this.isLoading,
       @required this.successMessage,
       @required this.user});
 
   factory UserState.initial() => new UserState(
+      showSnackbar: false,
       errorMessage: null,
       isLoading: false,
       isError: false,
@@ -24,13 +27,15 @@ class UserState {
       successMessage: null);
 
   UserState copyWith({
-    @required bool isError,
-    @required String errorMessage,
-    @required String successMessage,
-    @required bool isLoading,
-    @required User user,
+    bool showSnackbar,
+    bool isError,
+    String errorMessage,
+    String successMessage,
+    bool isLoading,
+    User user,
   }) {
     return UserState(
+      showSnackbar: showSnackbar ?? this.showSnackbar,
       isError: isError ?? this.isError,
       errorMessage: errorMessage ?? this.errorMessage,
       successMessage: successMessage ?? this.successMessage,
@@ -44,6 +49,7 @@ class UserState {
       identical(this, other) ||
       other is UserState &&
           runtimeType == other.runtimeType &&
+          showSnackbar == other.showSnackbar &&
           isError == other.isError &&
           successMessage == other.successMessage &&
           isLoading == other.isLoading &&
@@ -54,6 +60,6 @@ class UserState {
 
   @override
   String toString() {
-    return 'UserState: {isError: $isError, errorMessage: $errorMessage, isloading: $isLoading, User: $user, successMessage: $successMessage}';
+    return 'UserState: {isError: $isError, showSnackbar: $showSnackbar, errorMessage: $errorMessage, isloading: $isLoading, User: $user, successMessage: $successMessage}';
   }
 }

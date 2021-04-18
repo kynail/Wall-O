@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:wallo_flutter/models/server_message.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:wallo_flutter/utils.dart';
 
 Future<User> login(String mail, String password) async {
   if (mail.isEmpty || password.isEmpty) {
@@ -14,13 +16,14 @@ Future<User> login(String mail, String password) async {
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: {'mail': mail, 'password': password});
 
+      ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
       print("RESPONSE");
-      print(response);
+      print(res);
 
-      if (response.statusCode == 200) {
+      if (res.success == true) {
         return User.fromJson(jsonDecode(response.body)["data"]);
       } else {
-        return Future.error("Connexion au serveur impossible");
+        return Future.error(getServerMessage(response, true));
       }
     } on Exception {
       return Future.error("Connexion au serveur impossible");

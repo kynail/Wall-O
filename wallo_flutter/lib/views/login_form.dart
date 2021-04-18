@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallo_flutter/route_generator.dart';
 import 'package:wallo_flutter/widgets/loading_button.dart';
 
 import '../theme.dart';
@@ -121,7 +122,7 @@ class _LoginFormState extends State<LoginForm> {
                 width: 200,
                 child: TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed("/signin");
+                      Navigator.of(context).pushNamed(Routes.signIn);
                     },
                     child: Text(
                       "Inscription",
@@ -131,7 +132,7 @@ class _LoginFormState extends State<LoginForm> {
               Center(
                 child: TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/forget");
+                      Navigator.pushNamed(context, Routes.forget);
                     },
                     child: Text("Mot de passe oublié ?",
                         style: TextStyle(color: AppTheme.colorD))),

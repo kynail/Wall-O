@@ -21,6 +21,7 @@ class WallO extends StatelessWidget {
             primaryTextTheme:
                 TextTheme(headline6: TextStyle(color: Colors.white)),
           ),
+          navigatorKey: Keys.navKey,
           initialRoute: "/",
           onGenerateRoute: RouteGenerator.generateRoute,
         ));

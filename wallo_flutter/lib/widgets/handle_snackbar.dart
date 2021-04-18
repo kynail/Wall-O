@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:wallo_flutter/theme.dart';
 
-void handleError(BuildContext context, String errorMessage,
+void handleSnackBar(BuildContext context, String errorMessage,
     String successMessage, bool isError, bool isLoading) {
   print("CHANGE");
 
   if (isError == true) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Flexible(
-        child: Row(
-          children: [
-            Icon(Icons.error_outline, color: Colors.white),
-            SizedBox(width: 20),
-            Flexible(child: Text(errorMessage)),
-          ],
-        ),
+      content: Row(
+        children: [
+          Icon(Icons.error_outline, color: Colors.white),
+          SizedBox(width: 20),
+          Expanded(child: Text(errorMessage)),
+        ],
       ),
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
@@ -30,7 +28,7 @@ void handleError(BuildContext context, String errorMessage,
         children: [
           Icon(Icons.check_circle, color: Colors.white),
           SizedBox(width: 20),
-          Flexible(child: Text(successMessage)),
+          Expanded(child: Text(successMessage)),
         ],
       ),
       behavior: SnackBarBehavior.floating,

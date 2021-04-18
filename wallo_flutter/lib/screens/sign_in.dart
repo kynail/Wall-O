@@ -6,7 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:wallo_flutter/theme.dart';
-import 'package:wallo_flutter/widgets/handle_error.dart';
+import 'package:wallo_flutter/widgets/handle_snackbar.dart';
 import 'package:wallo_flutter/widgets/customAppbar.dart';
 import 'package:wallo_flutter/widgets/loading_button.dart';
 

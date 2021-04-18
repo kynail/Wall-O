@@ -4,7 +4,7 @@ import 'package:wallo_flutter/redux/store.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
 import 'package:wallo_flutter/widgets/custom_drawer.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
-import 'package:wallo_flutter/widgets/handle_error.dart';
+import 'package:wallo_flutter/widgets/handle_snackbar.dart';
 
 class Contact extends StatefulWidget {
   @override

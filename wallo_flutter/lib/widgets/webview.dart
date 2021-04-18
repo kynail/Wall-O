@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wallo_flutter/redux/store.dart';
 import 'package:wallo_flutter/redux/user/user_state.dart';
-import 'package:wallo_flutter/widgets/handle_error.dart';
+import 'package:wallo_flutter/widgets/handle_snackbar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
 import 'dart:io';

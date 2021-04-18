@@ -4,7 +4,7 @@ import 'package:wallo_flutter/models/login/login_viewmodel.dart';
 import 'package:wallo_flutter/redux/store.dart';
 import 'package:wallo_flutter/views/login_form.dart';
 import 'package:wallo_flutter/widgets/customAppbar.dart';
-import 'package:wallo_flutter/widgets/handle_error.dart';
+import 'package:wallo_flutter/widgets/handle_snackbar.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key key}) : super(key: key);
@@ -19,8 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading: viewModel.isLoading,
         isError: viewModel.isError,
         onLoginValidationSuccess: (mail, password) =>
-            Navigator.pushReplacementNamed(context, "/home"));
-    // viewModel.login(mail, password));
+            viewModel.login(mail, password));
   }
 
   @override
@@ -45,17 +44,18 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Container(
           child: new StoreConnector<AppState, LoginViewModel>(
+        distinct: true,
         converter: (store) => LoginViewModel.fromStore(store),
         builder: (_, viewModel) => buildContent(viewModel),
-        onDidChange: (viewModel) {
-          if (viewModel.isError) {
-            handleError(
+        onWillChange: (_, viewModel) {
+          if (viewModel.showSnackbar == true) {
+            viewModel.markSnackbarHandled();
+            handleSnackBar(
                 context,
                 viewModel.errorMessage,
                 viewModel.successMessage,
                 viewModel.isError,
                 viewModel.isLoading);
-            print("ERROR IN SCREEN");
           }
         },
       )),
