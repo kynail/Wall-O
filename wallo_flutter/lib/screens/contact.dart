@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/redux/store.dart';
-import 'package:wallo_flutter/redux/user/user_state.dart';
+import 'package:wallo_flutter/redux/state/user/user_state.dart';
 import 'package:wallo_flutter/widgets/custom_drawer.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
 import 'package:wallo_flutter/widgets/handle_snackbar.dart';
@@ -43,9 +44,9 @@ class MyCustomFormState extends State<Contact> {
           print("HANDLE ERROR IN CONTACT");
           // handleError(context, userState);
 
-          if (userState.isError == false && userState.isLoading == false) {
-            Navigator.of(context).pushReplacementNamed("/home");
-          }
+          // if (userState.isError == false && userState.isLoading == false) {
+          //   Navigator.of(context).pushReplacementNamed("/home");
+          // }
         },
         builder: (context, userState) {
           return Scaffold(
@@ -91,20 +92,20 @@ class MyCustomFormState extends State<Contact> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: Container(
-                          width: userState.isLoading ? 160 : 100,
+                          // width: userState.isLoading ? 160 : 100,
                           child: ElevatedButton(
                             onPressed: () {
                               // Validate returns true if the form is valid, or false
                               // otherwise.
                               if (_formKey.currentState.validate()) {
-                                Redux.store.dispatch((store) => sendContact(
-                                    store,
-                                    userState.user,
-                                    myController.text,
-                                    myController2.text));
+                                // Redux.store.dispatch((store) => sendContact(
+                                //     store,
+                                //     userState.user,
+                                //     myController.text,
+                                //     myController2.text));
                               }
                             },
-                            child: userState.isLoading
+                            child: false //userState.isLoading
                                 ? Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [

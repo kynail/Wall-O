@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallo_flutter/models/user.dart';
+import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/redux/store.dart';
-import 'package:wallo_flutter/redux/user/user_state.dart';
+import 'package:wallo_flutter/redux/state/user/user_state.dart';
 import 'package:wallo_flutter/screens/profile/avatar_bottom_sheet.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/models/avatar.dart';
@@ -164,8 +165,8 @@ class _AddExpState extends State<AddExp> {
           child: IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                Redux.store.dispatch(
-                    (store) => setExp(store, widget.user, _plusValue));
+                // Redux.store.dispatch(
+                //     (store) => setExp(store, widget.user, _plusValue));
               }),
         ),
         SizedBox(width: 25),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:wallo_flutter/models/user.dart';
+import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/redux/store.dart';
 // import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
-import 'package:wallo_flutter/redux/user/user_state.dart';
+import 'package:wallo_flutter/redux/state/user/user_state.dart';
 import 'package:wallo_flutter/theme.dart';
-import 'package:wallo_flutter/widgets/handle_snackbar.dart';
 import 'package:wallo_flutter/widgets/customAppbar.dart';
 import 'package:wallo_flutter/widgets/loading_button.dart';
 
@@ -28,8 +28,8 @@ class _SignInState extends State<SignIn> {
 
   void handleLogin(BuildContext context, bool isError, User user) {
     if (_formKey.currentState.validate()) {
-      Redux.store.dispatch((store) => registerUser(store, nameController.text,
-          firstNameController.text, mailController.text, passwController.text));
+      // Redux.store.dispatch((store) => registerUser(store, nameController.text,
+      //     firstNameController.text, mailController.text, passwController.text));
     }
   }
 
@@ -41,9 +41,9 @@ class _SignInState extends State<SignIn> {
         onWillChange: (state, userState) {
           // handleError(context, userState);
 
-          if (userState.isError == false && userState.user != null) {
-            Navigator.pushReplacementNamed(context, "/home");
-          }
+          // if (userState.isError == false && userState.user != null) {
+          //   Navigator.pushReplacementNamed(context, "/home");
+          // }
         },
         builder: (context, userState) {
           return Scaffold(
@@ -180,10 +180,10 @@ class _SignInState extends State<SignIn> {
                                 child: Container(
                               width: 200,
                               child: LoadingButton(
-                                  isLoading: userState.isLoading,
+                                  isLoading: false, //userState.isLoading,
                                   onPressed: () {
-                                    handleLogin(context, userState.isError,
-                                        userState.user);
+                                    // handleLogin(context, userState.isError,
+                                    //     userState.user);
                                   },
                                   child: Text(
                                     "Inscription",

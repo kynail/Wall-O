@@ -97,8 +97,8 @@ class _EditAvatarState extends State<EditAvatar> {
           child: const Text("Enregistrer",
               style: TextStyle(color: Colors.white, fontSize: 18)),
           onPressed: () {
-            Redux.store.dispatch((store) => setAvatar(
-                store, Avatar(seed: _seed, type: _dropdownValue), widget.user));
+            // Redux.store.dispatch((store) => setAvatar(
+            //     store, Avatar(seed: _seed, type: _dropdownValue), widget.user));
           },
         ),
       ],

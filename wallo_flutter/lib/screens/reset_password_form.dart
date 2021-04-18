@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/redux/store.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
-import 'package:wallo_flutter/redux/user/user_state.dart';
+import 'package:wallo_flutter/redux/state/user/user_state.dart';
 
 class ResetPasswordForm extends StatefulWidget {
   ResetPasswordForm({Key key, this.token}) : super(key: key);
@@ -25,9 +26,9 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
         distinct: true,
         converter: (store) => store.state.userState,
         onWillChange: (previousViewModel, userState) {
-          if (userState.isError == false && userState.isLoading == false) {
-            Navigator.of(context).pop();
-          }
+          // if (userState.isError == false && userState.isLoading == false) {
+          //   Navigator.of(context).pop();
+          // }
         },
         builder: (context, userState) {
           return Scaffold(
@@ -79,21 +80,21 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                       Center(
                           child: Container(
                         child: Container(
-                          width: userState.isLoading ? 300 : 230,
+                          width: false /*userState.isLoading */ ? 300 : 230,
                           child: ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  Redux.store.dispatch((store) => resetPassword(
-                                      store,
-                                      passwController.text,
-                                      passw1Controller.text,
-                                      widget.token));
+                                  // Redux.store.dispatch((store) => resetPassword(
+                                  //     store,
+                                  //     passwController.text,
+                                  //     passw1Controller.text,
+                                  //     widget.token));
                                 }
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  if (userState.isLoading)
+                                  if (true) //userState.isLoading)
                                     Row(children: [
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),

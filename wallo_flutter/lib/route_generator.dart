@@ -6,7 +6,7 @@ import 'package:wallo_flutter/screens/forget_password.dart';
 import 'package:wallo_flutter/screens/home.dart';
 import 'package:wallo_flutter/screens/login_screen.dart';
 import 'package:wallo_flutter/screens/reset_password_form.dart';
-import 'package:wallo_flutter/screens/sign_in.dart';
+import 'package:wallo_flutter/screens/signin_screen.dart';
 import 'package:wallo_flutter/screens/profile/profile.dart';
 import 'package:wallo_flutter/widgets/webview.dart';
 
@@ -35,7 +35,7 @@ class RouteGenerator {
       case Routes.loginScreen:
         return MaterialPageRoute(builder: (context) => LoginScreen());
       case Routes.signIn:
-        return MaterialPageRoute(builder: (context) => SignIn());
+        return MaterialPageRoute(builder: (context) => SigninScreen());
       case Routes.forget:
         return MaterialPageRoute(builder: (context) => ForgetPassword());
       case Routes.reset:

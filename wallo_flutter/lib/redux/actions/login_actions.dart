@@ -4,37 +4,26 @@ import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/services/login_service.dart';
 import 'package:wallo_flutter/route_generator.dart';
 
+import 'messenger/messenger_actions.dart';
+
 ThunkAction logUser(String mail, String password) {
   return (Store store) async {
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       login(mail, password).then((user) {
-        print("OK LOGIN");
+        store
+            .dispatch(new RequestSucceedAction("Bienvenue, " + user.firstName));
         store.dispatch(new LoginSuccessAction(user));
         Keys.navKey.currentState.pushNamed(Routes.home);
       }, onError: (errorMessage) {
-        store.dispatch(new LoginFailedAction(errorMessage));
+        store.dispatch(new RequestFailedAction(errorMessage));
       });
     });
   };
-}
-
-class StartLoadingAction {
-  StartLoadingAction();
 }
 
 class LoginSuccessAction {
   final User user;
 
   LoginSuccessAction(this.user);
-}
-
-class LoginFailedAction {
-  final String errorMessage;
-
-  LoginFailedAction(this.errorMessage);
-}
-
-class MarkSnackbarHasHandledAction {
-  MarkSnackbarHasHandledAction();
 }

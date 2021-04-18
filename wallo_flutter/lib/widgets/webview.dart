@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/redux/store.dart';
-import 'package:wallo_flutter/redux/user/user_state.dart';
-import 'package:wallo_flutter/widgets/handle_snackbar.dart';
+import 'package:wallo_flutter/redux/state/user/user_state.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
 import 'dart:io';
-import 'dart:async';
 
 class Webview extends StatefulWidget {
   const Webview({Key key, this.url}) : super(key: key);
@@ -32,9 +31,9 @@ class _WebviewState extends State<Webview> {
         onWillChange: (state, userState) {
           // handleError(context, userState);
 
-          if (userState.isError == false && userState.user != null) {
-            Navigator.pushReplacementNamed(context, "/home");
-          }
+          // if (userState.isError == false && userState.user != null) {
+          //   Navigator.pushReplacementNamed(context, "/home");
+          // }
         },
         builder: (context, userState) {
           return Scaffold(
@@ -51,8 +50,8 @@ class _WebviewState extends State<Webview> {
                     'https://wall-o.herokuapp.com/users/auth/google/callback')) {
                   print('blocking navigation to $request}');
 
-                  Redux.store
-                      .dispatch((store) => logUserGoogle(store, request.url));
+                  // Redux.store
+                  //     .dispatch((store) => logUserGoogle(store, request.url));
                   return NavigationDecision.prevent;
                 }
                 // print('allowing navigation to $request');

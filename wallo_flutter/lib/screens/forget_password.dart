@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/redux/store.dart';
 import 'package:wallo_flutter/redux/user/user_actions.dart';
-import 'package:wallo_flutter/redux/user/user_state.dart';
+import 'package:wallo_flutter/redux/state/user/user_state.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({Key key}) : super(key: key);
@@ -58,10 +59,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         child: Container(
                             child: ElevatedButton(
                                 onPressed: () {
-                                  Redux.store.dispatch(
-                                      (store) => sendForget(store, _mail));
+                                  // Redux.store.dispatch(
+                                  //     (store) => sendForget(store, _mail));
                                 },
-                                child: userState.isLoading
+                                child: false //userState.isLoading
                                     ? Row(
                                         children: [
                                           Padding(

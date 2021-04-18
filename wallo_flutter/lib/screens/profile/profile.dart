@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wallo_flutter/redux/user/user_state.dart';
+import 'package:wallo_flutter/redux/state/app_state.dart';
+import 'package:wallo_flutter/redux/state/user/user_state.dart';
 import 'package:wallo_flutter/screens/profile/profile_main_info.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/widgets/custom_drawer.dart';
