@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:wallo_flutter/route_generator.dart';
+import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/widgets/loading_button.dart';
 
-import '../theme.dart';
+import '../route_generator.dart';
 
-class LoginForm extends StatefulWidget {
-  final Function(String, String) onLoginValidationSuccess;
-  final bool isLoading;
-
-  LoginForm(
-      {Key key,
-      @required this.onLoginValidationSuccess,
-      @required this.isLoading})
+class SignInForm extends StatefulWidget {
+  const SignInForm({Key key, this.isLoading, this.onRegisterValidationSuccess})
       : super(key: key);
 
+  final bool isLoading;
+  final Function(String name, String firstname, String mail, String passw)
+      onRegisterValidationSuccess;
+
   @override
-  _LoginFormState createState() => _LoginFormState();
+  _SignInFormState createState() => _SignInFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _SignInFormState extends State<SignInForm> {
   bool isObscur = true;
   final _formKey = GlobalKey<FormState>();
+
+  final nameController = TextEditingController();
+  final firstNameController = TextEditingController();
   final mailController = TextEditingController();
   final passwController = TextEditingController();
+
+  void handleLogin() {
+    if (_formKey.currentState.validate()) {
+      widget.onRegisterValidationSuccess(nameController.text,
+          firstNameController.text, mailController.text, passwController.text);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +42,7 @@ class _LoginFormState extends State<LoginForm> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
-                "Veuillez remplir les champs ci-dessous pour vous connecter.",
+                "Veuillez remplir les champs ci-dessous pour vous inscrire.",
                 style: TextStyle(fontSize: 18),
               ),
               SizedBox(
@@ -43,6 +51,45 @@ class _LoginFormState extends State<LoginForm> {
               SizedBox(
                 height: 10,
               ),
+              Text("Nom"),
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                  controller: nameController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Veuillez remplir ce champ';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Entrez votre nom',
+                    border: InputBorder.none,
+                    fillColor: Color(0xfffff6d4),
+                    filled: true,
+                  )),
+              SizedBox(
+                height: 10,
+              ),
+              Text("Prénom"),
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                  controller: firstNameController,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Veuillez remplir ce champ';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Entrez votre Prénom',
+                    border: InputBorder.none,
+                    fillColor: Color(0xfffff6d4),
+                    filled: true,
+                  )),
               SizedBox(
                 height: 10,
               ),
@@ -103,14 +150,9 @@ class _LoginFormState extends State<LoginForm> {
                 width: 200,
                 child: LoadingButton(
                     isLoading: widget.isLoading,
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        widget.onLoginValidationSuccess(
-                            mailController.text, passwController.text);
-                      }
-                    },
+                    onPressed: () => handleLogin(),
                     child: Text(
-                      "Connexion",
+                      "Inscription",
                       style: TextStyle(color: Colors.white),
                     )),
               )),
@@ -120,22 +162,14 @@ class _LoginFormState extends State<LoginForm> {
                 width: 200,
                 child: TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(Routes.signIn);
+                      Navigator.of(context).pop();
                     },
                     child: Text(
-                      "Inscription",
+                      "Connexion",
                       style: TextStyle(color: AppTheme.colorD),
                     )),
               )),
-              Center(
-                child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, Routes.forget);
-                    },
-                    child: Text("Mot de passe oublié ?",
-                        style: TextStyle(color: AppTheme.colorD))),
-              ),
-              SizedBox(height: 30),
+              SizedBox(height: 18),
               Center(
                   child: Container(
                 width: 250,
@@ -143,7 +177,7 @@ class _LoginFormState extends State<LoginForm> {
                     style: ElevatedButton.styleFrom(
                         primary: Colors.white, onPrimary: Colors.black),
                     onPressed: () {
-                      // showMyAlertDialog(context);
+                      Keys.navKey.currentState.pushNamed(Routes.webview);
                     },
                     child: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
@@ -154,7 +188,7 @@ class _LoginFormState extends State<LoginForm> {
                           height: 20,
                         ),
                         SizedBox(width: 10),
-                        Text("Connexion avec Google"),
+                        Text("Inscription avec Google"),
                       ],
                     )),
               )),
@@ -174,7 +208,7 @@ class _LoginFormState extends State<LoginForm> {
                           height: 20,
                         ),
                         SizedBox(width: 10),
-                        Text("Connexion avec Facebook"),
+                        Text("Inscription avec Facebook"),
                       ]),
                 ),
               ))

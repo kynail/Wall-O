@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/redux/store.dart';
-import 'package:wallo_flutter/redux/state/user/user_state.dart';
+import 'package:wallo_flutter/redux/state/user_state.dart';
 import 'package:wallo_flutter/widgets/custom_drawer.dart';
-import 'package:wallo_flutter/redux/user/user_actions.dart';
+import 'package:wallo_flutter/redux/user/user_actions_old.dart';
 import 'package:wallo_flutter/widgets/handle_snackbar.dart';
 
 class Contact extends StatefulWidget {

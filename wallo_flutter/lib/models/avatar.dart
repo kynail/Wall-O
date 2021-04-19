@@ -10,8 +10,6 @@ class Avatar {
   String seed;
 
   factory Avatar.fromJson(Map<String, dynamic> json) {
-    print("JSON");
-    print(json);
     return Avatar(type: json['type'], seed: json['seed']);
   }
 

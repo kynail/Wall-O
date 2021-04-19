@@ -3,7 +3,7 @@ class ServerMessage {
 
   bool success;
   String message;
-  Map<String, dynamic> data;
+  dynamic data;
 
   factory ServerMessage.fromJson(Map<String, dynamic> json) {
     return ServerMessage(

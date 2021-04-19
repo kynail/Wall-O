@@ -18,7 +18,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return MessengerHandler(
       child: LoginForm(
           isLoading: viewModel.messenger.isLoading,
-          isError: viewModel.messenger.isError,
           onLoginValidationSuccess: (mail, password) =>
               viewModel.login(mail, password)),
     );

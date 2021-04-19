@@ -1,6 +1,6 @@
 import 'package:redux/redux.dart';
-import 'package:wallo_flutter/redux/actions/messenger/messenger_actions.dart';
-import 'package:wallo_flutter/redux/state/messenger/messenger_state.dart';
+import 'package:wallo_flutter/redux/actions/messenger_actions.dart';
+import 'package:wallo_flutter/redux/state/messenger_state.dart';
 
 final messengerReducer = combineReducers<MessengerState>([
   TypedReducer<MessengerState, RequestSucceedAction>(_requestSucceed),

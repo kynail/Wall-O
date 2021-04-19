@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallo_flutter/models/user.dart';
-import 'package:wallo_flutter/screens/profile/edit_avatar.dart';
+import 'edit_avatar.dart';
 
 class AvatarBottomSheet extends StatefulWidget {
   const AvatarBottomSheet({

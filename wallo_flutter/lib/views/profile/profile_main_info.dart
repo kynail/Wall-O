@@ -3,12 +3,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
-import 'package:wallo_flutter/redux/store.dart';
-import 'package:wallo_flutter/redux/state/user/user_state.dart';
-import 'package:wallo_flutter/screens/profile/avatar_bottom_sheet.dart';
+import 'package:wallo_flutter/redux/state/user_state.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/models/avatar.dart';
-import 'package:wallo_flutter/redux/user/user_actions.dart';
+
+import 'avatar_bottom_sheet.dart';
 
 class ProfileMainInfo extends StatefulWidget {
   const ProfileMainInfo({
@@ -145,10 +144,12 @@ class _UserInfoState extends State<UserInfo> {
 class AddExp extends StatefulWidget {
   const AddExp({
     Key key,
-    this.user,
+    @required this.user,
+    @required this.addExp,
   }) : super(key: key);
 
   final User user;
+  final Function(double xp) addExp;
 
   @override
   _AddExpState createState() => _AddExpState();
@@ -165,8 +166,7 @@ class _AddExpState extends State<AddExp> {
           child: IconButton(
               icon: Icon(Icons.add),
               onPressed: () {
-                // Redux.store.dispatch(
-                //     (store) => setExp(store, widget.user, _plusValue));
+                widget.addExp(_plusValue);
               }),
         ),
         SizedBox(width: 25),

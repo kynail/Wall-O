@@ -20,8 +20,6 @@ class User {
   Level level;
 
   factory User.fromJson(Map<String, dynamic> json) {
-    print("JSON");
-    print(json);
     return User(
         lastName: json['lastName'],
         firstName: json['firstName'],

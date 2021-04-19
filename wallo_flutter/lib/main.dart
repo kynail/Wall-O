@@ -4,8 +4,10 @@ import 'package:wallo_flutter/route_generator.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/redux/store.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 
 void main() async {
+  await DotEnv.load();
   await Redux.init();
   runApp(WallO());
 }

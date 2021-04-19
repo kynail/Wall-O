@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wallo_flutter/models/avatar.dart';
 import 'package:wallo_flutter/models/user.dart';
-import 'package:wallo_flutter/redux/store.dart';
 import 'package:wallo_flutter/theme.dart';
-import 'package:wallo_flutter/redux/user/user_actions.dart';
 
 class EditAvatar extends StatefulWidget {
   EditAvatar({Key key, this.user}) : super(key: key);

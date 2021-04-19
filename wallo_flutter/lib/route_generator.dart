@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:wallo_flutter/screens/aquarium.dart';
-import 'package:wallo_flutter/screens/classement.dart';
+import 'package:wallo_flutter/screens/leaderboard_screen.dart';
+import 'package:wallo_flutter/views/leaderboard.dart';
 import 'package:wallo_flutter/screens/contact.dart';
 import 'package:wallo_flutter/screens/forget_password.dart';
 import 'package:wallo_flutter/screens/home.dart';
 import 'package:wallo_flutter/screens/login_screen.dart';
+import 'package:wallo_flutter/screens/profile_screen.dart';
 import 'package:wallo_flutter/screens/reset_password_form.dart';
 import 'package:wallo_flutter/screens/signin_screen.dart';
-import 'package:wallo_flutter/screens/profile/profile.dart';
-import 'package:wallo_flutter/widgets/webview.dart';
+import 'package:wallo_flutter/screens/webview_screen.dart';
+import 'package:wallo_flutter/views/profile/profile.dart';
 
 class Routes {
   static const loginScreen = "/";
@@ -43,15 +45,15 @@ class RouteGenerator {
       case Routes.home:
         return MaterialPageRoute(builder: (context) => Home());
       case Routes.profile:
-        return MaterialPageRoute(builder: (context) => Profile());
+        return MaterialPageRoute(builder: (context) => ProfileScreen());
       case Routes.aquarium:
         return MaterialPageRoute(builder: (context) => Aquarium());
       case Routes.contact:
         return MaterialPageRoute(builder: (context) => Contact());
       case Routes.classement:
-        return MaterialPageRoute(builder: (context) => Classement());
+        return MaterialPageRoute(builder: (context) => LeaderboardScreen());
       case Routes.webview:
-        return MaterialPageRoute(builder: (context) => Webview());
+        return MaterialPageRoute(builder: (context) => WebviewScreen());
       default:
         if (pathComponents[1] == "reset")
           return MaterialPageRoute(
