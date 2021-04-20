@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/route_generator.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await DotEnv.load();
   await Redux.init();
   runApp(WallO());

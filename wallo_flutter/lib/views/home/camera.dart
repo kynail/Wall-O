@@ -1,28 +1,34 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:wallo_flutter/views/home/take_picture.dart';
 
-import '../../theme.dart';
+class Camera extends StatefulWidget {
+  final CameraDescription camera;
 
-class Camera extends StatelessWidget {
-  const Camera({Key key}) : super(key: key);
+  const Camera({Key key, @required this.camera}) : super(key: key);
+
+  @override
+  _CameraState createState() => _CameraState();
+}
+
+class _CameraState extends State<Camera> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Align(
-          alignment: FractionalOffset.center,
-          child: Image(
-            image: NetworkImage(
-                "https://i.pinimg.com/originals/1b/96/1f/1b961f1d36d37bd3f7df7f3783c6eb7b.jpg"),
-          ),
-        ),
+        TakePicture(camera: widget.camera),
         Align(
           alignment: FractionalOffset.bottomCenter,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 50),
             child: IconButton(
               icon: const Icon(Icons.lens_outlined),
-              onPressed: () {},
+              onPressed: () async {},
               iconSize: 100,
               color: Colors.white,
             ),

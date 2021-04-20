@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:wallo_flutter/screens/aquarium.dart';
+import 'package:wallo_flutter/screens/home_screen.dart';
 import 'package:wallo_flutter/screens/leaderboard_screen.dart';
-import 'package:wallo_flutter/views/leaderboard.dart';
 import 'package:wallo_flutter/screens/contact.dart';
 import 'package:wallo_flutter/screens/forget_password.dart';
-import 'package:wallo_flutter/screens/home.dart';
 import 'package:wallo_flutter/screens/login_screen.dart';
 import 'package:wallo_flutter/screens/profile_screen.dart';
 import 'package:wallo_flutter/screens/reset_password_form.dart';
 import 'package:wallo_flutter/screens/signin_screen.dart';
 import 'package:wallo_flutter/screens/webview_screen.dart';
-import 'package:wallo_flutter/views/profile/profile.dart';
 
 class Routes {
   static const loginScreen = "/";
@@ -43,7 +41,7 @@ class RouteGenerator {
       case Routes.reset:
         return MaterialPageRoute(builder: (context) => ResetPasswordForm());
       case Routes.home:
-        return MaterialPageRoute(builder: (context) => Home());
+        return MaterialPageRoute(builder: (context) => HomeScreen());
       case Routes.profile:
         return MaterialPageRoute(builder: (context) => ProfileScreen());
       case Routes.aquarium:

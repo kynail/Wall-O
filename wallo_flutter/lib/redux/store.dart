@@ -16,7 +16,6 @@ class Redux {
   }
 
   static Future<void> init() async {
-    final userStateInitial = UserState.initial();
     _store = Store<AppState>(
       appReducer,
       middleware: [thunkMiddleware],

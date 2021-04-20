@@ -54,7 +54,7 @@ class XpBar extends StatelessWidget {
           style: TextStyle(fontSize: 18)),
       SizedBox(height: 12),
       LinearProgressIndicator(
-        value: (user.level.xp / user.level.nextLvl.toDouble() * 100) / 100,
+        value: (user.level.xp / user.level.nextLvl * 100) / 100,
         semanticsLabel: "Indicateur d'expérience",
         valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
         backgroundColor: AppTheme.lightGrey,
@@ -64,7 +64,7 @@ class XpBar extends StatelessWidget {
         Text(
             (user.level.xp).toStringAsFixed(0) +
                 " / " +
-                user.level.nextLvl.toDouble().toStringAsFixed(0),
+                user.level.nextLvl.toStringAsFixed(0),
             style: TextStyle(fontSize: 16, color: AppTheme.secondaryText)),
         Text("Expérience",
             style: TextStyle(fontSize: 16, color: AppTheme.secondaryText))
