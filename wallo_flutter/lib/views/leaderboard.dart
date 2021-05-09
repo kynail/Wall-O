@@ -96,8 +96,7 @@ class ClassementCard extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Container(
-              width: 300,
+            Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
