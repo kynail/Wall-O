@@ -3,12 +3,9 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wallo_flutter/screens/analyze_picture_screen.dart';
 import 'package:wallo_flutter/views/home/aquadex.dart';
-import 'package:wallo_flutter/views/home/camera.dart';
-import 'package:wallo_flutter/views/home/import.dart';
 import 'package:wallo_flutter/views/home/take_picture.dart';
-
-import 'analyze_picture.dart';
 
 class Home extends StatefulWidget {
   const Home({Key key, @required this.camera, @required this.appBarHeight})
@@ -56,7 +53,7 @@ class _HomeState extends State<Home> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AnalyzePicture(
+          builder: (context) => AnalyzeScreen(
             imagePath: image?.path,
           ),
         ),
@@ -74,7 +71,7 @@ class _HomeState extends State<Home> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AnalyzePicture(
+          builder: (context) => AnalyzeScreen(
             imagePath: image?.path,
           ),
         ),

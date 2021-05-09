@@ -11,8 +11,8 @@ ThunkAction logUser(String mail, String password) {
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       login(mail, password).then((user) {
-        store
-            .dispatch(new RequestSucceedAction("Bienvenue, " + user.firstName));
+        store.dispatch(new RequestSucceedActionWithMessage(
+            "Bienvenue, " + user.firstName));
         store.dispatch(new LoginSuccessAction(user));
         Keys.navKey.currentState.pushNamed(Routes.home);
       }, onError: (errorMessage) {
@@ -28,8 +28,8 @@ ThunkAction registerUser(
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       register(name, firstname, mail, passw).then((user) {
-        store
-            .dispatch(new RequestSucceedAction("Bienvenue, " + user.firstName));
+        store.dispatch(new RequestSucceedActionWithMessage(
+            "Bienvenue, " + user.firstName));
         store.dispatch(new LoginSuccessAction(user));
         Keys.navKey.currentState.pushNamed(Routes.home);
       }, onError: (errorMessage) {
@@ -44,8 +44,8 @@ ThunkAction googleLogin(String requestUrl) {
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       googleRequest(requestUrl).then((user) {
-        store
-            .dispatch(new RequestSucceedAction("Bienvenue, " + user.firstName));
+        store.dispatch(new RequestSucceedActionWithMessage(
+            "Bienvenue, " + user.firstName));
         store.dispatch(new LoginSuccessAction(user));
         Keys.navKey.currentState.pushNamed(Routes.home);
       }, onError: (errorMessage) {

@@ -4,10 +4,14 @@ class RequestFailedAction {
   RequestFailedAction(this.errorMessage);
 }
 
-class RequestSucceedAction {
+class RequestSucceedActionWithMessage {
   final String successMessage;
 
-  RequestSucceedAction(this.successMessage);
+  RequestSucceedActionWithMessage(this.successMessage);
+}
+
+class RequestSucceedAction {
+  RequestSucceedAction();
 }
 
 class StartLoadingAction {

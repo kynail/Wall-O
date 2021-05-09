@@ -47,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
           distinct: true,
           converter: (store) => LoginViewModel.fromStore(store),
           builder: (_, viewModel) => buildContent(viewModel),
+          // onInitialBuild: (viewModel) => viewModel.getCameras(),
         ));
   }
 }

@@ -3,6 +3,8 @@ import 'package:wallo_flutter/redux/actions/messenger_actions.dart';
 import 'package:wallo_flutter/redux/state/messenger_state.dart';
 
 final messengerReducer = combineReducers<MessengerState>([
+  TypedReducer<MessengerState, RequestSucceedActionWithMessage>(
+      _requestSucceedWithMessage),
   TypedReducer<MessengerState, RequestSucceedAction>(_requestSucceed),
   TypedReducer<MessengerState, RequestFailedAction>(_requestFailed),
   TypedReducer<MessengerState, StartLoadingAction>(_startLoading),
@@ -10,14 +12,24 @@ final messengerReducer = combineReducers<MessengerState>([
       _markSnackbarHasHandled),
 ]);
 
-MessengerState _requestSucceed(
-    MessengerState state, RequestSucceedAction action) {
+MessengerState _requestSucceedWithMessage(
+    MessengerState state, RequestSucceedActionWithMessage action) {
   return state.copyWith(
       showSnackbar: true,
       isLoading: false,
       isError: false,
       errorMessage: null,
       successMessage: action.successMessage);
+}
+
+MessengerState _requestSucceed(
+    MessengerState state, RequestSucceedAction action) {
+  return state.copyWith(
+      showSnackbar: false,
+      isLoading: false,
+      isError: false,
+      errorMessage: null,
+      successMessage: null);
 }
 
 MessengerState _requestFailed(

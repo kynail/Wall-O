@@ -1,3 +1,4 @@
+import 'package:wallo_flutter/redux/reducers/fish_reducer.dart';
 import 'package:wallo_flutter/redux/reducers/game_reducer.dart';
 import 'package:wallo_flutter/redux/reducers/messenger_reducer.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
@@ -7,5 +8,6 @@ AppState appReducer(AppState state, dynamic action) {
   return AppState(
       messengerState: messengerReducer(state.messengerState, action),
       userState: userReducer(state.userState, action),
-      gameState: gameReducer(state.gameState, action));
+      gameState: gameReducer(state.gameState, action),
+      fishState: fishReducer(state.fishState, action));
 }

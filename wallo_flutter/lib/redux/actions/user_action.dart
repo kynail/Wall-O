@@ -12,7 +12,7 @@ ThunkAction setExp(User user, double exp) {
       expRequest(user, exp).then((data) {
         user.level = data[0];
         store.dispatch(new UpdateUserAction(user));
-        store.dispatch(new RequestSucceedAction(data[1]));
+        store.dispatch(new RequestSucceedActionWithMessage(data[1]));
       }, onError: (errorMessage) {
         store.dispatch(new RequestFailedAction(errorMessage));
       });
@@ -25,7 +25,13 @@ ThunkAction getCamerasAction() {
     new Future(() async {
       try {
         final cameras = await availableCameras();
-        store.dispatch(new SetCamerasAction(cameras));
+        print("CAMERAS $cameras");
+        if (cameras.isEmpty) {
+          store.dispatch(
+              new RequestFailedAction("Aucun appareil photo disponible"));
+        } else {
+          store.dispatch(new SetCamerasAction(cameras));
+        }
       } on Exception {
         store.dispatch(
             new RequestFailedAction("Impossible d'acceder à l'appareil photo"));
