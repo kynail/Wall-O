@@ -27,6 +27,7 @@ class _ImportState extends State<Import> {
           context,
           MaterialPageRoute(
             builder: (context) => AnalyzePicture(
+              isLoading: false,
               imagePath: _image?.path,
             ),
           ),

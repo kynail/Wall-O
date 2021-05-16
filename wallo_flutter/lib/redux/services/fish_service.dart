@@ -1,11 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:wallo_flutter/models/Fish.dart';
+import 'package:http/http.dart' as http;
+import 'package:wallo_flutter/models/aquadex_fish.dart';
 import 'package:wallo_flutter/models/server_message.dart';
-import 'package:wallo_flutter/route_generator.dart';
+import 'dart:convert';
 
 import '../../utils.dart';
 
@@ -69,6 +68,28 @@ Future<List<Fish>> analyseFishRequest(String imagePath) async {
     }
 
     return fishes;
+  } on Exception {
+    return Future.error("Connexion au serveur impossible");
+  }
+}
+
+Future<List<AquadexFish>> getAquadexRequest() async {
+  try {
+    print("TEST");
+
+    final response = await http.get(Uri.parse(env["API_URL"] + "/fishes/all"));
+
+    ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
+    if (res.success == true) {
+      List<AquadexFish> aquadex = [];
+
+      res.data.forEach((fish) {
+        aquadex.add(AquadexFish.fromMap(fish));
+      });
+      return aquadex;
+    } else {
+      return Future.error(getServerMessage(response, true));
+    }
   } on Exception {
     return Future.error("Connexion au serveur impossible");
   }

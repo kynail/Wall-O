@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:wallo_flutter/views/home/PopUp_Fish.dart';
 
 class FishInfo extends StatefulWidget {
-  const FishInfo({Key key, this.fishname, this.urlfish, this.description,})
-      : super(key: key);
+  const FishInfo({
+    Key key,
+    @required this.fishname,
+    @required this.urlfish,
+    @required this.description,
+    @required this.scientificName,
+  }) : super(key: key);
+
   final String fishname;
+  final String scientificName;
   final String urlfish;
   final String description;
 
@@ -25,7 +32,11 @@ class _FishInfoState extends State<FishInfo> {
             //Navigator.of(context).pushReplacementNamed("/fishclicked");
             showDialog(
               context: context,
-              builder: (BuildContext context) => PopupFish(url: widget.urlfish, description: widget.description,
+              builder: (BuildContext context) => PopupFish(
+                fishName: widget.fishname,
+                scientificName: widget.scientificName,
+                url: widget.urlfish,
+                description: widget.description,
               ),
             );
           },
@@ -35,15 +46,25 @@ class _FishInfoState extends State<FishInfo> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.network(widget.urlfish),
-                  SizedBox(height: 8,),
-                  Flexible(
+                  Image.network(
+                    widget.urlfish,
+                    height: 125,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
                     child: Text(
                       widget.fishname,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15),
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
                     ),
                   )
                 ],

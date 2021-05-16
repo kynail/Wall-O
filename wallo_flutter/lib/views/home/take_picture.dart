@@ -34,13 +34,12 @@ class _TakePictureState extends State<TakePicture> {
     return Stack(
       children: [
         Transform.scale(
-            scale: widget.scale,
-            child: Padding(
-              padding: EdgeInsets.only(top: widget.appBarHeight + 0.5),
-              child: CameraPreview(
-                widget.controller,
-              ),
-            )),
+          scale: widget.scale,
+          alignment: Alignment.topCenter,
+          child: CameraPreview(
+            widget.controller,
+          ),
+        ),
         TakePictureButtons(
           onTakePicture: () => widget.onTakePicture(),
           onOpenGallery: () => widget.onOpenGallery(),

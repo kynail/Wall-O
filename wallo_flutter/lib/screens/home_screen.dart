@@ -19,23 +19,28 @@ class _HomeScreenState extends State<HomeScreen> {
     return viewModel.cameras != null
         ? MessengerHandler(
             child: Home(
-                camera: viewModel.selectedCamera, appBarHeight: appBarHeight))
+            user: viewModel.user,
+            camera: viewModel.selectedCamera,
+            appBarHeight: appBarHeight,
+          ))
         : Container();
   }
 
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
       iconTheme: IconThemeData(color: Colors.white),
       title: Text('Wall-O'),
     );
 
-    final appBarheight = appBar.preferredSize.height;
+    final appBarheight = 0.0;
 
     print("APPBAR ${appBar.preferredSize.height}");
     return Scaffold(
         drawer: CustomDrawer(),
-        appBar: appBar,
+        // appBar: appBar,
         body: new StoreConnector<AppState, HomeViewModel>(
           distinct: true,
           converter: (store) => HomeViewModel.fromStore(store),

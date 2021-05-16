@@ -9,28 +9,34 @@ import 'package:wallo_flutter/widgets/messenger_handler.dart';
 import '../theme.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key key}) : super(key: key);
+  final Function() onCloseArrowTap;
+  const ProfileScreen({
+    Key key,
+    @required this.onCloseArrowTap,
+  }) : super(key: key);
 
-  Widget buildContent(ProfileViewModel viewModel) {
+  Widget buildContent(ProfileViewModel viewModel, double statusBarHeight) {
     return MessengerHandler(
-        child: Profile(
-      addExp: (xp) => viewModel.addExp(xp),
-      user: viewModel.user,
+        child: Padding(
+      padding: EdgeInsets.only(top: statusBarHeight),
+      child: Profile(
+        addExp: (xp) => viewModel.addExp(xp),
+        user: viewModel.user,
+        onCloseArrowTap: onCloseArrowTap,
+      ),
     ));
   }
 
   @override
   Widget build(BuildContext context) {
+    double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Scaffold(
-        appBar: AppBar(
-            title: Text("Mon Profil"),
-            iconTheme: IconThemeData(color: Colors.white)),
-        drawer: CustomDrawer(),
         backgroundColor: AppTheme.secondaryColor,
         body: new StoreConnector<AppState, ProfileViewModel>(
           distinct: true,
           converter: (store) => ProfileViewModel.fromStore(store),
-          builder: (_, viewModel) => buildContent(viewModel),
+          builder: (_, viewModel) => buildContent(viewModel, statusBarHeight),
         ));
   }
 }

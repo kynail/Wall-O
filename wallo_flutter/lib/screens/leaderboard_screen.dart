@@ -8,29 +8,38 @@ import 'package:wallo_flutter/widgets/custom_drawer.dart';
 import '../theme.dart';
 
 class LeaderboardScreen extends StatelessWidget {
-  const LeaderboardScreen({Key key}) : super(key: key);
+  final Function() onCloseArrowTap;
 
-  Widget buildContent(LeaderboardViewModel viewModel) {
+  const LeaderboardScreen({
+    Key key,
+    @required this.onCloseArrowTap,
+  }) : super(key: key);
+
+  Widget buildContent(LeaderboardViewModel viewModel, double statusBarHeight) {
     return viewModel.leaderboard == null
         ? Align(
             alignment: Alignment.center,
             child: CircularProgressIndicator(strokeWidth: 2))
-        : Leaderboard(leaderboard: viewModel.leaderboard);
+        : Padding(
+            padding: EdgeInsets.only(top: statusBarHeight),
+            child: Leaderboard(
+              leaderboard: viewModel.leaderboard,
+              onCloseArrowTap: onCloseArrowTap,
+            ),
+          );
   }
 
   @override
   Widget build(BuildContext context) {
+    double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Scaffold(
-        appBar: AppBar(
-            title: Text("Classement"),
-            iconTheme: IconThemeData(color: Colors.white)),
-        drawer: CustomDrawer(),
         backgroundColor: AppTheme.secondaryColor,
         body: new StoreConnector<AppState, LeaderboardViewModel>(
           distinct: true,
           converter: (store) => LeaderboardViewModel.fromStore(store),
           onInitialBuild: (viewModel) => viewModel.getLeaderboard(),
-          builder: (_, viewModel) => buildContent(viewModel),
+          builder: (_, viewModel) => buildContent(viewModel, statusBarHeight),
         ));
   }
 }

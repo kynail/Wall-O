@@ -1,31 +1,47 @@
+import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
+
 import 'package:wallo_flutter/models/Fish.dart';
+import 'package:wallo_flutter/models/aquadex_fish.dart';
 
 @immutable
 class FishState {
   final List<Fish> analysedFish;
-  // final List<Fish> aquadex;
+  final List<AquadexFish> aquadex;
 
   FishState({
     @required this.analysedFish,
+    @required this.aquadex,
   });
 
-  factory FishState.initial() => new FishState(analysedFish: null);
+  factory FishState.initial() => new FishState(
+        analysedFish: null,
+        aquadex: null,
+      );
 
-  FishState copyWith({List<Fish> analysedFish}) {
-    return FishState(analysedFish: analysedFish ?? this.analysedFish);
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is FishState &&
+        listEquals(other.analysedFish, analysedFish) &&
+        listEquals(other.aquadex, aquadex);
+  }
+
+  FishState copyWith({
+    List<Fish> analysedFish,
+    List<AquadexFish> aquadex,
+  }) {
+    return FishState(
+      analysedFish: analysedFish ?? this.analysedFish,
+      aquadex: aquadex ?? this.aquadex,
+    );
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is FishState && analysedFish == other.analysedFish;
+  String toString() =>
+      'FishState(analysedFish: $analysedFish, aquadex: $aquadex)';
 
   @override
-  String toString() {
-    return 'FishState: {Analyzed fish = $analysedFish}';
-  }
-
-  @override
-  int get hashCode => analysedFish.hashCode;
+  int get hashCode => analysedFish.hashCode ^ aquadex.hashCode;
 }

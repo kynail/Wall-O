@@ -39,6 +39,7 @@ dependencies:
   path: ^1.8.0
   image_picker: ^0.7.4
   dio: ^4.0.0
+  exif: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -75,7 +76,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
+  fonts:
+    - family:  WallO
+      fonts:
+        - asset: fonts/WallO.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

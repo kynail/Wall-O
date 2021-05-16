@@ -29,7 +29,7 @@ class _ProfileMainInfoState extends State<ProfileMainInfo> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          UserInfo(user: widget.user),
+          UserInfo(),
           SizedBox(height: 28),
           XpBar(user: widget.user),
           SizedBox(height: 18),
@@ -76,10 +76,7 @@ class XpBar extends StatelessWidget {
 class UserInfo extends StatefulWidget {
   const UserInfo({
     Key key,
-    @required this.user,
   }) : super(key: key);
-
-  final User user;
 
   @override
   _UserInfoState createState() => _UserInfoState();
@@ -93,7 +90,7 @@ class _UserInfoState extends State<UserInfo> {
           borderRadius: BorderRadius.circular(16.0),
         ),
         builder: (BuildContext context) {
-          return AvatarBottomSheet(user: widget.user);
+          return AvatarBottomSheet(user: userState.user);
         });
   }
 
@@ -107,8 +104,8 @@ class _UserInfoState extends State<UserInfo> {
             children: [
               Stack(
                 children: [
-                  if (widget.user.avatar != null)
-                    AvatarLayout(avatar: widget.user.avatar),
+                  if (userState.user.avatar != null)
+                    AvatarLayout(avatar: userState.user.avatar),
                   Positioned.fill(
                     child: Material(
                       color: Colors.transparent,
@@ -124,15 +121,16 @@ class _UserInfoState extends State<UserInfo> {
                 ],
               ),
               SizedBox(height: 12),
-              if (widget.user.firstName != null && widget.user.lastName != null)
+              if (userState.user.firstName != null &&
+                  userState.user.lastName != null)
                 Text(
-                  widget.user.firstName + " " + widget.user.lastName,
+                  userState.user.firstName + " " + userState.user.lastName,
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
               SizedBox(height: 4),
-              if (widget.user.mail != null)
+              if (userState.user.mail != null)
                 Text(
-                  "(" + widget.user.mail + ")",
+                  "(" + userState.user.mail + ")",
                   style: TextStyle(fontSize: 14),
                 ),
             ],
@@ -186,41 +184,52 @@ class _AddExpState extends State<AddExp> {
 }
 
 class AvatarLayout extends StatelessWidget {
+  final double width;
+  final bool showEdit;
+  final Function() onTap;
+
   const AvatarLayout({
     Key key,
-    this.avatar,
+    @required this.avatar,
+    this.width = 100.0,
+    this.showEdit = true,
+    this.onTap,
   }) : super(key: key);
 
   final Avatar avatar;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        (avatar?.seed != null && avatar?.type != null)
-            ? SvgPicture.network(
-                'https://avatars.dicebear.com/api/${avatar.type}/${avatar.seed}.svg?r=50&b=%23fff7d4',
-                semanticsLabel: 'Avatar',
-                width: 100,
-                placeholderBuilder: (BuildContext context) =>
-                    Container(child: const CircularProgressIndicator()),
-              )
-            : CircleAvatar(
-                backgroundImage: AssetImage("assets/avatar.png"),
-                radius: 50,
-              ),
-        Positioned(
-          bottom: 0.0,
-          right: 0.0,
-          child: Container(
-              decoration:
-                  BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Icon(Icons.edit),
-              )),
-        )
-      ],
+    return InkWell(
+      onTap: onTap ?? onTap,
+      child: Stack(
+        children: [
+          (avatar?.seed != null && avatar?.type != null)
+              ? SvgPicture.network(
+                  'https://avatars.dicebear.com/api/${avatar.type}/${avatar.seed}.svg?r=50&b=%23fff7d4',
+                  semanticsLabel: 'Avatar',
+                  width: width,
+                  placeholderBuilder: (BuildContext context) =>
+                      Container(child: const CircularProgressIndicator()),
+                )
+              : CircleAvatar(
+                  backgroundImage: AssetImage("assets/avatar.png"),
+                  radius: width / 2,
+                ),
+          if (showEdit)
+            Positioned(
+              bottom: 0.0,
+              right: 0.0,
+              child: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Icon(Icons.edit),
+                  )),
+            )
+        ],
+      ),
     );
   }
 }

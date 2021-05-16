@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wallo_flutter/models/avatar.dart';
 import 'package:wallo_flutter/models/user.dart';
+import 'package:wallo_flutter/views/floating_page_top_bar.dart';
 
 class Leaderboard extends StatefulWidget {
-  const Leaderboard({Key key, @required this.leaderboard}) : super(key: key);
+  final Function() onCloseArrowTap;
+
+  const Leaderboard({
+    Key key,
+    @required this.leaderboard,
+    @required this.onCloseArrowTap,
+  }) : super(key: key);
 
   final List<User> leaderboard;
 
@@ -15,54 +22,30 @@ class Leaderboard extends StatefulWidget {
 class _LeaderboardState extends State<Leaderboard> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: widget.leaderboard.map((user) {
-            var index = widget.leaderboard.indexOf(user) + 1;
-            return ClassementCard(
-                classement: index,
-                name: user.firstName + " " + user.lastName,
-                avatar: user.avatar,
-                score: user.level.totalXp,
-                color: Colors.white);
-          }).toList(),
-          // children: [
-          //   ClassementCard(
-          //       classement: 1,
-          //       avatar:
-          //           "https://avatars.dicebear.com/api/female/fjtedlolgf.svg",
-          //       name: "name",
-          //       score: "123",
-          //       color: Colors.pink),
-          //   ClassementCard(
-          //       classement: 1,
-          //       avatar:
-          //           "https://avatars.dicebear.com/api/female/fjotedolgf.svg",
-          //       name: "name",
-          //       score: "123",
-          //       color: Colors.purple),
-          //   ClassementCard(
-          //       classement: 1,
-          //       avatar:
-          //           "https://avatars.dicebear.com/api/female/fjotedlolgf.svg",
-          //       name: "name",
-          //       score: "123",
-          //       color: Colors.lightBlue),
-          //   ClassementCard(
-          //       classement: 1,
-          //       avatar:
-          //           "https://avatars.dicebear.com/api/female/fjotedlolf.svg",
-          //       name: "name",
-          //       score: "123"),
-          //   ClassementCard(
-          //       classement: 1,
-          //       avatar: "https://avatars.dicebear.com/api/female/fjoteolgf.svg",
-          //       name: "name",
-          //       score: "123"),
-          // ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          FloatingPageTopBar(
+            onCloseArrowTap: widget.onCloseArrowTap,
+            title: "Classement",
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: widget.leaderboard.map((user) {
+                  var index = widget.leaderboard.indexOf(user) + 1;
+                  return ClassementCard(
+                      classement: index,
+                      name: user.firstName + " " + user.lastName,
+                      avatar: user.avatar,
+                      score: user.level.totalXp,
+                      color: Colors.white);
+                }).toList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

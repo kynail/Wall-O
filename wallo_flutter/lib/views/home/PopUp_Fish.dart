@@ -1,33 +1,54 @@
 import 'package:flutter/material.dart';
 
 class PopupFish extends StatelessWidget {
-  const PopupFish({Key key, this.url, this.description}) : super(key: key);
+  const PopupFish({
+    Key key,
+    @required this.url,
+    @required this.description,
+    @required this.fishName,
+    @required this.scientificName,
+  }) : super(key: key);
+
+  final String fishName;
+  final String scientificName;
   final String url;
   final String description;
 
   @override
   Widget build(BuildContext context) {
-    return new AlertDialog(
-      title: const Text('More information'),
-      content: new Column(
-        mainAxisSize: MainAxisSize.min,
+    return AlertDialog(
+      title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Image.network(url),
-          SizedBox(
-            height: 8,
+        children: [
+          Text(
+            fishName,
+            style: TextStyle(fontSize: 22),
           ),
           Text(
-            "Description",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Text(
-            description
+            scientificName,
+            style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
           ),
         ],
+      ),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Image.network(url),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Description",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(
+              height: 12,
+            ),
+            Text(description),
+          ],
+        ),
       ),
       actions: <Widget>[
         new TextButton(

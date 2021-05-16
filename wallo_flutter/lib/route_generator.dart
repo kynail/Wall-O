@@ -42,10 +42,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => ResetPasswordForm());
       case Routes.home:
         return MaterialPageRoute(builder: (context) => HomeScreen());
-      case Routes.profile:
-        return MaterialPageRoute(builder: (context) => ProfileScreen());
-      case Routes.aquarium:
-        return MaterialPageRoute(builder: (context) => Aquarium());
       case Routes.contact:
         return MaterialPageRoute(builder: (context) => Contact());
       case Routes.classement:
