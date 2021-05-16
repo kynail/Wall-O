@@ -40,7 +40,7 @@ Future<User> register(
   } else {
     try {
       final response = await http
-          .post(Uri.parse(env["API_URL"] + "users/register"), headers: {
+          .post(Uri.parse(env["API_URL"] + "/users/register"), headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }, body: {
         'mail': mail,
