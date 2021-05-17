@@ -43,7 +43,7 @@ Future<List<Fish>> analyseFishRequest(String imagePath) async {
     });
 
     final response =
-        await dio.post('http://192.168.1.10:8000/upload', data: formData);
+        await dio.post('http://165.169.231.252:8000/upload', data: formData);
     final fishesResponse = response.data["img"];
 
     print("FISHES RESPONSE $fishesResponse");

@@ -5,9 +5,18 @@ import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/views/home/analyze_picture.dart';
 
 class AnalyzeScreen extends StatefulWidget {
+  final bool isFromGallery;
+  final double latitude;
+  final double longitude;
   final String imagePath;
 
-  const AnalyzeScreen({Key key, this.imagePath}) : super(key: key);
+  const AnalyzeScreen({
+    Key key,
+    this.imagePath,
+    this.latitude,
+    this.longitude,
+    @required this.isFromGallery,
+  }) : super(key: key);
 
   @override
   _AnalyzeScreenState createState() => _AnalyzeScreenState();
@@ -16,6 +25,9 @@ class AnalyzeScreen extends StatefulWidget {
 class _AnalyzeScreenState extends State<AnalyzeScreen> {
   Widget buildContent(AnalyzeViewModel viewModel) {
     return AnalyzePicture(
+      isFromGallery: widget.isFromGallery,
+      latitude: widget.latitude,
+      longitude: widget.longitude,
       imagePath: widget.imagePath,
       isLoading: viewModel.isLoading,
       fishes: viewModel.analyzedFish,

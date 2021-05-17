@@ -91,13 +91,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       final image = await _controller.takePicture();
 
       final fileBytes = await image.readAsBytes();
-      final data = await readExifFromBytes(fileBytes);
-      print("File data = $data");
+
+      final data = await readExifFromBytes(fileBytes, details: false);
+      // print("File data = $data");
+
+      for (String key in data.keys) {
+        print("key ${data[key].tagType} - ${data[key]}");
+      }
 
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => AnalyzeScreen(
+            isFromGallery: false,
             imagePath: image?.path,
           ),
         ),
@@ -108,18 +114,44 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   onOpenGallery() async {
+    var longitude;
+    var latitude;
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       File image = File(pickedFile.path);
       final fileBytes = image.readAsBytesSync();
-      final data = await readExifFromBytes(fileBytes);
+      final data = await readExifFromBytes(fileBytes, details: false);
+
       print("File data = $data");
+
+      for (String key in data.keys) {
+        if (key == "GPS GPSLatitude") {
+          print("LATITUDE = ${data[key]}");
+          Ratio first = data[key].values[0];
+          Ratio nb = data[key].values[1];
+          double div = nb.numerator / 60;
+          final res = first.numerator + div;
+
+          latitude = res;
+        } else if (key == "GPS GPSLongitude") {
+          Ratio first = data[key].values[0];
+          Ratio nb = data[key].values[1];
+          double div = nb.numerator / 60;
+          final res = first.numerator + div;
+
+          longitude = res;
+        }
+        // print("key ${data[key].tagType}:${key}  - ${data[key]}");
+      }
 
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => AnalyzeScreen(
+            isFromGallery: true,
+            latitude: latitude,
+            longitude: longitude,
             imagePath: image?.path,
           ),
         ),

@@ -162,10 +162,11 @@ class _AddExpState extends State<AddExp> {
       children: [
         Center(
           child: IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                widget.addExp(_plusValue);
-              }),
+            icon: Icon(Icons.add),
+            onPressed: () {
+              widget.addExp(_plusValue);
+            },
+          ),
         ),
         SizedBox(width: 25),
         Flexible(
