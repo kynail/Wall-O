@@ -6,7 +6,7 @@ import 'package:wallo_flutter/models/aquadex_fish.dart';
 
 @immutable
 class FishState {
-  final List<Fish> analysedFish;
+  final List<AquadexFish> analysedFish;
   final List<AquadexFish> aquadex;
 
   FishState({
@@ -29,7 +29,7 @@ class FishState {
   }
 
   FishState copyWith({
-    List<Fish> analysedFish,
+    List<AquadexFish> analysedFish,
     List<AquadexFish> aquadex,
   }) {
     return FishState(

@@ -42,10 +42,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => ResetPasswordForm());
       case Routes.home:
         return MaterialPageRoute(builder: (context) => HomeScreen());
-      case Routes.contact:
-        return MaterialPageRoute(builder: (context) => Contact());
-      case Routes.classement:
-        return MaterialPageRoute(builder: (context) => LeaderboardScreen());
       case Routes.webview:
         return MaterialPageRoute(builder: (context) => WebviewScreen());
       default:

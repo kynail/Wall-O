@@ -45,7 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
           distinct: true,
           converter: (store) => HomeViewModel.fromStore(store),
           builder: (_, viewModel) => buildContent(viewModel, appBarheight),
-          onInitialBuild: (viewModel) => viewModel.getCameras(),
+          onInitialBuild: (viewModel) {
+            viewModel.getCameras();
+            viewModel.getAquadex();
+          },
         ));
   }
 }

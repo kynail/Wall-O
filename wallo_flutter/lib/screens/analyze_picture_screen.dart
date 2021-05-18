@@ -31,6 +31,7 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
       imagePath: widget.imagePath,
       isLoading: viewModel.isLoading,
       fishes: viewModel.analyzedFish,
+      onInit: () => viewModel.analyzePicture(widget.imagePath),
       onDispose: () => viewModel.clearAnalyzedFish(),
     );
   }
@@ -46,8 +47,8 @@ class _AnalyzeScreenState extends State<AnalyzeScreen> {
         distinct: true,
         converter: (store) => AnalyzeViewModel.fromStore(store),
         builder: (_, viewModel) => buildContent(viewModel),
-        onInitialBuild: (viewModel) =>
-            viewModel.analyzePicture(widget.imagePath),
+        // onInitialBuild: (viewModel) =>
+        //     viewModel.analyzePicture(widget.imagePath),
       ),
     );
   }

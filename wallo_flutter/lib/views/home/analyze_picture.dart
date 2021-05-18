@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:wallo_flutter/models/Fish.dart';
+import 'package:wallo_flutter/models/aquadex_fish.dart';
 import 'package:wallo_flutter/theme.dart';
 
 class AnalyzePicture extends StatefulWidget {
@@ -12,8 +13,9 @@ class AnalyzePicture extends StatefulWidget {
   final double longitude;
   final String imagePath;
   final bool isLoading;
-  final List<Fish> fishes;
+  final List<AquadexFish> fishes;
   final Function() onDispose;
+  final Function() onInit;
 
   const AnalyzePicture({
     Key key,
@@ -24,6 +26,7 @@ class AnalyzePicture extends StatefulWidget {
     this.latitude,
     this.longitude,
     @required this.isFromGallery,
+    @required this.onInit,
   }) : super(key: key);
 
   @override
@@ -38,6 +41,7 @@ class _AnalyzePictureState extends State<AnalyzePicture>
 
   @override
   void initState() {
+    widget.onInit();
     super.initState();
     _bottomSheetAnimController =
         AnimationController(vsync: this, duration: _duration);
@@ -75,13 +79,15 @@ class _AnalyzePictureState extends State<AnalyzePicture>
               minChildSize: 0.2,
               builder:
                   (BuildContext context, ScrollController scrollController) {
-                return FishDetails(
-                  isFromGallery: widget.isFromGallery,
-                  latitude: widget.latitude,
-                  longitude: widget.longitude,
-                  fishes: widget.fishes,
-                  scrollController: scrollController,
-                );
+                return !widget.isLoading
+                    ? FishDetails(
+                        isFromGallery: widget.isFromGallery,
+                        latitude: widget.latitude,
+                        longitude: widget.longitude,
+                        fishes: widget.fishes,
+                        scrollController: scrollController,
+                      )
+                    : Container();
               }),
         )
       ],
@@ -103,7 +109,7 @@ class FishDetails extends StatefulWidget {
     @required this.isFromGallery,
   }) : super(key: key);
 
-  final List<Fish> fishes;
+  final List<AquadexFish> fishes;
   final ScrollController scrollController;
 
   @override
@@ -119,7 +125,6 @@ class _FishDetailsState extends State<FishDetails> {
             desiredAccuracy: LocationAccuracy.high,
             forceAndroidLocationManager: false)
         .then((Position position) {
-      print("POSITION $position");
       setState(() {
         _currentPosition = position;
         _getAddressFromLatLng(
@@ -138,8 +143,6 @@ class _FishDetailsState extends State<FishDetails> {
       setState(() {
         _currentAddress =
             "${place.locality}, ${place.postalCode}, ${place.country}";
-
-        print("Current Address $_currentAddress");
       });
     } catch (e) {
       print(e);
@@ -150,7 +153,6 @@ class _FishDetailsState extends State<FishDetails> {
   void initState() {
     super.initState();
     if (widget.latitude != null && widget.longitude != null) {
-      print("Latitude from gallery");
       _getAddressFromLatLng(widget.latitude, widget.longitude);
     } else {
       if (!widget.isFromGallery) {
@@ -179,11 +181,14 @@ class _FishDetailsState extends State<FishDetails> {
                 Column(
                   children: widget.fishes
                       .map(
-                        (fish) => Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        (aquadexFish) => Wrap(
+                          runSpacing: 8,
+                          spacing: 12,
+                          alignment: WrapAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              fish.name,
+                              aquadexFish.name,
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
@@ -191,32 +196,107 @@ class _FishDetailsState extends State<FishDetails> {
                               ),
                             ),
                             Text(
-                              " (${(fish.confidence * 100).toStringAsFixed(0)} %)",
+                              " (${(aquadexFish.fish.confidence * 100).toStringAsFixed(0)} %)",
                               style: TextStyle(
                                   fontSize: 20, fontStyle: FontStyle.italic),
-                            )
+                            ),
+                            SizedBox(height: 32),
                           ],
                         ),
                       )
                       .toList(),
                 ),
-              SizedBox(height: 16),
-              Text("Plus d'informations"),
-              Icon(Icons.expand_more_outlined),
-              SizedBox(height: 16),
-              if (_currentAddress != null)
-                Column(
-                  children: [
-                    Align(
-                      alignment: FractionalOffset.topLeft,
-                      child: Text(_currentAddress),
-                    ),
-                  ],
-                ),
-              Container(height: 500)
+              widget.fishes != null
+                  ? Column(
+                      children: [
+                        SizedBox(height: 16),
+                        Text("Plus d'informations"),
+                        Icon(Icons.expand_more_outlined),
+                        SizedBox(height: 32),
+                        Column(
+                          children: widget.fishes
+                              .toSet()
+                              .toList()
+                              .asMap()
+                              .map(
+                                (i, aquadexFish) => MapEntry(
+                                  i,
+                                  Wrap(
+                                    runSpacing: 24,
+                                    spacing: 16,
+                                    children: [
+                                      MoreInfoWithTitle(
+                                        title: "Nom du poisson",
+                                        body: aquadexFish.name,
+                                      ),
+                                      MoreInfoWithTitle(
+                                        title: "Nom scientifique",
+                                        body: aquadexFish.scientificName,
+                                      ),
+                                      MoreInfoWithTitle(
+                                        title: "Description",
+                                        body: aquadexFish.desc,
+                                      ),
+                                      if (_currentAddress != null)
+                                        MoreInfoWithTitle(
+                                          title: "Localisation de la photo",
+                                          body: _currentAddress,
+                                        ),
+                                      if (i !=
+                                          widget.fishes
+                                                  .toSet()
+                                                  .toList()
+                                                  .length -
+                                              1)
+                                        Divider(),
+                                      SizedBox(
+                                        height: 0,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              )
+                              .values
+                              .toList(),
+                        )
+                      ],
+                    )
+                  : Container()
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class MoreInfoWithTitle extends StatelessWidget {
+  const MoreInfoWithTitle({
+    Key key,
+    @required this.title,
+    @required this.body,
+  }) : super(key: key);
+
+  final String title;
+  final String body;
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+          ),
+          SizedBox(height: 12),
+          Text(body),
+        ],
       ),
     );
   }

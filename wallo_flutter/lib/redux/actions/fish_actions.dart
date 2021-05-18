@@ -6,14 +6,13 @@ import 'package:wallo_flutter/models/Fish.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
 import 'package:wallo_flutter/redux/actions/messenger_actions.dart';
 import 'package:wallo_flutter/redux/services/fish_service.dart';
-import 'package:wallo_flutter/route_generator.dart';
 
-ThunkAction analyzedPictureAction(String filePath) {
+ThunkAction analyzedPictureAction(String filePath, List<AquadexFish> aquadex) {
   return (Store store) async {
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       try {
-        analyseFishRequest(filePath).then((fishes) {
+        analyseFishRequest(filePath, aquadex).then((fishes) {
           if (fishes.isEmpty) {
             store.dispatch(new RequestFailedAction("Aucun poisson trouvé"));
           } else {
@@ -65,7 +64,7 @@ class ClearAnalyzedFishAction {
 }
 
 class SetAnalyzedFishAction {
-  List<Fish> fishes;
+  List<AquadexFish> fishes;
 
   SetAnalyzedFishAction(this.fishes);
 }

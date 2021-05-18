@@ -35,32 +35,49 @@ import '../../utils.dart';
 //   }
 // }
 
-Future<List<Fish>> analyseFishRequest(String imagePath) async {
+Future<List<AquadexFish>> analyseFishRequest(
+    String imagePath, List<AquadexFish> aquadex) async {
   var dio = Dio();
   try {
     var formData = FormData.fromMap({
       'image': await MultipartFile.fromFile(imagePath, filename: 'coucou.jpg')
     });
 
+    print("IN ANALYZE FISH $aquadex");
+
+    // TODO ADD THIS
     final response =
         await dio.post('http://165.169.231.252:8000/upload', data: formData);
     final fishesResponse = response.data["img"];
 
-    print("FISHES RESPONSE $fishesResponse");
-
     if (fishesResponse == "") {
       return [];
     }
+    // TODO ADD THIS
+
+    // TODO REMOVE THIS
+    // final String fishesResponse =
+    //     "poisson_merou_gateau_de_cire:0.4,poisson_merou_gateau_de_cire:0.9";
 
     List<String> fishesData = fishesResponse.split(",");
 
-    List<Fish> fishes = [];
+    List<AquadexFish> fishes = [];
 
     print("fishes DATA ${fishesData.length}");
 
     if (fishesData.isNotEmpty == true) {
       fishesData.forEach((fishData) {
-        fishes.add(new Fish.fromString(fishData));
+        final Fish fish = Fish.fromString(fishData);
+        aquadex.forEach((aquadexFish) {
+          if (aquadexFish.slug == fish.name) {
+            fishes.add(
+              aquadexFish.copyWith(
+                fish: fish,
+              ),
+            );
+          }
+        });
+        //   fishes.add(new Fish.fromString(fishData));
       });
     } else {
       print("NULLL");
@@ -75,8 +92,6 @@ Future<List<Fish>> analyseFishRequest(String imagePath) async {
 
 Future<List<AquadexFish>> getAquadexRequest() async {
   try {
-    print("TEST");
-
     final response = await http.get(Uri.parse(env["API_URL"] + "/fishes/all"));
 
     ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));

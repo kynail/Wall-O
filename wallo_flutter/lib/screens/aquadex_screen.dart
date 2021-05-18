@@ -29,7 +29,6 @@ class AquadexScreen extends StatelessWidget {
     return StoreConnector<AppState, AquadexViewModel>(
       distinct: true,
       converter: (store) => AquadexViewModel.fromStore(store),
-      onInitialBuild: (viewModel) => viewModel.getAquadex(),
       builder: (_, viewModel) => buildContent(viewModel),
     );
   }

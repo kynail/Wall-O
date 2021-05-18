@@ -90,15 +90,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       await _initializeControllerFuture;
       final image = await _controller.takePicture();
 
-      final fileBytes = await image.readAsBytes();
-
-      final data = await readExifFromBytes(fileBytes, details: false);
-      // print("File data = $data");
-
-      for (String key in data.keys) {
-        print("key ${data[key].tagType} - ${data[key]}");
-      }
-
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -122,8 +113,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       File image = File(pickedFile.path);
       final fileBytes = image.readAsBytesSync();
       final data = await readExifFromBytes(fileBytes, details: false);
-
-      print("File data = $data");
 
       for (String key in data.keys) {
         if (key == "GPS GPSLatitude") {
