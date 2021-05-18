@@ -14,7 +14,7 @@ ThunkAction logUser(String mail, String password) {
         store.dispatch(new RequestSucceedActionWithMessage(
             "Bienvenue, " + user.firstName));
         store.dispatch(new LoginSuccessAction(user));
-        Keys.navKey.currentState.pushNamed(Routes.home);
+        Keys.navKey.currentState.pushReplacementNamed(Routes.home);
       }, onError: (errorMessage) {
         store.dispatch(new RequestFailedAction(errorMessage));
       });
@@ -31,7 +31,7 @@ ThunkAction registerUser(
         store.dispatch(new RequestSucceedActionWithMessage(
             "Bienvenue, " + user.firstName));
         store.dispatch(new LoginSuccessAction(user));
-        Keys.navKey.currentState.pushNamed(Routes.home);
+        Keys.navKey.currentState.pushReplacementNamed(Routes.home);
       }, onError: (errorMessage) {
         store.dispatch(new RequestFailedAction(errorMessage));
       });
@@ -47,7 +47,7 @@ ThunkAction googleLogin(String requestUrl) {
         store.dispatch(new RequestSucceedActionWithMessage(
             "Bienvenue, " + user.firstName));
         store.dispatch(new LoginSuccessAction(user));
-        Keys.navKey.currentState.pushNamed(Routes.home);
+        Keys.navKey.currentState.pushReplacementNamed(Routes.home);
       }, onError: (errorMessage) {
         store.dispatch(new RequestFailedAction(errorMessage));
       });

@@ -188,30 +188,10 @@ class _SignInFormState extends State<SignInForm> {
                           height: 20,
                         ),
                         SizedBox(width: 10),
-                        Text("Inscription avec Google"),
+                        Text("Continuer avec Google"),
                       ],
                     )),
               )),
-              Center(
-                  child: Container(
-                width: 250,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.white, onPrimary: Colors.black),
-                  onPressed: () {},
-                  child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Image(
-                          image: AssetImage("assets/facebook.png"),
-                          width: 20,
-                          height: 20,
-                        ),
-                        SizedBox(width: 10),
-                        Text("Inscription avec Facebook"),
-                      ]),
-                ),
-              ))
             ]),
           )),
     );

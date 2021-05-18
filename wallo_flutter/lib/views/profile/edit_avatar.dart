@@ -4,7 +4,12 @@ import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/theme.dart';
 
 class EditAvatar extends StatefulWidget {
-  EditAvatar({Key key, this.user}) : super(key: key);
+  final Function(String seed, String dropdownValue) onSaveAvatarPressed;
+  EditAvatar({
+    Key key,
+    @required this.user,
+    @required this.onSaveAvatarPressed,
+  }) : super(key: key);
   final User user;
 
   @override
@@ -94,6 +99,7 @@ class _EditAvatarState extends State<EditAvatar> {
           child: const Text("Enregistrer",
               style: TextStyle(color: Colors.white, fontSize: 18)),
           onPressed: () {
+            widget.onSaveAvatarPressed(_seed, _dropdownValue);
             // Redux.store.dispatch((store) => setAvatar(
             //     store, Avatar(seed: _seed, type: _dropdownValue), widget.user));
           },

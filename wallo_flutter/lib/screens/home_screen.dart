@@ -38,17 +38,20 @@ class _HomeScreenState extends State<HomeScreen> {
     final appBarheight = 0.0;
 
     print("APPBAR ${appBar.preferredSize.height}");
-    return Scaffold(
-        drawer: CustomDrawer(),
-        // appBar: appBar,
-        body: new StoreConnector<AppState, HomeViewModel>(
-          distinct: true,
-          converter: (store) => HomeViewModel.fromStore(store),
-          builder: (_, viewModel) => buildContent(viewModel, appBarheight),
-          onInitialBuild: (viewModel) {
-            viewModel.getCameras();
-            viewModel.getAquadex();
-          },
-        ));
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+          drawer: CustomDrawer(),
+          // appBar: appBar,
+          body: new StoreConnector<AppState, HomeViewModel>(
+            distinct: true,
+            converter: (store) => HomeViewModel.fromStore(store),
+            builder: (_, viewModel) => buildContent(viewModel, appBarheight),
+            onInitialBuild: (viewModel) {
+              viewModel.getCameras();
+              viewModel.getAquadex();
+            },
+          )),
+    );
   }
 }

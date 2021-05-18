@@ -45,7 +45,6 @@ Future<List<AquadexFish>> analyseFishRequest(
 
     print("IN ANALYZE FISH $aquadex");
 
-    // TODO ADD THIS
     final response =
         await dio.post('http://165.169.231.252:8000/upload', data: formData);
     final fishesResponse = response.data["img"];
@@ -53,11 +52,6 @@ Future<List<AquadexFish>> analyseFishRequest(
     if (fishesResponse == "") {
       return [];
     }
-    // TODO ADD THIS
-
-    // TODO REMOVE THIS
-    // final String fishesResponse =
-    //     "poisson_merou_gateau_de_cire:0.4,poisson_merou_gateau_de_cire:0.9";
 
     List<String> fishesData = fishesResponse.split(",");
 

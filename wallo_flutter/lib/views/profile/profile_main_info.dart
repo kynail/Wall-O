@@ -13,8 +13,10 @@ class ProfileMainInfo extends StatefulWidget {
   const ProfileMainInfo({
     Key key,
     this.user,
+    @required this.onSaveAvatarPressed,
   }) : super(key: key);
 
+  final Function(String, String) onSaveAvatarPressed;
   final User user;
 
   @override
@@ -29,7 +31,9 @@ class _ProfileMainInfoState extends State<ProfileMainInfo> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          UserInfo(),
+          UserInfo(
+            onSaveAvatarPressed: widget.onSaveAvatarPressed,
+          ),
           SizedBox(height: 28),
           XpBar(user: widget.user),
           SizedBox(height: 18),
@@ -74,8 +78,11 @@ class XpBar extends StatelessWidget {
 }
 
 class UserInfo extends StatefulWidget {
+  final Function(String, String) onSaveAvatarPressed;
+
   const UserInfo({
     Key key,
+    @required this.onSaveAvatarPressed,
   }) : super(key: key);
 
   @override
@@ -84,13 +91,18 @@ class UserInfo extends StatefulWidget {
 
 class _UserInfoState extends State<UserInfo> {
   void onAvatarTap(BuildContext context, UserState userState) {
-    showModalBottomSheet<void>(
+    showModalBottomSheet(
         context: context,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16), topRight: Radius.circular(16)),
         ),
+        isScrollControlled: true,
         builder: (BuildContext context) {
-          return AvatarBottomSheet(user: userState.user);
+          return AvatarBottomSheet(
+            user: userState.user,
+            onSaveAvatarPressed: widget.onSaveAvatarPressed,
+          );
         });
   }
 

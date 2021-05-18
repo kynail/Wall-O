@@ -11,11 +11,13 @@ class Profile extends StatelessWidget {
     @required this.user,
     @required this.addExp,
     @required this.onCloseArrowTap,
+    @required this.onSaveAvatarPressed,
   }) : super(key: key);
 
   final Function() onCloseArrowTap;
   final User user;
   final Function(double xp) addExp;
+  final Function(String, String) onSaveAvatarPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +32,15 @@ class Profile extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    ProfileMainInfo(user: user),
+                    ProfileMainInfo(
+                      user: user,
+                      onSaveAvatarPressed: onSaveAvatarPressed,
+                    ),
                     SizedBox(height: 12),
-                    ProfileFishInfo(),
-                    SizedBox(height: 60),
-                    Divider(thickness: 2),
-                    AddExp(user: user, addExp: (xp) => addExp(xp))
+                    // ProfileFishInfo(),
+                    // SizedBox(height: 60),
+                    // Divider(thickness: 2),
+                    // AddExp(user: user, addExp: (xp) => addExp(xp))
                   ],
                 ),
               ),
