@@ -57,11 +57,74 @@ ThunkAction setAvatar(Avatar avatar, User user) {
         );
       } on Exception catch (_) {
         store.dispatch(
-            new RequestFailedAction("Connexion au serveur impossible"));
+          new RequestFailedAction("Connexion au serveur impossible"),
+        );
       }
     });
   };
 }
+
+ThunkAction sendForget(String email) {
+  return (Store store) async {
+    new Future(() async {
+      try {
+        store.dispatch(new StartLoadingAction());
+        sendForgetRequest(email)
+            .then(
+              (message) => store.dispatch(
+                new RequestSucceedActionWithMessage(message),
+              ),
+            )
+            .onError(
+              (error, stackTrace) => store.dispatch(
+                new RequestFailedAction(error),
+              ),
+            );
+      } on Exception catch (_) {
+        store.dispatch(
+          new RequestFailedAction("Connexion au serveur impossible"),
+        );
+      }
+    });
+  };
+}
+
+// void sendForget(Store<AppState> store, String email) async {
+//   try {
+//     store.dispatch(
+//       SetUserStateAction(
+//         UserState(isLoading: true, isError: false),
+//       ),
+//     );
+//     final response = await http.post(
+//         Uri.http("localhost:8080", "/users/auth/forget"),
+//         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+//         body: {'mail': email});
+
+//     if (response.statusCode == 200) {
+//       store.dispatch(
+//         SetUserStateAction(
+//           UserState(
+//               isError: false,
+//               isLoading: false,
+//               successMessage: "Veuillez vérifier votre boîte mail."),
+//         ),
+//       );
+//     } else {
+//       store.dispatch(SetUserStateAction(UserState(
+//           isError: true,
+//           isLoading: false,
+//           errorMessage: getServerMessage(response, true))));
+//       return;
+//     }
+//   } on Exception catch (_) {
+//     store.dispatch(SetUserStateAction(UserState(
+//         isError: true,
+//         isLoading: false,
+//         errorMessage: "Une erreur s'est produite, veuillez réessayer")));
+//     throw Exception("Connexion au serveur impossible");
+//   }
+// }
 
 // void setAvatar(Store<AppState> store, Avatar avatar, User user) async {
 //   try {

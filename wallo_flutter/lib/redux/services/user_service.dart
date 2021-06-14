@@ -45,3 +45,23 @@ Future<User> setAvatarRequest(Avatar avatar, User user) async {
     return Future.error("Connexion au serveur impossible");
   }
 }
+
+Future<String> sendForgetRequest(String mail) async {
+  try {
+    final response = await http.post(
+      Uri.http("localhost:8080", "/users/auth/forget"),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: {'mail': mail},
+    );
+
+    ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
+
+    if (res.success == true) {
+      return res.message;
+    } else {
+      return Future.error(res.message);
+    }
+  } on Exception {
+    return Future.error("Connexion au serveur impossible");
+  }
+}
