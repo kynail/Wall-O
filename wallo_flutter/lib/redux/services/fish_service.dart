@@ -46,7 +46,7 @@ Future<List<AquadexFish>> analyseFishRequest(
     print("IN ANALYZE FISH $aquadex");
 
     final response =
-        await dio.post('http://165.169.231.252:8000/upload', data: formData);
+        await dio.post('http://165.169.231.252:8000/analyse', data: formData);
     final fishesResponse = response.data["img"];
 
     if (fishesResponse == "") {
