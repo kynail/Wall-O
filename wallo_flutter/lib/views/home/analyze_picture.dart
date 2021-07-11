@@ -284,7 +284,7 @@ class MoreInfoWithTitle extends StatelessWidget {
           Text(body,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 15,
+              fontSize: 12,
             ),
           ),
         ],
