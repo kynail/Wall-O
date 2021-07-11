@@ -7,6 +7,8 @@ final userReducer = combineReducers<UserState>([
   TypedReducer<UserState, LoginSuccessAction>(_loginSuccess),
   TypedReducer<UserState, UpdateUserAction>(_updateUser),
   TypedReducer<UserState, SetCamerasAction>(_setCameras),
+  TypedReducer<UserState, SetCameraControllerAction>(_setCameraController),
+  TypedReducer<UserState, SetCameraLoadingAction>(_setCameraLoading),
 ]);
 
 UserState _loginSuccess(UserState state, LoginSuccessAction action) {
@@ -24,5 +26,18 @@ UserState _updateUser(UserState state, UpdateUserAction action) {
 UserState _setCameras(UserState state, SetCamerasAction action) {
   return state.copyWith(
     cameras: action.cameras,
+  );
+}
+
+UserState _setCameraController(
+    UserState state, SetCameraControllerAction action) {
+  return state.copyWith(
+    cameraController: action.cameraController,
+  );
+}
+
+UserState _setCameraLoading(UserState state, SetCameraLoadingAction action) {
+  return state.copyWith(
+    isCameraLoading: !state.isCameraLoading,
   );
 }
