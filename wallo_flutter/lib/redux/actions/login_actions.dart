@@ -11,6 +11,7 @@ ThunkAction logUser(String mail, String password) {
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       login(mail, password).then((user) {
+        print("USER $user");
         store.dispatch(new RequestSucceedActionWithMessage(
             "Bienvenue, " + user.firstName));
         store.dispatch(new LoginSuccessAction(user));

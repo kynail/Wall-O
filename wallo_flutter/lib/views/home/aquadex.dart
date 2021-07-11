@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
+import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/views/home/fishinfo.dart';
 
 class Aquadex extends StatefulWidget {
   final PageController pageController;
   final List<AquadexFish> aquadex;
+  final User user;
 
   const Aquadex({
     Key key,
     @required this.aquadex,
     @required this.pageController,
+    @required this.user,
   }) : super(key: key);
 
   @override
@@ -102,12 +105,13 @@ class _AquadexState extends State<Aquadex> {
           children: widget.aquadex
               .map(
                 (fish) => FishInfo(
+                  fishId: fish.id,
                   fishname: fish.name,
                   urlfish: fish.image,
                   description: fish.desc,
                   scientificName: fish.scientificName,
                   slug: fish.slug,
-                  isunlocked: false,
+                  isunlocked: widget.user.aquadex.contains(fish.id),
                 ),
               )
               .toList(),

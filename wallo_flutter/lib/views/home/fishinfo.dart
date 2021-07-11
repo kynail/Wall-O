@@ -4,6 +4,7 @@ import 'package:wallo_flutter/views/home/PopUp_Fish.dart';
 class FishInfo extends StatefulWidget {
   const FishInfo({
     Key key,
+    @required this.fishId,
     @required this.fishname,
     @required this.urlfish,
     @required this.description,
@@ -12,6 +13,7 @@ class FishInfo extends StatefulWidget {
     this.isunlocked,
   }) : super(key: key);
 
+  final String fishId;
   final String fishname;
   final String scientificName;
   final String urlfish;
@@ -33,16 +35,17 @@ class _FishInfoState extends State<FishInfo> {
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            //Navigator.of(context).pushReplacementNamed("/fishclicked");
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => PopupFish(
-                fishName: widget.fishname,
-                scientificName: widget.scientificName,
-                url: widget.urlfish,
-                description: widget.description,
-              ),
-            );
+            if (widget.isunlocked == true) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => PopupFish(
+                  fishName: widget.fishname,
+                  scientificName: widget.scientificName,
+                  url: widget.urlfish,
+                  description: widget.description,
+                ),
+              );
+            }
           },
           child: Stack(
             children: [

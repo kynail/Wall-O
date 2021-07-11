@@ -19,6 +19,7 @@ class AquadexScreen extends StatelessWidget {
             child: CircularProgressIndicator(strokeWidth: 2),
           )
         : Aquadex(
+            user: viewModel.user,
             aquadex: viewModel.aquadex,
             pageController: pageController,
           );
