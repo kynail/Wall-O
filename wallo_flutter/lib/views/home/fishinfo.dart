@@ -8,12 +8,15 @@ class FishInfo extends StatefulWidget {
     @required this.urlfish,
     @required this.description,
     @required this.scientificName,
+    @required this.slug, this.isunlocked,
   }) : super(key: key);
 
   final String fishname;
   final String scientificName;
   final String urlfish;
   final String description;
+  final String slug;
+  final bool isunlocked;
 
   @override
   _FishInfoState createState() => _FishInfoState();
@@ -46,11 +49,16 @@ class _FishInfoState extends State<FishInfo> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.network(
-                    widget.urlfish,
-                    height: 125,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
+                  // Image.network(
+                  //   widget.urlfish,
+                  //   height: 125,
+                  //   width: double.infinity,
+                  //   fit: BoxFit.cover,
+                  // ),
+                  Image(
+                    image: AssetImage(widget.isunlocked
+                        ? "assets/aquadex/" + widget.slug + ".png"
+                        : "assets/aquadex/" + widget.slug + "-black.png"),
                   ),
                   SizedBox(
                     height: 8,

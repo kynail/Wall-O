@@ -106,6 +106,8 @@ class _AquadexState extends State<Aquadex> {
                   urlfish: fish.image,
                   description: fish.desc,
                   scientificName: fish.scientificName,
+                  slug: fish.slug,
+                  isunlocked: false,
                 ),
               )
               .toList(),
