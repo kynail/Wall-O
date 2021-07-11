@@ -187,6 +187,7 @@ class _FishDetailsState extends State<FishDetails> {
                           alignment: WrapAlignment.center,
                           // mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            Image.network(aquadexFish.image),
                             Text(
                               aquadexFish.name,
                               style: TextStyle(
@@ -198,9 +199,13 @@ class _FishDetailsState extends State<FishDetails> {
                             Text(
                               " (${(aquadexFish.fish.confidence * 100).toStringAsFixed(0)} %)",
                               style: TextStyle(
-                                  fontSize: 20, fontStyle: FontStyle.italic),
+                              fontSize: 20, fontStyle: FontStyle.italic),
                             ),
                             SizedBox(height: 32),
+                             MoreInfoWithTitle(
+                                title: "Nom scientifique",
+                                body: aquadexFish.scientificName,
+                            ),
                           ],
                         ),
                       )
@@ -209,10 +214,6 @@ class _FishDetailsState extends State<FishDetails> {
               widget.fishes != null
                   ? Column(
                       children: [
-                        SizedBox(height: 16),
-                        Text("Plus d'informations"),
-                        Icon(Icons.expand_more_outlined),
-                        SizedBox(height: 32),
                         Column(
                           children: widget.fishes
                               .toSet()
@@ -226,15 +227,7 @@ class _FishDetailsState extends State<FishDetails> {
                                     spacing: 16,
                                     children: [
                                       MoreInfoWithTitle(
-                                        title: "Nom du poisson",
-                                        body: aquadexFish.name,
-                                      ),
-                                      MoreInfoWithTitle(
-                                        title: "Nom scientifique",
-                                        body: aquadexFish.scientificName,
-                                      ),
-                                      MoreInfoWithTitle(
-                                        title: "Description",
+                                        title: "",
                                         body: aquadexFish.desc,
                                       ),
                                       if (_currentAddress != null)
@@ -287,15 +280,13 @@ class MoreInfoWithTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
+          SizedBox(height: 12),
+          Text(body,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 12,
+              fontSize: 15,
             ),
           ),
-          SizedBox(height: 12),
-          Text(body),
         ],
       ),
     );

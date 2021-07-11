@@ -40,14 +40,16 @@ Future<List<AquadexFish>> analyseFishRequest(
   var dio = Dio();
   try {
     var formData = FormData.fromMap({
-      'image': await MultipartFile.fromFile(imagePath, filename: 'coucou.jpg')
+      'images': await MultipartFile.fromFile(imagePath, filename: 'coucou.jpg')
     });
 
     print("IN ANALYZE FISH $aquadex");
 
     final response =
         await dio.post('http://165.169.231.252:8000/analyse', data: formData);
-    final fishesResponse = response.data["img"];
+    //final fishesResponse = response.data["img"];
+   final fishesResponse = response.data;
+   print(fishesResponse);
 
     if (fishesResponse == "") {
       return [];

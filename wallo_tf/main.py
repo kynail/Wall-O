@@ -106,7 +106,7 @@ def base64Image():
 
     # _, img_encoded = cv2.imencode('.jpg', image)
    # final_image = (base64.b64encode(img_encoded)).decode()
-    return 'fish ' + names + "\r\n"
+    return names + "\r\n"
     
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)
