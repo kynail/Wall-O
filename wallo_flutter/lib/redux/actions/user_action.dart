@@ -5,6 +5,7 @@ import 'package:wallo_flutter/models/avatar.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/actions/messenger_actions.dart';
 import 'package:wallo_flutter/redux/services/user_service.dart';
+import 'package:wallo_flutter/redux/state/app_state.dart';
 
 ThunkAction setExp(User user, double exp) {
   return (Store store) async {
@@ -38,6 +39,31 @@ ThunkAction getCamerasAction() {
             new RequestFailedAction("Impossible d'acceder à l'appareil photo"));
       }
     });
+  };
+}
+
+ThunkAction<AppState> initializeCameraControllerAction() {
+  return (Store<AppState> store) async {
+    new Future(
+      () async {
+        try {
+          store.dispatch(SetCameraLoadingAction());
+          final cameraList = store.state.userState.cameras;
+          CameraController controller = CameraController(
+            cameraList != null ? cameraList.first : null,
+            ResolutionPreset.medium,
+          );
+          await controller.initialize();
+          controller.setFlashMode(FlashMode.off);
+          store.dispatch(SetCameraControllerAction(controller));
+          store.dispatch(SetCameraLoadingAction());
+        } on Exception {
+          store.dispatch(
+            new RequestFailedAction("Impossible d'initialiser la camera"),
+          );
+        }
+      },
+    );
   };
 }
 
@@ -176,4 +202,14 @@ class SetCamerasAction {
   final List<CameraDescription> cameras;
 
   SetCamerasAction(this.cameras);
+}
+
+class SetCameraControllerAction {
+  final CameraController cameraController;
+
+  SetCameraControllerAction(this.cameraController);
+}
+
+class SetCameraLoadingAction {
+  SetCameraLoadingAction();
 }

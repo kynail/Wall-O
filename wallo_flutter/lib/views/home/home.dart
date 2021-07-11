@@ -17,13 +17,13 @@ import 'package:wallo_flutter/wall_o_icons.dart';
 class Home extends StatefulWidget {
   const Home({
     Key key,
-    @required this.camera,
+    @required this.cameraController,
     @required this.appBarHeight,
     @required this.user,
   }) : super(key: key);
 
   final User user;
-  final CameraDescription camera;
+  final CameraController cameraController;
   final double appBarHeight;
 
   @override
@@ -31,24 +31,22 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  // AnimationController _animationController;
-  // Animation<Offset> _offset;
   HomeAnimationController _profileAnimationControler;
   HomeAnimationController _leaderBoardAnimationControler;
   HomeAnimationController _contactAnimationControler;
-  CameraController _controller;
-  Future<void> _initializeControllerFuture;
+  // CameraController _controller;
+  // Future<void> _initializeControllerFuture;
   final picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
-    _controller = CameraController(
-      widget.camera,
-      ResolutionPreset.medium,
-    );
+    // _controller = CameraController(
+    //   widget.camera,
+    //   ResolutionPreset.medium,
+    // );
 
-    _initializeControllerFuture = _controller.initialize();
+    // _initializeControllerFuture = _controller.initialize();
 
     _profileAnimationControler = HomeAnimationController(
       AnimationController(
@@ -69,26 +67,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         duration: Duration(milliseconds: 400),
       ),
     );
-
-    // _animationController = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(milliseconds: 500),
-    // );
-
-    // _offset = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero)
-    //     .animate(_animationController.drive(
-    //   CurveTween(curve: Curves.fastOutSlowIn),
-    // ));
-  }
-
-  configCamera() {
-    _controller.setFlashMode(FlashMode.off);
   }
 
   onTakePicture() async {
     try {
-      await _initializeControllerFuture;
-      final image = await _controller.takePicture();
+      // await _initializeControllerFuture;
+      final image = await widget.cameraController.takePicture();
 
       Navigator.push(
         context,
@@ -155,93 +139,81 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     double statusBarHeight = MediaQuery.of(context).padding.top;
     final PageController pageController = PageController(initialPage: 0);
 
-    return FutureBuilder<void>(
-      future: _initializeControllerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          var scale = 1 /
-              (_controller.value.aspectRatio *
-                  MediaQuery.of(context).size.aspectRatio);
-          configCamera();
+    var scale = 1 /
+        (widget.cameraController.value.aspectRatio *
+            MediaQuery.of(context).size.aspectRatio);
 
-          return Stack(
-            children: [
-              PageView(
-                scrollDirection: Axis.vertical,
-                controller: pageController,
-                children: [
-                  Stack(
-                    children: [
-                      TakePicture(
-                        appBarHeight: widget.appBarHeight,
-                        camera: widget.camera,
-                        scale: scale,
-                        controller: _controller,
-                        onTakePicture: () => onTakePicture(),
-                        onOpenGallery: () => onOpenGallery(),
-                        onArrowTap: () {
-                          pageController.animateToPage(1,
-                              duration: Duration(milliseconds: 600),
-                              curve: Curves.fastOutSlowIn);
-                        },
-                      ),
-                      Align(
-                        alignment: FractionalOffset.topLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            top: statusBarHeight + 8,
-                            left: 16,
-                            right: 16,
-                          ),
-                          child: TopBar(
-                            user: widget.user,
-                            onAvatarTap: () {
-                              _profileAnimationControler.controller.forward();
-                            },
-                            onLeaderboardTap: () {
-                              _leaderBoardAnimationControler.controller
-                                  .forward();
-                            },
-                            onContactTap: () {
-                              _contactAnimationControler.controller.forward();
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
+    return Stack(
+      children: [
+        PageView(
+          scrollDirection: Axis.vertical,
+          controller: pageController,
+          children: [
+            Stack(
+              children: [
+                TakePicture(
+                  appBarHeight: widget.appBarHeight,
+                  scale: scale,
+                  controller: widget.cameraController,
+                  onTakePicture: () => onTakePicture(),
+                  onOpenGallery: () => onOpenGallery(),
+                  onArrowTap: () {
+                    pageController.animateToPage(1,
+                        duration: Duration(milliseconds: 600),
+                        curve: Curves.fastOutSlowIn);
+                  },
+                ),
+                Align(
+                  alignment: FractionalOffset.topLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: statusBarHeight + 8,
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: TopBar(
+                      user: widget.user,
+                      onAvatarTap: () {
+                        _profileAnimationControler.controller.forward();
+                      },
+                      onLeaderboardTap: () {
+                        _leaderBoardAnimationControler.controller.forward();
+                      },
+                      onContactTap: () {
+                        _contactAnimationControler.controller.forward();
+                      },
+                    ),
                   ),
-                  AquadexScreen(
-                    pageController: pageController,
-                  ),
-                ],
-              ),
-              SlideTransition(
-                position: _profileAnimationControler.offset,
-                child: ProfileScreen(
-                  onCloseArrowTap: () =>
-                      _profileAnimationControler.controller.reverse(),
                 ),
-              ),
-              SlideTransition(
-                position: _leaderBoardAnimationControler.offset,
-                child: LeaderboardScreen(
-                  onCloseArrowTap: () =>
-                      _leaderBoardAnimationControler.controller.reverse(),
-                ),
-              ),
-              SlideTransition(
-                position: _contactAnimationControler.offset,
-                child: Contact(
-                  onCloseArrowTap: () =>
-                      _contactAnimationControler.controller.reverse(),
-                ),
-              )
-            ],
-          );
-        } else {
-          return Center(child: CircularProgressIndicator(strokeWidth: 2));
-        }
-      },
+              ],
+            ),
+            AquadexScreen(
+              pageController: pageController,
+            ),
+          ],
+        ),
+        SlideTransition(
+          position: _profileAnimationControler.offset,
+          child: ProfileScreen(
+            onCloseArrowTap: () =>
+                _profileAnimationControler.controller.reverse(),
+          ),
+        ),
+        SlideTransition(
+          position: _leaderBoardAnimationControler.offset,
+          child: LeaderboardScreen(
+            onCloseArrowTap: () =>
+                _leaderBoardAnimationControler.controller.reverse(),
+          ),
+        ),
+        SlideTransition(
+          position: _contactAnimationControler.offset,
+          child: Contact(
+            onCloseArrowTap: () =>
+                _contactAnimationControler.controller.reverse(),
+          ),
+        )
+      ],
     );
   }
 }

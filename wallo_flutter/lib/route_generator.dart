@@ -9,6 +9,8 @@ import 'package:wallo_flutter/screens/profile_screen.dart';
 import 'package:wallo_flutter/screens/reset_password_form.dart';
 import 'package:wallo_flutter/screens/signin_screen.dart';
 import 'package:wallo_flutter/screens/webview_screen.dart';
+import 'package:wallo_flutter/widgets/CameraManager.dart';
+import 'package:wallo_flutter/widgets/LifeCycleManager.dart';
 
 class Routes {
   static const loginScreen = "/";
@@ -41,7 +43,13 @@ class RouteGenerator {
       case Routes.reset:
         return MaterialPageRoute(builder: (context) => ResetPasswordForm());
       case Routes.home:
-        return MaterialPageRoute(builder: (context) => HomeScreen());
+        return MaterialPageRoute(
+          builder: (context) => LifeCycleManager(
+            child: CameraManager(
+              child: HomeScreen(),
+            ),
+          ),
+        );
       case Routes.webview:
         return MaterialPageRoute(builder: (context) => WebviewScreen());
       default:

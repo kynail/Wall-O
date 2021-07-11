@@ -5,7 +5,6 @@ import 'package:wallo_flutter/views/home/analyze_picture.dart';
 import 'dart:math' as math;
 
 class TakePicture extends StatefulWidget {
-  final CameraDescription camera;
   final double scale;
   final CameraController controller;
   final Function() onTakePicture;
@@ -13,16 +12,15 @@ class TakePicture extends StatefulWidget {
   final Function() onArrowTap;
   final double appBarHeight;
 
-  TakePicture(
-      {Key key,
-      @required this.camera,
-      @required this.scale,
-      @required this.controller,
-      @required this.onTakePicture,
-      @required this.onOpenGallery,
-      @required this.appBarHeight,
-      @required this.onArrowTap})
-      : super(key: key);
+  TakePicture({
+    Key key,
+    @required this.scale,
+    @required this.controller,
+    @required this.onTakePicture,
+    @required this.onOpenGallery,
+    @required this.appBarHeight,
+    @required this.onArrowTap,
+  }) : super(key: key);
 
   @override
   _TakePictureState createState() => _TakePictureState();
