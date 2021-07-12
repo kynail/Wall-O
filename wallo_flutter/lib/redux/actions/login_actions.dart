@@ -28,6 +28,7 @@ ThunkAction registerUser(
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       register(name, firstname, mail, passw).then((user) {
+        print("OKAY user $user");
         store.dispatch(new RequestSucceedActionWithMessage(
             "Bienvenue, " + user.firstName));
         store.dispatch(new LoginSuccessAction(user));

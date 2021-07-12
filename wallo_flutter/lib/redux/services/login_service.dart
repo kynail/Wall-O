@@ -48,6 +48,7 @@ Future<User> register(
       });
 
       ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
+      print("REGISTER RES $res");
 
       if (res.success == true) {
         return User.fromJson(jsonDecode(response.body)["data"]);
