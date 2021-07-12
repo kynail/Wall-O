@@ -43,14 +43,10 @@ Future<List<AquadexFish>> analyseFishRequest(
       'images': await MultipartFile.fromFile(imagePath, filename: 'coucou.jpg')
     });
 
-    print("IN ANALYZE FISH $aquadex");
-
     final response =
         await dio.post('http://165.169.231.252:8000/analyse', data: formData);
     //final fishesResponse = response.data["img"];
-   final fishesResponse = response.data;
-   print(fishesResponse);
-
+    final fishesResponse = response.data;
     if (fishesResponse == "") {
       return [];
     }
@@ -58,8 +54,6 @@ Future<List<AquadexFish>> analyseFishRequest(
     List<String> fishesData = fishesResponse.split(",");
 
     List<AquadexFish> fishes = [];
-
-    print("fishes DATA ${fishesData.length}");
 
     if (fishesData.isNotEmpty == true) {
       fishesData.forEach((fishData) {
@@ -76,11 +70,30 @@ Future<List<AquadexFish>> analyseFishRequest(
         //   fishes.add(new Fish.fromString(fishData));
       });
     } else {
-      print("NULLL");
       return [];
     }
 
     return fishes;
+  } on Exception {
+    return Future.error("Connexion au serveur impossible");
+  }
+}
+
+Future<List<String>> getUnlockedFishRequest(
+    String fishId, String userId) async {
+  try {
+    final response = await http.post(
+      Uri.parse(env["API_URL"] + "/users/aquadex/add"),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: {'id': userId, 'fishId': fishId},
+    );
+
+    ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
+    if (res.success == true) {
+      return List<String>.from(res.data);
+    } else {
+      return Future.error(getServerMessage(response, true));
+    }
   } on Exception {
     return Future.error("Connexion au serveur impossible");
   }

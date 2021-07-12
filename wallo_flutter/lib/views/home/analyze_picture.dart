@@ -55,7 +55,6 @@ class _AnalyzePictureState extends State<AnalyzePicture>
 
   @override
   Widget build(BuildContext context) {
-    print("FISHES ${widget.fishes}");
     if (widget.fishes != null && widget.fishes.length > 0) {
       _bottomSheetAnimController.forward();
     }
@@ -199,12 +198,12 @@ class _FishDetailsState extends State<FishDetails> {
                             Text(
                               " (${(aquadexFish.fish.confidence * 100).toStringAsFixed(0)} %)",
                               style: TextStyle(
-                              fontSize: 20, fontStyle: FontStyle.italic),
+                                  fontSize: 20, fontStyle: FontStyle.italic),
                             ),
                             SizedBox(height: 32),
-                             MoreInfoWithTitle(
-                                title: "Nom scientifique",
-                                body: aquadexFish.scientificName,
+                            MoreInfoWithTitle(
+                              title: "Nom scientifique",
+                              body: aquadexFish.scientificName,
                             ),
                           ],
                         ),
@@ -281,7 +280,8 @@ class MoreInfoWithTitle extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 12),
-          Text(body,
+          Text(
+            body,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12,

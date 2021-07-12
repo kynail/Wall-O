@@ -12,7 +12,7 @@ ThunkAction setExp(User user, double exp) {
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       expRequest(user, exp).then((data) {
-        user.level = data[0];
+        user = user.copyWith(level: data[0]);
         store.dispatch(new UpdateUserAction(user));
         store.dispatch(new RequestSucceedActionWithMessage(data[1]));
       }, onError: (errorMessage) {
@@ -27,7 +27,6 @@ ThunkAction getCamerasAction() {
     new Future(() async {
       try {
         final cameras = await availableCameras();
-        print("CAMERAS $cameras");
         if (cameras.isEmpty) {
           store.dispatch(
               new RequestFailedAction("Aucun appareil photo disponible"));
@@ -196,6 +195,12 @@ class UpdateUserAction {
   final User user;
 
   UpdateUserAction(this.user);
+}
+
+class SetUserAquadexAction {
+  final List<String> aquadex;
+
+  SetUserAquadexAction(this.aquadex);
 }
 
 class SetCamerasAction {

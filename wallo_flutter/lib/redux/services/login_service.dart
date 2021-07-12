@@ -17,8 +17,6 @@ Future<User> login(String mail, String password) async {
           body: {'mail': mail, 'password': password});
 
       ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
-      print("RESPONSE");
-      print(res);
 
       if (res.success == true) {
         return User.fromJson(jsonDecode(response.body)["data"]);

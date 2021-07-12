@@ -36,8 +36,7 @@ Future<User> setAvatarRequest(Avatar avatar, User user) async {
     ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
 
     if (res.success == true) {
-      user.avatar = avatar;
-      return user;
+      return user.copyWith(avatar: avatar);
     } else {
       return Future.error("Une erreur s'est produite, veuillez réessayer");
     }

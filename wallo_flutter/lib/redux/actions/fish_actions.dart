@@ -5,7 +5,9 @@ import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallo_flutter/models/Fish.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
 import 'package:wallo_flutter/redux/actions/messenger_actions.dart';
+import 'package:wallo_flutter/redux/actions/user_action.dart';
 import 'package:wallo_flutter/redux/services/fish_service.dart';
+import 'package:wallo_flutter/redux/state/app_state.dart';
 
 ThunkAction analyzedPictureAction(String filePath, List<AquadexFish> aquadex) {
   return (Store store) async {
@@ -17,6 +19,11 @@ ThunkAction analyzedPictureAction(String filePath, List<AquadexFish> aquadex) {
             store.dispatch(new RequestFailedAction("Aucun poisson trouvé"));
           } else {
             store.dispatch(new SetAnalyzedFishAction(fishes));
+            fishes.forEach(
+              (fish) => store.dispatch(
+                unlockFishAction(fish.id),
+              ),
+            );
             store.dispatch(new RequestSucceedAction());
           }
         }, onError: (errorMessage) {
@@ -24,6 +31,28 @@ ThunkAction analyzedPictureAction(String filePath, List<AquadexFish> aquadex) {
         });
       } on Exception {
         store.dispatch(new RequestFailedAction("Une erreur s'est produite"));
+      }
+    });
+  };
+}
+
+ThunkAction<AppState> unlockFishAction(String fishId) {
+  return (Store<AppState> store) async {
+    new Future(() async {
+      try {
+        print("FISH ID $fishId");
+        final userId = store.state.userState.user.id;
+        getUnlockedFishRequest(fishId, userId).then((aquadexData) {
+          print("AQUADEX DATA $aquadexData");
+          store.dispatch(new SetUserAquadexAction(aquadexData));
+        }, onError: (errorMessage) {
+          store.dispatch(new RequestFailedAction(errorMessage));
+        });
+      } on Exception {
+        store.dispatch(
+          new RequestFailedAction(
+              "Une erreur s'est produite lors de l'obtention du poisson dans l'aquarium"),
+        );
       }
     });
   };
