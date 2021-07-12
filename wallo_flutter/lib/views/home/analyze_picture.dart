@@ -6,6 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:wallo_flutter/models/Fish.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
 import 'package:wallo_flutter/theme.dart';
+import 'package:wallo_flutter/widgets/Popup_Map.dart';
+import 'package:wallo_flutter/widgets/percent.dart';
 
 class AnalyzePicture extends StatefulWidget {
   final bool isFromGallery;
@@ -201,6 +203,7 @@ class _FishDetailsState extends State<FishDetails> {
                                   fontSize: 20, fontStyle: FontStyle.italic),
                             ),
                             SizedBox(height: 32),
+                            Percent(pourcent: aquadexFish.fish.confidence),
                             MoreInfoWithTitle(
                               title: "Nom scientifique",
                               body: aquadexFish.scientificName,
@@ -241,6 +244,17 @@ class _FishDetailsState extends State<FishDetails> {
                                                   .length -
                                               1)
                                         Divider(),
+                                         Center(
+                  child: Container(
+                width: 250,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white, onPrimary: Colors.black),
+                    onPressed: () {
+                      showDialog(
+                  context: context,
+                 builder: (BuildContext context) => PopupMap());
+                    }))),
                                       SizedBox(
                                         height: 0,
                                       )
