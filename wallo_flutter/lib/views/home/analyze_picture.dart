@@ -25,8 +25,8 @@ class AnalyzePicture extends StatefulWidget {
     this.onDispose,
     this.latitude,
     this.longitude,
-    @required this.isFromGallery,
-    @required this.onInit,
+    this.isFromGallery,
+    this.onInit,
   }) : super(key: key);
 
   @override
