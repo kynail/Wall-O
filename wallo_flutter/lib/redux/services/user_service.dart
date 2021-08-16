@@ -36,8 +36,7 @@ Future<User> setAvatarRequest(Avatar avatar, User user) async {
     ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
 
     if (res.success == true) {
-      user.avatar = avatar;
-      return user;
+      return user.copyWith(avatar: avatar);
     } else {
       return Future.error("Une erreur s'est produite, veuillez réessayer");
     }
@@ -49,7 +48,7 @@ Future<User> setAvatarRequest(Avatar avatar, User user) async {
 Future<String> sendForgetRequest(String mail) async {
   try {
     final response = await http.post(
-      Uri.http("localhost:8080", "/users/auth/forget"),
+      Uri.http("wall-o.herokuapp.com", "/users/auth/forget"),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: {'mail': mail},
     );
@@ -62,6 +61,6 @@ Future<String> sendForgetRequest(String mail) async {
       return Future.error(res.message);
     }
   } on Exception {
-    return Future.error("Connexion au serveur impossible");
+    return Future.error("Connexion au serveur impossible...");
   }
 }

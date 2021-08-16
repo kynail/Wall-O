@@ -6,6 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:wallo_flutter/models/Fish.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
 import 'package:wallo_flutter/theme.dart';
+import 'package:wallo_flutter/widgets/Popup_Map.dart';
+import 'package:wallo_flutter/widgets/percent.dart';
 
 class AnalyzePicture extends StatefulWidget {
   final bool isFromGallery;
@@ -25,8 +27,8 @@ class AnalyzePicture extends StatefulWidget {
     this.onDispose,
     this.latitude,
     this.longitude,
-    @required this.isFromGallery,
-    @required this.onInit,
+    this.isFromGallery,
+    this.onInit,
   }) : super(key: key);
 
   @override
@@ -55,7 +57,6 @@ class _AnalyzePictureState extends State<AnalyzePicture>
 
   @override
   Widget build(BuildContext context) {
-    print("FISHES ${widget.fishes}");
     if (widget.fishes != null && widget.fishes.length > 0) {
       _bottomSheetAnimController.forward();
     }
@@ -199,12 +200,13 @@ class _FishDetailsState extends State<FishDetails> {
                             Text(
                               " (${(aquadexFish.fish.confidence * 100).toStringAsFixed(0)} %)",
                               style: TextStyle(
-                              fontSize: 20, fontStyle: FontStyle.italic),
+                                  fontSize: 20, fontStyle: FontStyle.italic),
                             ),
                             SizedBox(height: 32),
-                             MoreInfoWithTitle(
-                                title: "Nom scientifique",
-                                body: aquadexFish.scientificName,
+                            Percent(pourcent: aquadexFish.fish.confidence),
+                            MoreInfoWithTitle(
+                              title: "Nom scientifique",
+                              body: aquadexFish.scientificName,
                             ),
                           ],
                         ),
@@ -242,6 +244,17 @@ class _FishDetailsState extends State<FishDetails> {
                                                   .length -
                                               1)
                                         Divider(),
+                                         Center(
+                  child: Container(
+                width: 250,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.white, onPrimary: Colors.black),
+                    onPressed: () {
+                      showDialog(
+                  context: context,
+                 builder: (BuildContext context) => PopupMap());
+                    }))),
                                       SizedBox(
                                         height: 0,
                                       )
@@ -281,7 +294,8 @@ class MoreInfoWithTitle extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 12),
-          Text(body,
+          Text(
+            body,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 12,

@@ -5,13 +5,14 @@ import 'package:wallo_flutter/models/avatar.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/actions/messenger_actions.dart';
 import 'package:wallo_flutter/redux/services/user_service.dart';
+import 'package:wallo_flutter/redux/state/app_state.dart';
 
 ThunkAction setExp(User user, double exp) {
   return (Store store) async {
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       expRequest(user, exp).then((data) {
-        user.level = data[0];
+        user = user.copyWith(level: data[0]);
         store.dispatch(new UpdateUserAction(user));
         store.dispatch(new RequestSucceedActionWithMessage(data[1]));
       }, onError: (errorMessage) {
@@ -26,7 +27,6 @@ ThunkAction getCamerasAction() {
     new Future(() async {
       try {
         final cameras = await availableCameras();
-        print("CAMERAS $cameras");
         if (cameras.isEmpty) {
           store.dispatch(
               new RequestFailedAction("Aucun appareil photo disponible"));
@@ -38,6 +38,31 @@ ThunkAction getCamerasAction() {
             new RequestFailedAction("Impossible d'acceder à l'appareil photo"));
       }
     });
+  };
+}
+
+ThunkAction<AppState> initializeCameraControllerAction() {
+  return (Store<AppState> store) async {
+    new Future(
+      () async {
+        try {
+          store.dispatch(SetCameraLoadingAction());
+          final cameraList = store.state.userState.cameras;
+          CameraController controller = CameraController(
+            cameraList != null ? cameraList.first : null,
+            ResolutionPreset.medium,
+          );
+          await controller.initialize();
+          controller.setFlashMode(FlashMode.off);
+          store.dispatch(SetCameraControllerAction(controller));
+          store.dispatch(SetCameraLoadingAction());
+        } on Exception {
+          store.dispatch(
+            new RequestFailedAction("Impossible d'initialiser la camera"),
+          );
+        }
+      },
+    );
   };
 }
 
@@ -172,8 +197,24 @@ class UpdateUserAction {
   UpdateUserAction(this.user);
 }
 
+class SetUserAquadexAction {
+  final List<String> aquadex;
+
+  SetUserAquadexAction(this.aquadex);
+}
+
 class SetCamerasAction {
   final List<CameraDescription> cameras;
 
   SetCamerasAction(this.cameras);
+}
+
+class SetCameraControllerAction {
+  final CameraController cameraController;
+
+  SetCameraControllerAction(this.cameraController);
+}
+
+class SetCameraLoadingAction {
+  SetCameraLoadingAction();
 }

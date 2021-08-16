@@ -17,12 +17,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Widget buildContent(HomeViewModel viewModel, double appBarHeight) {
     return viewModel.cameras != null
-        ? MessengerHandler(
-            child: Home(
-            user: viewModel.user,
-            camera: viewModel.selectedCamera,
-            appBarHeight: appBarHeight,
-          ))
+        ? !viewModel.isCameraLoading
+            ? MessengerHandler(
+                child: Home(
+                  user: viewModel.user,
+                  cameraController: viewModel.cameraController,
+                  appBarHeight: appBarHeight,
+                ),
+              )
+            : Center(child: CircularProgressIndicator())
         : Container();
   }
 
@@ -41,17 +44,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-          drawer: CustomDrawer(),
-          // appBar: appBar,
-          body: new StoreConnector<AppState, HomeViewModel>(
-            distinct: true,
-            converter: (store) => HomeViewModel.fromStore(store),
-            builder: (_, viewModel) => buildContent(viewModel, appBarheight),
-            onInitialBuild: (viewModel) {
-              viewModel.getCameras();
-              viewModel.getAquadex();
-            },
-          )),
+        drawer: CustomDrawer(),
+        // appBar: appBar,
+        body: new StoreConnector<AppState, HomeViewModel>(
+          distinct: true,
+          converter: (store) => HomeViewModel.fromStore(store),
+          builder: (_, viewModel) => buildContent(viewModel, appBarheight),
+          onInitialBuild: (viewModel) {
+            viewModel.getAquadex();
+          },
+        ),
+      ),
     );
   }
 }

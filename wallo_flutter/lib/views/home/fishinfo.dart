@@ -4,16 +4,22 @@ import 'package:wallo_flutter/views/home/PopUp_Fish.dart';
 class FishInfo extends StatefulWidget {
   const FishInfo({
     Key key,
+    @required this.fishId,
     @required this.fishname,
     @required this.urlfish,
     @required this.description,
     @required this.scientificName,
+    @required this.slug,
+    this.isunlocked,
   }) : super(key: key);
 
+  final String fishId;
   final String fishname;
   final String scientificName;
   final String urlfish;
   final String description;
+  final String slug;
+  final bool isunlocked;
 
   @override
   _FishInfoState createState() => _FishInfoState();
@@ -29,16 +35,17 @@ class _FishInfoState extends State<FishInfo> {
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
-            //Navigator.of(context).pushReplacementNamed("/fishclicked");
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => PopupFish(
-                fishName: widget.fishname,
-                scientificName: widget.scientificName,
-                url: widget.urlfish,
-                description: widget.description,
-              ),
-            );
+            if (widget.isunlocked == true) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => PopupFish(
+                  fishName: widget.fishname,
+                  scientificName: widget.scientificName,
+                  url: widget.urlfish,
+                  description: widget.description,
+                ),
+              );
+            }
           },
           child: Stack(
             children: [
@@ -47,11 +54,22 @@ class _FishInfoState extends State<FishInfo> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.network(
-                    widget.urlfish,
+                    widget.isunlocked
+                        ? "https://wall-o.herokuapp.com/assets/aquadex-slug/" +
+                            widget.slug +
+                            ".png"
+                        : "https://wall-o.herokuapp.com/assets/aquadex-slug/" +
+                            widget.slug +
+                            "-black.png",
                     height: 125,
                     width: double.infinity,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.scaleDown,
                   ),
+                  // Image(
+                  //   image: AssetImage(widget.isunlocked
+                  //       ? "assets/aquadex/" + widget.slug + ".png"
+                  //       : "assets/aquadex/" + widget.slug + "-black.png"),
+                  // ),
                   SizedBox(
                     height: 8,
                   ),

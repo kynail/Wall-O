@@ -1,10 +1,11 @@
 class Level {
-  Level({this.level, this.nextLvl, this.xp, this.totalXp});
+  Level({this.level, this.nextLvl, this.xp, this.totalXp, this.achievements});
 
   int xp;
   int nextLvl;
   int level;
   int totalXp;
+  List<String> achievements;
 
   factory Level.fromJson(Map<String, dynamic> json) {
     return Level(
@@ -12,6 +13,7 @@ class Level {
       nextLvl: json['nxtlvl'] as int,
       level: json['userlvl'] as int,
       totalXp: json['totalxp'] as int,
+      achievements: List.from(json['achievements']),
     );
   }
 
