@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 poisson_chirurgien
 poisson_coffre
 poisson_demoiselle
@@ -7,4 +8,15 @@ idole_des_maures
 poisson_soldat
 poisson_labre
 poisson_baliste
+=======
+poisson_chirurgien
+poisson_coffre
+poisson_demoiselle
+poisson_mulet
+poisson_papillon
+idole_des_maures
+poisson_soldat
+poisson_labre
+poisson_baliste
+>>>>>>> 62865e11a13ad182dab886682ff124f0282610bb
 poisson_perroquet
