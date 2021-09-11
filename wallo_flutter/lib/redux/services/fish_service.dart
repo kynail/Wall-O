@@ -43,10 +43,15 @@ Future<List<AquadexFish>> analyseFishRequest(
       'images': await MultipartFile.fromFile(imagePath, filename: 'coucou.jpg')
     });
 
-    final response =
-        await dio.post('http://165.169.231.252:8000/analyse', data: formData);
-    //final fishesResponse = response.data["img"];
-    final fishesResponse = response.data;
+    final rawResponse =
+        await dio.post('http://50.17.147.88/analyse', data: formData);
+    print("rawResponse ${rawResponse.data}");
+    final response = jsonDecode(rawResponse.toString());
+    print("RESPONSE $response");
+    final fishesResponse = response["fishes"];
+
+    print("fishesReponse $fishesResponse");
+
     if (fishesResponse == "") {
       return [];
     }
@@ -72,6 +77,8 @@ Future<List<AquadexFish>> analyseFishRequest(
     } else {
       return [];
     }
+
+    print("last one $fishes");
 
     return fishes;
   } on Exception {
