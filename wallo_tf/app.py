@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response, jsonify
 from tensorflow.compat.v1 import InteractiveSession
 from tensorflow.compat.v1 import ConfigProto
 import numpy as np
@@ -37,14 +37,14 @@ saved_model_loaded = tf.saved_model.load(
     weights_path, tags=[tag_constants.SERVING])
 print("model load")
 
+
 @app.route("/")
 def home():
     return "Hello World from python server"
 
-@app.route("/analyse", methods = ['POST'])
-def base64Image():
-    print("get Base 64 image")
 
+@app.route("/analyse", methods=['POST'])
+def base64Image():
     # A faire : verifier le bon format de l'image en base 64 sinon crash
     image = request.files["images"]
     image_name = "fish.png"
@@ -80,8 +80,8 @@ def base64Image():
     )
     pred_bbox = [boxes.numpy(), scores.numpy(), classes.numpy(),
                  valid_detections.numpy()]
-    # image = utils.draw_bbox(original_image, pred_bbox)
-    # image = Image.fromarray(image.astype(np.uint8))
+    image = utils.draw_bbox(original_image, pred_bbox)
+    image = Image.fromarray(image.astype(np.uint8))
 
     # Récupération des infos
     num_objects = valid_detections.numpy()[0]
@@ -99,14 +99,16 @@ def base64Image():
         names.append(class_name + ":" + current_precision)
 
     names = ','.join(names)
-    print("FINAL NAMES ", names)
 
-    #image.show()
-#    image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
+    image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
 
-    # _, img_encoded = cv2.imencode('.jpg', image)
-   # final_image = (base64.b64encode(img_encoded)).decode()
-    return names
-    
+    _, img_encoded = cv2.imencode('.png', image)
+    final_image = (base64.b64encode(img_encoded)).decode()
+
+    # remove temporary image
+    os.remove(image_name)
+
+    return {"fishes": names, "image": final_image}
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8000)

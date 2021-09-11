@@ -4,7 +4,7 @@ FROM tensorflow/tensorflow:2.3.0rc0
 WORKDIR /usr/src/app
 
 RUN apt-get update -y \
-  && apt-get install -y --no-install-recommends python3.6 python3-pip \
+  && apt-get install -y --no-install-recommends python3.6 python3-pip libsm6 libxext6 libxrender-dev \
   && apt-get clean
 
 COPY . .
