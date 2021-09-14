@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:io';
 
 class Webview extends StatefulWidget {
@@ -29,10 +30,10 @@ class _WebviewState extends State<Webview> {
         WebView(
           javascriptMode: JavascriptMode.unrestricted,
           userAgent: "wallo",
-          initialUrl: 'https://wall-o.herokuapp.com/users/auth/google',
+          initialUrl: '${env["API_URL"]}/users/auth/google',
           navigationDelegate: (NavigationRequest request) {
-            if (request.url.startsWith(
-                'https://wall-o.herokuapp.com/users/auth/google/callback')) {
+            if (request.url
+                .startsWith('${env["API_URL"]}/users/auth/google/callback')) {
               print('blocking navigation to $request}');
               widget.onLoginSuccess(request.url);
               return NavigationDecision.prevent;

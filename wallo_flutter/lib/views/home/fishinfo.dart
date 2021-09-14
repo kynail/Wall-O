@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallo_flutter/views/home/PopUp_Fish.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class FishInfo extends StatefulWidget {
   const FishInfo({
@@ -55,10 +56,10 @@ class _FishInfoState extends State<FishInfo> {
                 children: [
                   Image.network(
                     widget.isunlocked
-                        ? "https://wall-o.herokuapp.com/assets/aquadex-slug/" +
+                        ? "${env["API_URL"]}/assets/aquadex-slug/" +
                             widget.slug +
                             ".png"
-                        : "https://wall-o.herokuapp.com/assets/aquadex-slug/" +
+                        : "${env["API_URL"]}/assets/aquadex-slug/" +
                             widget.slug +
                             "-black.png",
                     height: 125,
