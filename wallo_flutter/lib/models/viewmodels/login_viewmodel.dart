@@ -12,19 +12,19 @@ class LoginViewModel {
   final Function(String) logWithGoogle;
   final Function() getCameras;
 
-  LoginViewModel(
-      {this.messenger,
-      this.login,
-      this.register,
-      this.logWithGoogle,
-      this.getCameras});
+  LoginViewModel({
+    this.messenger,
+    this.login,
+    this.register,
+    this.logWithGoogle,
+    this.getCameras,
+  });
 
   static LoginViewModel fromStore(Store<AppState> store) {
     return LoginViewModel(
         messenger: store.state.messengerState,
-        login: (String username, String password) {
-          store.dispatch(logUser(username, password));
-        },
+        login: (String username, String password) =>
+            store.dispatch(logUser(username, password)),
         getCameras: () => store.dispatch(getCamerasAction()),
         register: (name, firstname, mail, passw) =>
             store.dispatch(registerUser(name, firstname, mail, passw)),

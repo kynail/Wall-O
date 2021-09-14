@@ -20,11 +20,12 @@ class MessengerHandler extends StatelessWidget {
         if (viewModel.messenger.showSnackbar == true) {
           viewModel.markSnackbarHandled();
           handleSnackBar(
-              context,
-              viewModel.messenger.errorMessage,
-              viewModel.messenger.successMessage,
-              viewModel.messenger.isError,
-              viewModel.messenger.isLoading);
+            context,
+            viewModel.messenger.errorMessage,
+            viewModel.messenger.successMessage,
+            viewModel.messenger.isError,
+            viewModel.messenger.isLoading,
+          );
         }
       },
     );

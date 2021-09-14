@@ -48,10 +48,34 @@ Future<User> setAvatarRequest(Avatar avatar, User user) async {
 Future<String> sendForgetRequest(String mail) async {
   try {
     final response = await http.post(
-      Uri.http("wall-o.herokuapp.com", "/users/auth/forget"),
+      Uri.parse(env["API_URL"] + "/users/auth/forget"),
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: {'mail': mail},
     );
+
+    ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
+
+    if (res.success == true) {
+      return res.message;
+    } else {
+      return Future.error(res.message);
+    }
+  } on Exception {
+    return Future.error("Connexion au serveur impossible...");
+  }
+}
+
+Future<String> resetPasswordRequest(
+    String password, String confirmPassword, String token) async {
+  try {
+    final response = await http
+        .post(Uri.parse(env["API_URL"] + "/users/auth/reset"), headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }, body: {
+      'token': token,
+      "newPassword": password,
+      "verifyPassword": confirmPassword
+    });
 
     ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
 
