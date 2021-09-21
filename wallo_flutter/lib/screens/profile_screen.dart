@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wallo_flutter/models/viewmodels/profile_viewmodel.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/views/profile/profile.dart';
-import 'package:wallo_flutter/widgets/custom_drawer.dart';
 import 'package:wallo_flutter/widgets/messenger_handler.dart';
 
 import '../theme.dart';
@@ -33,11 +32,12 @@ class ProfileScreen extends StatelessWidget {
     double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Scaffold(
-        backgroundColor: AppTheme.secondaryColor,
-        body: new StoreConnector<AppState, ProfileViewModel>(
-          distinct: true,
-          converter: (store) => ProfileViewModel.fromStore(store),
-          builder: (_, viewModel) => buildContent(viewModel, statusBarHeight),
-        ));
+      backgroundColor: AppTheme.secondaryColor,
+      body: new StoreConnector<AppState, ProfileViewModel>(
+        distinct: true,
+        converter: (store) => ProfileViewModel.fromStore(store),
+        builder: (_, viewModel) => buildContent(viewModel, statusBarHeight),
+      ),
+    );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wallo_flutter/models/viewmodels/home_viewModel.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
-import 'package:wallo_flutter/widgets/custom_drawer.dart';
 import 'package:wallo_flutter/widgets/messenger_handler.dart';
 
 import '../views/home/home.dart';
@@ -44,8 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        drawer: CustomDrawer(),
-        // appBar: appBar,
         body: new StoreConnector<AppState, HomeViewModel>(
           distinct: true,
           converter: (store) => HomeViewModel.fromStore(store),

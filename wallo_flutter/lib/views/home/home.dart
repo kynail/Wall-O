@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:exif/exif.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/screens/analyze_picture_screen.dart';
 import 'package:wallo_flutter/screens/aquadex_screen.dart';
@@ -174,12 +175,40 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     child: TopBar(
                       user: widget.user,
                       onAvatarTap: () {
-                        _profileAnimationControler.controller.forward();
+                        showMaterialModalBottomSheet(
+                          expand: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return ProfileScreen(
+                              onCloseArrowTap: () =>
+                                  Navigator.of(context).pop(),
+                            );
+                          },
+                        );
                       },
                       onLeaderboardTap: () {
-                        _leaderBoardAnimationControler.controller.forward();
+                        showMaterialModalBottomSheet(
+                          expand: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return LeaderboardScreen(
+                              onCloseArrowTap: () =>
+                                  Navigator.of(context).pop(),
+                            );
+                          },
+                        );
                       },
                       onContactTap: () {
+                        showMaterialModalBottomSheet(
+                          expand: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Contact(
+                              onCloseArrowTap: () =>
+                                  Navigator.of(context).pop(),
+                            );
+                          },
+                        );
                         _contactAnimationControler.controller.forward();
                       },
                     ),
@@ -192,27 +221,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             ),
           ],
         ),
-        SlideTransition(
-          position: _profileAnimationControler.offset,
-          child: ProfileScreen(
-            onCloseArrowTap: () =>
-                _profileAnimationControler.controller.reverse(),
-          ),
-        ),
-        SlideTransition(
-          position: _leaderBoardAnimationControler.offset,
-          child: LeaderboardScreen(
-            onCloseArrowTap: () =>
-                _leaderBoardAnimationControler.controller.reverse(),
-          ),
-        ),
-        SlideTransition(
-          position: _contactAnimationControler.offset,
-          child: Contact(
-            onCloseArrowTap: () =>
-                _contactAnimationControler.controller.reverse(),
-          ),
-        )
       ],
     );
   }

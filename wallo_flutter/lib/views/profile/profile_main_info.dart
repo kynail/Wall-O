@@ -6,6 +6,7 @@ import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/redux/state/user_state.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/models/avatar.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import 'avatar_bottom_sheet.dart';
 
@@ -53,27 +54,36 @@ class XpBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("Niveau : " + user.level.level.toString(),
-          style: TextStyle(fontSize: 18)),
-      SizedBox(height: 12),
-      LinearProgressIndicator(
-        value: (user.level.xp / user.level.nextLvl * 100) / 100,
-        semanticsLabel: "Indicateur d'expérience",
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
-        backgroundColor: AppTheme.lightGrey,
-      ),
-      SizedBox(height: 12),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(
-            (user.level.xp).toStringAsFixed(0) +
-                " / " +
-                user.level.nextLvl.toStringAsFixed(0),
-            style: TextStyle(fontSize: 16, color: AppTheme.secondaryText)),
-        Text("Expérience",
-            style: TextStyle(fontSize: 16, color: AppTheme.secondaryText))
-      ]),
-    ]);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Niveau : " + user.level.level.toString(),
+            style: TextStyle(fontSize: 18)),
+        SizedBox(height: 12),
+        LinearProgressIndicator(
+          value: (user.level.xp / user.level.nextLvl * 100) / 100,
+          semanticsLabel: "Indicateur d'expérience",
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
+          backgroundColor: AppTheme.lightGrey,
+        ),
+        SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              (user.level.xp).toStringAsFixed(0) +
+                  " / " +
+                  user.level.nextLvl.toStringAsFixed(0),
+              style: TextStyle(fontSize: 16, color: AppTheme.secondaryText),
+            ),
+            Text(
+              "Expérience",
+              style: TextStyle(fontSize: 16, color: AppTheme.secondaryText),
+            )
+          ],
+        ),
+      ],
+    );
   }
 }
 
@@ -91,63 +101,67 @@ class UserInfo extends StatefulWidget {
 
 class _UserInfoState extends State<UserInfo> {
   void onAvatarTap(BuildContext context, UserState userState) {
-    showModalBottomSheet(
-        context: context,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-        ),
-        isScrollControlled: true,
-        builder: (BuildContext context) {
-          return AvatarBottomSheet(
-            user: userState.user,
-            onSaveAvatarPressed: widget.onSaveAvatarPressed,
-          );
-        });
+    showMaterialModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+      ),
+      builder: (BuildContext context) {
+        return AvatarBottomSheet(
+          user: userState.user,
+          onSaveAvatarPressed: (seed, type) {
+            widget.onSaveAvatarPressed(seed, type);
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserState>(
-        distinct: true,
-        converter: (store) => store.state.userState,
-        builder: (context, userState) {
-          return Column(
-            children: [
-              Stack(
-                children: [
-                  if (userState.user.avatar != null)
-                    AvatarLayout(avatar: userState.user.avatar),
-                  Positioned.fill(
-                    child: Material(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(50),
-                      child: InkWell(
-                        customBorder: CircleBorder(),
-                        onTap: () {
-                          onAvatarTap(context, userState);
-                        },
-                      ),
+      distinct: true,
+      converter: (store) => store.state.userState,
+      builder: (context, userState) {
+        return Column(
+          children: [
+            Stack(
+              children: [
+                if (userState.user.avatar != null)
+                  AvatarLayout(avatar: userState.user.avatar),
+                Positioned.fill(
+                  child: Material(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(50),
+                    child: InkWell(
+                      customBorder: CircleBorder(),
+                      onTap: () {
+                        onAvatarTap(context, userState);
+                      },
                     ),
                   ),
-                ],
+                ),
+              ],
+            ),
+            SizedBox(height: 12),
+            if (userState.user.firstName != null &&
+                userState.user.lastName != null)
+              Text(
+                userState.user.firstName + " " + userState.user.lastName,
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 12),
-              if (userState.user.firstName != null &&
-                  userState.user.lastName != null)
-                Text(
-                  userState.user.firstName + " " + userState.user.lastName,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-              SizedBox(height: 4),
-              if (userState.user.mail != null)
-                Text(
-                  "(" + userState.user.mail + ")",
-                  style: TextStyle(fontSize: 14),
-                ),
-            ],
-          );
-        });
+            SizedBox(height: 4),
+            if (userState.user.mail != null)
+              Text(
+                "(" + userState.user.mail + ")",
+                style: TextStyle(fontSize: 14),
+              ),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -234,12 +248,13 @@ class AvatarLayout extends StatelessWidget {
               bottom: 0.0,
               right: 0.0,
               child: Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Icon(Icons.edit),
-                  )),
+                decoration:
+                    BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(Icons.edit),
+                ),
+              ),
             )
         ],
       ),

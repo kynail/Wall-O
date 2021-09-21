@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/views/floating_page_top_bar.dart';
 import 'package:wallo_flutter/views/profile/profile_main_info.dart';
-import 'package:wallo_flutter/wall_o_icons.dart';
 import 'package:wallo_flutter/widgets/achievement.dart';
 
 class Profile extends StatelessWidget {

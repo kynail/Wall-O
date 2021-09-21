@@ -21,15 +21,29 @@ class _EditAvatarState extends State<EditAvatar> {
   String _seed = '';
 
   @override
+  void initState() {
+    if (widget.user.avatar.seed != null) {
+      _seed = widget.user.avatar.seed;
+    }
+    if (widget.user.avatar.type != null) {
+      _dropdownValue = widget.user.avatar.type;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
-              color: Color(0xff804645),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16))),
+            color: Color(0xff804645),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Container(
@@ -45,7 +59,7 @@ class _EditAvatarState extends State<EditAvatar> {
             ),
           ),
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 12),
         Column(
           children: [
             DropdownButton<String>(
@@ -80,19 +94,21 @@ class _EditAvatarState extends State<EditAvatar> {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-          child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  _seed = value;
-                });
-              },
-              autocorrect: false,
-              decoration: InputDecoration(
-                hintText: 'Ecrivez quelque chose',
-                border: InputBorder.none,
-                fillColor: Color(0xfffff6d4),
-                filled: true,
-              )),
+          child: TextFormField(
+            onChanged: (value) {
+              setState(() {
+                _seed = value;
+              });
+            },
+            initialValue: _seed,
+            autocorrect: false,
+            decoration: InputDecoration(
+              hintText: 'Ecrivez quelque chose',
+              border: InputBorder.none,
+              fillColor: Color(0xfffff6d4),
+              filled: true,
+            ),
+          ),
         ),
         SizedBox(height: 20),
         ElevatedButton(
@@ -100,10 +116,9 @@ class _EditAvatarState extends State<EditAvatar> {
               style: TextStyle(color: Colors.white, fontSize: 18)),
           onPressed: () {
             widget.onSaveAvatarPressed(_seed, _dropdownValue);
-            // Redux.store.dispatch((store) => setAvatar(
-            //     store, Avatar(seed: _seed, type: _dropdownValue), widget.user));
           },
         ),
+        SizedBox(height: 12),
       ],
     );
   }
