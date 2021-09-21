@@ -27,13 +27,23 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        lastName: json['lastName'],
-        firstName: json['firstName'],
-        mail: json['mail'],
-        id: json['id'],
-        aquadex: List.from(json['aquadex']),
-        avatar: Avatar.fromJson(json['avatar']),
-        level: Level.fromJson(json['game']));
+      lastName: json['lastName'],
+      firstName: json['firstName'],
+      mail: json['mail'],
+      id: json['id'],
+      aquadex: List.from(json['aquadex']),
+      avatar: Avatar.fromJson(json['avatar']),
+      level: Level.fromJson(json['game']),
+    );
+  }
+
+  bool isValid() {
+    return lastName != null &&
+        firstName != null &&
+        mail != null &&
+        avatar != null &&
+        level != null &&
+        aquadex != null;
   }
 
   // User.setAvatar(Avatar avatar) {

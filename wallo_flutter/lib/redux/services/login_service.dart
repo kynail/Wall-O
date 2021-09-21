@@ -63,12 +63,15 @@ Future<User> register(
 
 Future<User> googleRequest(String requestUrl) async {
   try {
+    print("REQUEST URL $requestUrl");
     final response = await http.get(Uri.parse(requestUrl));
+    print("RESPONSE === ${response.body}");
 
     ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
+    print("WUT === $res");
 
     if (res.success == true) {
-      return User.fromJson(jsonDecode(response.body)["data"]);
+      return User.fromJson(res.data);
     } else {
       return Future.error(getServerMessage(response, true));
     }

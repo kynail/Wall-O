@@ -45,11 +45,13 @@ ThunkAction googleLogin(String requestUrl) {
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       googleRequest(requestUrl).then((user) {
-        store.dispatch(new RequestSucceedActionWithMessage(
-            "Bienvenue, " + user.firstName));
+        store.dispatch(
+          new RequestSucceedActionWithMessage("Bienvenue, " + user.firstName),
+        );
         store.dispatch(new LoginSuccessAction(user));
         Keys.navKey.currentState.pushReplacementNamed(Routes.home);
       }, onError: (errorMessage) {
+        print("ERROR GOOGLE LOGIN $errorMessage");
         store.dispatch(new RequestFailedAction(errorMessage));
       });
     });
