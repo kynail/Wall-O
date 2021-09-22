@@ -39,6 +39,7 @@ class _TakePictureState extends State<TakePicture> {
             widget.controller,
           ),
         ),
+        Align(alignment: Alignment.center, child: Image(image: AssetImage('assets/Cadre.png'))),
         TakePictureButtons(
           onTakePicture: () => widget.onTakePicture(),
           onOpenGallery: () => widget.onOpenGallery(),
@@ -129,14 +130,13 @@ class _AnimatedIconButtonState extends State<AnimatedIconButton>
 
   @override
   Widget build(BuildContext context) {
-    return 
-    ScaleTransition(
+    return ScaleTransition(
       scale: _iconAnimationController,
       child: IconButton(
         icon: Image.asset('assets/boutton_TakePicture_WallOLogo.png'),
-        onPressed: () { _onTap();
+        onPressed: () {
+          _onTap();
           widget.onTakePicture();
-                        
         },
         iconSize: 100,
         color: Colors.white,
