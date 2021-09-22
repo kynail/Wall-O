@@ -10,6 +10,7 @@ class TakePicture extends StatefulWidget {
   final Function() onTakePicture;
   final Function() onOpenGallery;
   final Function() onArrowTap;
+  AnimationController _iconAnimationController;
   final double appBarHeight;
 
   TakePicture({
@@ -71,12 +72,7 @@ class TakePictureButtons extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Spacer(),
-              IconButton(
-                icon: const Icon(Icons.lens_outlined),
-                onPressed: () => onTakePicture(),
-                iconSize: 100,
-                color: Colors.white,
-              ),
+              AnimatedIconButton(onTakePicture: onTakePicture),
               Expanded(
                   child: Row(
                 children: [
@@ -102,5 +98,55 @@ class TakePictureButtons extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class AnimatedIconButton extends StatefulWidget {
+  AnimatedIconButton({Key key, @required this.onTakePicture}) : super(key: key);
+
+  final Function() onTakePicture;
+  @override
+  _AnimatedIconButtonState createState() => _AnimatedIconButtonState();
+}
+
+class _AnimatedIconButtonState extends State<AnimatedIconButton>
+    with TickerProviderStateMixin {
+  AnimationController _iconAnimationController;
+  bool _active = false;
+
+  @override
+  void initState() {
+    _iconAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 125),
+      value: 1.0,
+      lowerBound: 1.00,
+      upperBound: 1.45,
+    );
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return 
+    ScaleTransition(
+      scale: _iconAnimationController,
+      child: IconButton(
+        icon: Image.asset('assets/boutton_TakePicture_WallOLogo.png'),
+        onPressed: () { _onTap();
+          widget.onTakePicture();
+                        
+        },
+        iconSize: 100,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  void _onTap() {
+    _iconAnimationController.forward().then((value) {
+      _iconAnimationController.reverse();
+    });
   }
 }
