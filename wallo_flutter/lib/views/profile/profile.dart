@@ -3,7 +3,7 @@ import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/views/floating_page_top_bar.dart';
 import 'package:wallo_flutter/views/profile/profile_main_info.dart';
-import 'package:wallo_flutter/wall_o_icons.dart';
+import 'package:wallo_flutter/widgets/achievement.dart';
 
 class Profile extends StatelessWidget {
   const Profile({
@@ -41,6 +41,43 @@ class Profile extends StatelessWidget {
                     // SizedBox(height: 60),
                     // Divider(thickness: 2),
                     // AddExp(user: user, addExp: (xp) => addExp(xp))
+                    SizedBox(
+                      height: 300,
+                      child: GridView.count(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 20,
+                        children: [
+                          Achievement(
+                            unlockedImagePath: "assets/star.png",
+                            description: "Première connexion",
+                            title: "Explorateur",
+                            lockedImagePath: "assets/starblack.jpeg",
+                            isUnlocked: false,
+                          ),
+                          Achievement(
+                            unlockedImagePath: "assets/star.png",
+                            description: "Première connexion",
+                            title: "Explorateur",
+                            lockedImagePath: "assets/starblack.jpeg",
+                            isUnlocked: true,
+                          ),
+                          Achievement(
+                            unlockedImagePath: "assets/star.png",
+                            description: "Première connexion",
+                            title: "Explorateur",
+                            lockedImagePath: "assets/starblack.jpeg",
+                            isUnlocked: true,
+                          ),
+                          Achievement(
+                            unlockedImagePath: "assets/star.png",
+                            description: "Première connexion",
+                            title: "Explorateur",
+                            lockedImagePath: "assets/starblack.jpeg",
+                            isUnlocked: true,
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),

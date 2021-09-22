@@ -35,12 +35,14 @@ class _LeaderboardState extends State<Leaderboard> {
               child: Column(
                 children: widget.leaderboard.map((user) {
                   var index = widget.leaderboard.indexOf(user) + 1;
-                  return ClassementCard(
-                      classement: index,
-                      name: user.firstName + " " + user.lastName,
-                      avatar: user.avatar,
-                      score: user.level.totalXp,
-                      color: Colors.white);
+                  return user.isValid()
+                      ? ClassementCard(
+                          classement: index,
+                          name: user.firstName + " " + user.lastName,
+                          avatar: user.avatar,
+                          score: user.level.totalXp,
+                          color: Colors.white)
+                      : Container();
                 }).toList(),
               ),
             ),

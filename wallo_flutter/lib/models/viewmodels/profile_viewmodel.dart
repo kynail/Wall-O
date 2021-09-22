@@ -10,7 +10,7 @@ class ProfileViewModel {
   final MessengerState messenger;
   final User user;
   final Function(double exp) addExp;
-  final Function(String, String) onSaveAvatarPressed;
+  final Function(String seed, String type) onSaveAvatarPressed;
 
   ProfileViewModel({
     this.messenger,

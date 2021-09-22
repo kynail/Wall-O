@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:wallo_flutter/models/Fish.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/widgets/Popup_Map.dart';
@@ -244,17 +243,22 @@ class _FishDetailsState extends State<FishDetails> {
                                                   .length -
                                               1)
                                         Divider(),
-                                         Center(
-                  child: Container(
-                width: 250,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.white, onPrimary: Colors.black),
-                    onPressed: () {
-                      showDialog(
-                  context: context,
-                 builder: (BuildContext context) => PopupMap());
-                    }))),
+                                      Center(
+                                          child: Container(
+                                              width: 250,
+                                              child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          primary: Colors.white,
+                                                          onPrimary:
+                                                              Colors.black),
+                                                  onPressed: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            PopupMap());
+                                                  }))),
                                       SizedBox(
                                         height: 0,
                                       )

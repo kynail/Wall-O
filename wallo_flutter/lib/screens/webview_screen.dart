@@ -9,8 +9,9 @@ class WebviewScreen extends StatelessWidget {
 
   Widget buildContent(LoginViewModel viewModel) {
     return Webview(
-        isLoading: viewModel.messenger.isLoading,
-        onLoginSuccess: (url) => viewModel.logWithGoogle(url));
+      isLoading: viewModel.messenger.isLoading,
+      onLoginSuccess: (url) => viewModel.logWithGoogle(url),
+    );
   }
 
   @override

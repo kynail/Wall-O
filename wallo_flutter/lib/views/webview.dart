@@ -34,7 +34,7 @@ class _WebviewState extends State<Webview> {
           navigationDelegate: (NavigationRequest request) {
             if (request.url
                 .startsWith('${env["API_URL"]}/users/auth/google/callback')) {
-              print('blocking navigation to $request}');
+              print('blocking navigation to ${request.url}}');
               widget.onLoginSuccess(request.url);
               return NavigationDecision.prevent;
             }
@@ -57,10 +57,11 @@ class _WebviewState extends State<Webview> {
         ),
         if (_isLoading == true || widget.isLoading == true)
           Align(
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-              )),
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+            ),
+          ),
       ],
     );
   }

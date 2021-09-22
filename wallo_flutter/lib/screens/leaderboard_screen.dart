@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wallo_flutter/models/viewmodels/leaderboard_viewmodel.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/views/leaderboard.dart';
-import 'package:wallo_flutter/widgets/custom_drawer.dart';
 
 import '../theme.dart';
 
@@ -19,7 +18,8 @@ class LeaderboardScreen extends StatelessWidget {
     return viewModel.leaderboard == null
         ? Align(
             alignment: Alignment.center,
-            child: CircularProgressIndicator(strokeWidth: 2))
+            child: CircularProgressIndicator(strokeWidth: 2),
+          )
         : Padding(
             padding: EdgeInsets.only(top: statusBarHeight),
             child: Leaderboard(
