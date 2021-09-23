@@ -4,6 +4,7 @@ import 'package:wallo_flutter/models/Fish.dart';
 import 'package:http/http.dart' as http;
 import 'package:wallo_flutter/models/aquadex_fish.dart';
 import 'package:wallo_flutter/models/server_message.dart';
+import 'package:wallo_flutter/models/unlocked_fish.dart';
 import 'dart:convert';
 
 import '../../utils.dart';
@@ -86,7 +87,7 @@ Future<List<AquadexFish>> analyseFishRequest(
   }
 }
 
-Future<List<String>> getUnlockedFishRequest(
+Future<UnlockedFish> getUnlockedFishRequest(
     String fishId, String userId) async {
   try {
     final response = await http.post(
@@ -97,7 +98,8 @@ Future<List<String>> getUnlockedFishRequest(
 
     ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
     if (res.success == true) {
-      return List<String>.from(res.data);
+      return UnlockedFish.fromMap(res.data);
+      // return List<String>.from(res.data["aquadex"]);
     } else {
       return Future.error(getServerMessage(response, true));
     }

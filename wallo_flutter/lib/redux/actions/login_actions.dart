@@ -1,6 +1,7 @@
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallo_flutter/models/user.dart';
+import 'package:wallo_flutter/redux/actions/achievement_actions.dart';
 import 'package:wallo_flutter/redux/services/login_service.dart';
 import 'package:wallo_flutter/route_generator.dart';
 
@@ -11,9 +12,11 @@ ThunkAction logUser(String mail, String password) {
     new Future(() async {
       store.dispatch(new StartLoadingAction());
       login(mail, password).then((user) {
-        store.dispatch(new RequestSucceedActionWithMessage(
-            "Bienvenue, " + user.firstName));
+        store.dispatch(
+          new RequestSucceedActionWithMessage("Bienvenue, " + user.firstName),
+        );
         store.dispatch(new LoginSuccessAction(user));
+        store.dispatch(SetNewAchievementAction(user.newAchievement));
         Keys.navKey.currentState.pushReplacementNamed(Routes.home);
       }, onError: (errorMessage) {
         store.dispatch(new RequestFailedAction(errorMessage));
@@ -49,6 +52,7 @@ ThunkAction googleLogin(String requestUrl) {
           new RequestSucceedActionWithMessage("Bienvenue, " + user.firstName),
         );
         store.dispatch(new LoginSuccessAction(user));
+        store.dispatch(SetNewAchievementAction(user.newAchievement));
         Keys.navKey.currentState.pushReplacementNamed(Routes.home);
       }, onError: (errorMessage) {
         print("ERROR GOOGLE LOGIN $errorMessage");

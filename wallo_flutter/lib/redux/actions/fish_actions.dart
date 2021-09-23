@@ -4,6 +4,7 @@ import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallo_flutter/models/Fish.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
+import 'package:wallo_flutter/redux/actions/achievement_actions.dart';
 import 'package:wallo_flutter/redux/actions/messenger_actions.dart';
 import 'package:wallo_flutter/redux/actions/user_action.dart';
 import 'package:wallo_flutter/redux/services/fish_service.dart';
@@ -44,7 +45,9 @@ ThunkAction<AppState> unlockFishAction(String fishId) {
         final userId = store.state.userState.user.id;
         getUnlockedFishRequest(fishId, userId).then((aquadexData) {
           print("AQUADEX DATA $aquadexData");
-          store.dispatch(new SetUserAquadexAction(aquadexData));
+          store.dispatch(new SetUserAquadexAction(aquadexData.aquadex));
+          store.dispatch(
+              new SetNewAchievementAction(aquadexData.newAchievement));
         }, onError: (errorMessage) {
           store.dispatch(new RequestFailedAction(errorMessage));
         });

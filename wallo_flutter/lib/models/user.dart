@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import 'package:wallo_flutter/models/avatar.dart';
 import 'package:wallo_flutter/models/level.dart';
+import 'package:wallo_flutter/models/new_achievement.dart';
 
 @immutable
 class User {
@@ -15,6 +14,7 @@ class User {
     this.avatar,
     this.level,
     this.aquadex,
+    this.newAchievement,
   });
 
   final String lastName;
@@ -24,8 +24,10 @@ class User {
   final Avatar avatar;
   final Level level;
   final List<String> aquadex;
+  final NewAchievement newAchievement;
 
   factory User.fromJson(Map<String, dynamic> json) {
+    print("NEW ACHIEVEMENT ${json["newAchievement"]}");
     return User(
       lastName: json['lastName'],
       firstName: json['firstName'],
@@ -34,6 +36,9 @@ class User {
       aquadex: List.from(json['aquadex']),
       avatar: Avatar.fromJson(json['avatar']),
       level: Level.fromJson(json['game']),
+      newAchievement: json["newAchievement"] != null
+          ? NewAchievement.fromMap(json["newAchievement"])
+          : null,
     );
   }
 
@@ -63,6 +68,7 @@ class User {
     Avatar avatar,
     Level level,
     List<String> aquadex,
+    NewAchievement newAchievement,
   }) {
     return User(
       lastName: lastName ?? this.lastName,
@@ -72,6 +78,7 @@ class User {
       avatar: avatar ?? this.avatar,
       level: level ?? this.level,
       aquadex: aquadex ?? this.aquadex,
+      newAchievement: newAchievement ?? this.newAchievement,
     );
   }
 }

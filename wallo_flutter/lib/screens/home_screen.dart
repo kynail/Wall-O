@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:wallo_flutter/models/new_achievement.dart';
 import 'package:wallo_flutter/models/viewmodels/home_viewModel.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
+import 'package:wallo_flutter/widgets/achievement/achievement_layout.dart';
+import 'package:wallo_flutter/widgets/achievement/modal_confetti.dart';
 import 'package:wallo_flutter/widgets/messenger_handler.dart';
 
 import '../views/home/home.dart';
+
+GlobalKey<ModalConfettiState> globalKey = GlobalKey();
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -17,12 +22,24 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buildContent(HomeViewModel viewModel, double appBarHeight) {
     return viewModel.cameras != null
         ? !viewModel.isCameraLoading
-            ? MessengerHandler(
-                child: Home(
-                  user: viewModel.user,
-                  cameraController: viewModel.cameraController,
-                  appBarHeight: appBarHeight,
-                ),
+            ? Stack(
+                children: [
+                  MessengerHandler(
+                    child: Home(
+                      user: viewModel.user,
+                      cameraController: viewModel.cameraController,
+                      appBarHeight: appBarHeight,
+                    ),
+                  ),
+                  ModalConfetti(
+                    key: globalKey,
+                    child: AchievementLayout(
+                      globalKey: globalKey,
+                      newAchievement: viewModel.newAchievement,
+                      onClose: () => viewModel.newAchievementShowed(),
+                    ),
+                  ),
+                ],
               )
             : Center(child: CircularProgressIndicator())
         : Container();
@@ -49,6 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (_, viewModel) => buildContent(viewModel, appBarheight),
           onInitialBuild: (viewModel) {
             viewModel.getAquadex();
+          },
+          onWillChange: (oldViewModel, viewModel) {
+            if (viewModel.newAchievement != null &&
+                viewModel.newAchievement != NewAchievement.empty()) {
+              globalKey.currentState.playNewAchievement();
+            }
           },
         ),
       ),

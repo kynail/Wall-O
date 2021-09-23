@@ -45,6 +45,7 @@ dependencies:
   percent_indicator: "^2.1.7+2"
   map: ^0.3.0
   modal_bottom_sheet: ^2.0.0
+  confetti: ^0.6.0
 
 dev_dependencies:
   flutter_test:

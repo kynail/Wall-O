@@ -18,6 +18,14 @@ class StartLoadingAction {
   StartLoadingAction();
 }
 
+class PlayConfettiAction {
+  PlayConfettiAction();
+}
+
+class StopConfettiAction {
+  StopConfettiAction();
+}
+
 class MarkSnackbarHasHandledAction {
   MarkSnackbarHasHandledAction();
 }
