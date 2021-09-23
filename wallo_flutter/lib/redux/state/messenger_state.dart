@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:wallo_flutter/models/user.dart';
 
 @immutable
 class MessengerState {
@@ -8,6 +7,7 @@ class MessengerState {
   final String successMessage;
   final String errorMessage;
   final bool showSnackbar;
+  final bool showConfetti;
 
   MessengerState({
     @required this.showSnackbar,
@@ -15,28 +15,34 @@ class MessengerState {
     @required this.errorMessage,
     @required this.isLoading,
     @required this.successMessage,
+    @required this.showConfetti,
   });
 
   factory MessengerState.initial() => new MessengerState(
-      showSnackbar: false,
-      errorMessage: null,
-      isLoading: false,
-      isError: false,
-      successMessage: null);
+        showSnackbar: false,
+        errorMessage: null,
+        isLoading: false,
+        isError: false,
+        successMessage: null,
+        showConfetti: false,
+      );
 
   MessengerState copyWith({
-    bool showSnackbar,
-    bool isError,
-    String errorMessage,
-    String successMessage,
     bool isLoading,
+    bool isError,
+    String successMessage,
+    String errorMessage,
+    bool showSnackbar,
+    bool showConfetti,
   }) {
     return MessengerState(
-        showSnackbar: showSnackbar ?? this.showSnackbar,
-        isError: isError ?? this.isError,
-        errorMessage: errorMessage ?? this.errorMessage,
-        successMessage: successMessage ?? this.successMessage,
-        isLoading: isLoading ?? this.isLoading);
+      isLoading: isLoading ?? this.isLoading,
+      isError: isError ?? this.isError,
+      successMessage: successMessage ?? this.successMessage,
+      errorMessage: errorMessage ?? this.errorMessage,
+      showSnackbar: showSnackbar ?? this.showSnackbar,
+      showConfetti: showConfetti ?? this.showConfetti,
+    );
   }
 
   @override

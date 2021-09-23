@@ -122,8 +122,10 @@ class _LoginFormState extends State<LoginForm> {
                             }
                           },
                           style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Color(0xff4BBCFC))),
+                            backgroundColor: MaterialStateProperty.all(
+                              Color(0xff4BBCFC),
+                            ),
+                          ),
                           child: Text(
                             "Connexion",
                             style: TextStyle(color: Colors.white),

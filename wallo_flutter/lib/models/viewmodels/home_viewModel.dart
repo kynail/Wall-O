@@ -1,8 +1,9 @@
 import 'package:camera/camera.dart';
 import 'package:redux/redux.dart';
+import 'package:wallo_flutter/models/new_achievement.dart';
 import 'package:wallo_flutter/models/user.dart';
+import 'package:wallo_flutter/redux/actions/achievement_actions.dart';
 import 'package:wallo_flutter/redux/actions/fish_actions.dart';
-import 'package:wallo_flutter/redux/actions/user_action.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
 
 class HomeViewModel {
@@ -11,7 +12,9 @@ class HomeViewModel {
   final CameraDescription selectedCamera;
   final User user;
   final Function() getAquadex;
+  final Function() newAchievementShowed;
   final CameraController cameraController;
+  final NewAchievement newAchievement;
 
   HomeViewModel({
     this.isCameraLoading,
@@ -20,6 +23,8 @@ class HomeViewModel {
     this.cameraController,
     this.user,
     this.getAquadex,
+    this.newAchievementShowed,
+    this.newAchievement,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
@@ -33,6 +38,10 @@ class HomeViewModel {
       getAquadex: () => store.dispatch(
         getAquadexAction(),
       ),
+      newAchievementShowed: () => store.dispatch(
+        NewAchievementShowedAction(),
+      ),
+      newAchievement: store.state.achievementState.newAchievement,
     );
   }
 }

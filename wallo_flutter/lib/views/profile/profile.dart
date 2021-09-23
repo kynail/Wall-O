@@ -3,7 +3,7 @@ import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/views/floating_page_top_bar.dart';
 import 'package:wallo_flutter/views/profile/profile_main_info.dart';
-import 'package:wallo_flutter/widgets/achievement.dart';
+import 'package:wallo_flutter/widgets/achievement/achievement_profile.dart';
 
 class Profile extends StatelessWidget {
   const Profile({
@@ -37,43 +37,46 @@ class Profile extends StatelessWidget {
                       onSaveAvatarPressed: onSaveAvatarPressed,
                     ),
                     SizedBox(height: 12),
-                    // ProfileFishInfo(),
-                    // SizedBox(height: 60),
-                    // Divider(thickness: 2),
-                    // AddExp(user: user, addExp: (xp) => addExp(xp))
                     SizedBox(
                       height: 300,
                       child: GridView.count(
                         crossAxisCount: 3,
                         crossAxisSpacing: 20,
                         children: [
-                          Achievement(
+                          AchievementProfile(
                             unlockedImagePath: "assets/star.png",
                             description: "Première connexion",
                             title: "Explorateur",
                             lockedImagePath: "assets/starblack.jpeg",
                             isUnlocked: false,
                           ),
-                          Achievement(
+                          AchievementProfile(
                             unlockedImagePath: "assets/star.png",
-                            description: "Première connexion",
-                            title: "Explorateur",
+                            description: "Premier poisson trouvé",
+                            title: "Apprenti plongeur",
                             lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: true,
+                            isUnlocked: false,
                           ),
-                          Achievement(
+                          AchievementProfile(
                             unlockedImagePath: "assets/star.png",
-                            description: "Première connexion",
-                            title: "Explorateur",
+                            description: "5ème poisson trouvé",
+                            title: "Plongeur averti",
                             lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: true,
+                            isUnlocked: false,
                           ),
-                          Achievement(
+                          AchievementProfile(
                             unlockedImagePath: "assets/star.png",
-                            description: "Première connexion",
-                            title: "Explorateur",
+                            description: "10ème poisson trouvé",
+                            title: "Fou de la plongée",
                             lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: true,
+                            isUnlocked: false,
+                          ),
+                          AchievementProfile(
+                            unlockedImagePath: "assets/star.png",
+                            description: "Tous les poissons trouvés",
+                            title: "Maître des poissons",
+                            lockedImagePath: "assets/starblack.jpeg",
+                            isUnlocked: false,
                           ),
                         ],
                       ),

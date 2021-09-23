@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Achievement extends StatelessWidget {
-  const Achievement({Key key, this.unlockedImagePath, this.title, this.description, this.lockedImagePath, this.isUnlocked})
+class AchievementProfile extends StatelessWidget {
+  const AchievementProfile(
+      {Key key,
+      this.unlockedImagePath,
+      this.title,
+      this.description,
+      this.lockedImagePath,
+      this.isUnlocked})
       : super(key: key);
 
   final String unlockedImagePath;
@@ -31,8 +37,9 @@ class Achievement extends StatelessWidget {
     return InkWell(
       onTap: () => showPopUp(context),
       child: Image(
-        image: AssetImage(isUnlocked ?
-          unlockedImagePath : lockedImagePath),
+        image: AssetImage(
+          isUnlocked ? unlockedImagePath : lockedImagePath,
+        ),
         width: 50,
       ),
     );
