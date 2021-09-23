@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallo_flutter/models/avatar.dart';
+import 'package:wallo_flutter/models/level.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/actions/messenger_actions.dart';
 import 'package:wallo_flutter/redux/services/user_service.dart';
@@ -152,6 +153,12 @@ class SetUserAquadexAction {
   final List<String> aquadex;
 
   SetUserAquadexAction(this.aquadex);
+}
+
+class SetUserLevelAction {
+  final Level level;
+
+  SetUserLevelAction(this.level);
 }
 
 class SetCamerasAction {

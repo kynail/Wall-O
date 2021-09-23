@@ -26,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   MessengerHandler(
                     child: Home(
+                      onLeaderboardTap: () => viewModel.getLeaderboard(),
                       user: viewModel.user,
                       cameraController: viewModel.cameraController,
                       appBarHeight: appBarHeight,
@@ -66,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (_, viewModel) => buildContent(viewModel, appBarheight),
           onInitialBuild: (viewModel) {
             viewModel.getAquadex();
+            viewModel.getAchievements();
           },
           onWillChange: (oldViewModel, viewModel) {
             if (viewModel.newAchievement != null &&

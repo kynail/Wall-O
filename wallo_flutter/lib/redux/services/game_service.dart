@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:wallo_flutter/models/achievement.dart';
 import 'package:wallo_flutter/models/server_message.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +19,27 @@ Future<List<User>> leaderboardRequest() async {
         leaderboard.add(User.fromJson(user));
       });
       return leaderboard;
+    } else {
+      return Future.error(getServerMessage(response, true));
+    }
+  } on Exception {
+    return Future.error("Connexion au serveur impossible");
+  }
+}
+
+Future<List<Achievement>> getAchievementRequest() async {
+  try {
+    final response =
+        await http.get(Uri.parse(env["API_URL"] + "/achievements"));
+    ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
+
+    if (res.success == true) {
+      List<Achievement> achievements = [];
+
+      res.data.forEach((achievement) {
+        achievements.add(Achievement.fromMap(achievement));
+      });
+      return achievements;
     } else {
       return Future.error(getServerMessage(response, true));
     }

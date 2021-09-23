@@ -99,7 +99,6 @@ Future<UnlockedFish> getUnlockedFishRequest(
     ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
     if (res.success == true) {
       return UnlockedFish.fromMap(res.data);
-      // return List<String>.from(res.data["aquadex"]);
     } else {
       return Future.error(getServerMessage(response, true));
     }

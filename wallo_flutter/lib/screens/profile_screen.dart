@@ -19,13 +19,12 @@ class ProfileScreen extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: statusBarHeight),
           child: Profile(
-            onSaveAvatarPressed: (seed, type) {
-              viewModel.playConfetti();
-              viewModel.onSaveAvatarPressed(seed, type);
-            },
+            onSaveAvatarPressed: (seed, type) =>
+                viewModel.onSaveAvatarPressed(seed, type),
             addExp: (xp) => viewModel.addExp(xp),
             user: viewModel.user,
             onCloseArrowTap: onCloseArrowTap,
+            achievements: viewModel.achievements,
           ),
         ),
       ],
@@ -42,11 +41,11 @@ class ProfileScreen extends StatelessWidget {
         distinct: true,
         converter: (store) => ProfileViewModel.fromStore(store),
         builder: (_, viewModel) => buildContent(viewModel, statusBarHeight),
-        onWillChange: (oldViewModel, viewModel) async {
-          if (oldViewModel.messenger.showConfetti !=
-                  viewModel.messenger.showConfetti &&
-              viewModel.messenger.showConfetti == true) {}
-        },
+        // onWillChange: (oldViewModel, viewModel) async {
+        //   if (oldViewModel.messenger.showConfetti !=
+        //           viewModel.messenger.showConfetti &&
+        //       viewModel.messenger.showConfetti == true) {}
+        // },
       ),
     );
   }

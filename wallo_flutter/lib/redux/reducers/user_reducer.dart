@@ -10,6 +10,7 @@ final userReducer = combineReducers<UserState>([
   TypedReducer<UserState, SetCameraControllerAction>(_setCameraController),
   TypedReducer<UserState, SetCameraLoadingAction>(_setCameraLoading),
   TypedReducer<UserState, SetUserAquadexAction>(_setUserAquadex),
+  TypedReducer<UserState, SetUserLevelAction>(_setUserLevel),
 ]);
 
 UserState _loginSuccess(UserState state, LoginSuccessAction action) {
@@ -45,4 +46,8 @@ UserState _setCameraLoading(UserState state, SetCameraLoadingAction action) {
 
 UserState _setUserAquadex(UserState state, SetUserAquadexAction action) {
   return state.copyWith(user: state.user.copyWith(aquadex: action.aquadex));
+}
+
+UserState _setUserLevel(UserState state, SetUserLevelAction action) {
+  return state.copyWith(user: state.user.copyWith(level: action.level));
 }

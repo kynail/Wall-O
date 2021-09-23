@@ -1,4 +1,5 @@
 import 'package:redux/redux.dart';
+import 'package:wallo_flutter/models/achievement.dart';
 import 'package:wallo_flutter/models/avatar.dart';
 import 'package:wallo_flutter/redux/actions/messenger_actions.dart';
 import 'package:wallo_flutter/redux/actions/user_action.dart';
@@ -10,6 +11,7 @@ import '../user.dart';
 class ProfileViewModel {
   final MessengerState messenger;
   final User user;
+  final List<Achievement> achievements;
   final Function(double exp) addExp;
   final Function(String seed, String type) onSaveAvatarPressed;
   final Function() playConfetti;
@@ -20,12 +22,14 @@ class ProfileViewModel {
     this.addExp,
     this.onSaveAvatarPressed,
     this.playConfetti,
+    this.achievements,
   });
 
   static ProfileViewModel fromStore(Store<AppState> store) {
     return ProfileViewModel(
       messenger: store.state.messengerState,
       user: store.state.userState.user,
+      achievements: store.state.gameState.achievements,
       addExp: (exp) => store.dispatch(
         setExp(store.state.userState.user, exp),
       ),

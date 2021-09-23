@@ -21,11 +21,13 @@ class Home extends StatefulWidget {
     @required this.cameraController,
     @required this.appBarHeight,
     @required this.user,
+    @required this.onLeaderboardTap,
   }) : super(key: key);
 
   final User user;
   final CameraController cameraController;
   final double appBarHeight;
+  final Function() onLeaderboardTap;
 
   @override
   _HomeState createState() => _HomeState();
@@ -151,6 +153,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         );
                       },
                       onLeaderboardTap: () {
+                        widget.onLeaderboardTap();
                         showMaterialModalBottomSheet(
                           expand: true,
                           context: context,

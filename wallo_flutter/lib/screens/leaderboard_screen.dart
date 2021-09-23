@@ -34,12 +34,15 @@ class LeaderboardScreen extends StatelessWidget {
     double statusBarHeight = MediaQuery.of(context).padding.top;
 
     return Scaffold(
-        backgroundColor: AppTheme.secondaryColor,
-        body: new StoreConnector<AppState, LeaderboardViewModel>(
-          distinct: true,
-          converter: (store) => LeaderboardViewModel.fromStore(store),
-          onInitialBuild: (viewModel) => viewModel.getLeaderboard(),
-          builder: (_, viewModel) => buildContent(viewModel, statusBarHeight),
-        ));
+      backgroundColor: AppTheme.secondaryColor,
+      body: new StoreConnector<AppState, LeaderboardViewModel>(
+        distinct: true,
+        converter: (store) => LeaderboardViewModel.fromStore(store),
+        // onInitialBuild: (viewModel) => viewModel.getLeaderboard(),
+        builder: (_, viewModel) {
+          return buildContent(viewModel, statusBarHeight);
+        },
+      ),
+    );
   }
 }

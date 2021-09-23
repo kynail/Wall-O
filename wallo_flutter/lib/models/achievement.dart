@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class Achievement {
   Achievement({
+    this.id,
     this.imageUrl,
     this.uniqueName,
     this.title,
@@ -9,6 +10,7 @@ class Achievement {
     this.xp,
   });
 
+  final String id;
   final String imageUrl;
   final String uniqueName;
   final String title;
@@ -17,6 +19,7 @@ class Achievement {
 
   factory Achievement.empty() {
     return Achievement(
+      id: "",
       imageUrl: "",
       uniqueName: "",
       title: "",
@@ -26,6 +29,7 @@ class Achievement {
   }
 
   Achievement copyWith({
+    String id,
     String imageUrl,
     String uniqueName,
     String title,
@@ -33,6 +37,7 @@ class Achievement {
     int xp,
   }) {
     return Achievement(
+      id: id ?? this.id,
       imageUrl: imageUrl ?? this.imageUrl,
       uniqueName: uniqueName ?? this.uniqueName,
       title: title ?? this.title,
@@ -43,6 +48,7 @@ class Achievement {
 
   Map<String, dynamic> toMap() {
     return {
+      "_id": id,
       'imageUrl': imageUrl,
       'uniqueName': uniqueName,
       'title': title,
@@ -53,6 +59,7 @@ class Achievement {
 
   factory Achievement.fromMap(Map<String, dynamic> map) {
     return Achievement(
+      id: map["_id"],
       imageUrl: map['imageUrl'],
       uniqueName: map['uniqueName'],
       title: map['title'],
@@ -68,7 +75,7 @@ class Achievement {
 
   @override
   String toString() {
-    return 'Achievement(imageUrl: $imageUrl, uniqueName: $uniqueName, title: $title, description: $description, xp: $xp)';
+    return 'Achievement(id: $id, imageUrl: $imageUrl, uniqueName: $uniqueName, title: $title, description: $description, xp: $xp)';
   }
 
   @override
@@ -76,6 +83,7 @@ class Achievement {
     if (identical(this, other)) return true;
 
     return other is Achievement &&
+        other.id == id &&
         other.imageUrl == imageUrl &&
         other.uniqueName == uniqueName &&
         other.title == title &&
@@ -85,7 +93,8 @@ class Achievement {
 
   @override
   int get hashCode {
-    return imageUrl.hashCode ^
+    return id.hashCode ^
+        imageUrl.hashCode ^
         uniqueName.hashCode ^
         title.hashCode ^
         description.hashCode ^

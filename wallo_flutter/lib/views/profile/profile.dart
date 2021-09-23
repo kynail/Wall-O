@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallo_flutter/models/achievement.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/views/floating_page_top_bar.dart';
@@ -12,12 +13,14 @@ class Profile extends StatelessWidget {
     @required this.addExp,
     @required this.onCloseArrowTap,
     @required this.onSaveAvatarPressed,
+    @required this.achievements,
   }) : super(key: key);
 
   final Function() onCloseArrowTap;
   final User user;
   final Function(double xp) addExp;
   final Function(String, String) onSaveAvatarPressed;
+  final List<Achievement> achievements;
 
   @override
   Widget build(BuildContext context) {
@@ -37,50 +40,28 @@ class Profile extends StatelessWidget {
                       onSaveAvatarPressed: onSaveAvatarPressed,
                     ),
                     SizedBox(height: 12),
-                    SizedBox(
-                      height: 300,
-                      child: GridView.count(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 20,
-                        children: [
-                          AchievementProfile(
-                            unlockedImagePath: "assets/star.png",
-                            description: "Première connexion",
-                            title: "Explorateur",
-                            lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: false,
-                          ),
-                          AchievementProfile(
-                            unlockedImagePath: "assets/star.png",
-                            description: "Premier poisson trouvé",
-                            title: "Apprenti plongeur",
-                            lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: false,
-                          ),
-                          AchievementProfile(
-                            unlockedImagePath: "assets/star.png",
-                            description: "5ème poisson trouvé",
-                            title: "Plongeur averti",
-                            lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: false,
-                          ),
-                          AchievementProfile(
-                            unlockedImagePath: "assets/star.png",
-                            description: "10ème poisson trouvé",
-                            title: "Fou de la plongée",
-                            lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: false,
-                          ),
-                          AchievementProfile(
-                            unlockedImagePath: "assets/star.png",
-                            description: "Tous les poissons trouvés",
-                            title: "Maître des poissons",
-                            lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: false,
-                          ),
-                        ],
-                      ),
-                    )
+                    if (achievements.isNotEmpty)
+                      SizedBox(
+                        height: 300,
+                        child: GridView.count(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 20,
+                          children: achievements
+                              .map(
+                                (achievement) => AchievementProfile(
+                                  title: achievement.title,
+                                  description: achievement.description,
+                                  unlockedImagePath: "assets/star.png",
+                                  lockedImagePath: "assets/starblack.jpeg",
+                                  xp: achievement.xp,
+                                  isUnlocked: user.level.achievements.contains(
+                                    achievement.uniqueName,
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      )
                   ],
                 ),
               ),
