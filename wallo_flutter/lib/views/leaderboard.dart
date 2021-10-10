@@ -22,8 +22,16 @@ class Leaderboard extends StatefulWidget {
 class _LeaderboardState extends State<Leaderboard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
+    return Stack(
+      children: <Widget>[
+        Image.asset(
+          "assets/fondconnex.png",
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+        ),
+    Padding(
+      padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
       child: Column(
         children: [
           FloatingPageTopBar(
@@ -32,9 +40,12 @@ class _LeaderboardState extends State<Leaderboard> {
           ),
           Expanded(
             child: SingleChildScrollView(
+              
               child: Column(
+                
                 children: widget.leaderboard.map((user) {
                   var index = widget.leaderboard.indexOf(user) + 1;
+                  SizedBox(height: 20, width: 20);
                   return user.isValid()
                       ? ClassementCard(
                           classement: index,
@@ -49,6 +60,7 @@ class _LeaderboardState extends State<Leaderboard> {
           ),
         ],
       ),
+    )]
     );
   }
 }
@@ -67,8 +79,9 @@ class ClassementCard extends StatelessWidget {
   final String name;
   final int score;
   final Color color;
+  final count = 3;
 
-  static final colors = [Colors.pink, Colors.purple, Colors.lightBlue];
+  static final colors = [Colors.lightBlueAccent, Colors.lightBlue, Colors.lightBlue];
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +89,10 @@ class ClassementCard extends StatelessWidget {
 
     return Card(
         elevation: 4,
-        color: isTopPlayer ? colors[classement - 1] : Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        color: isTopPlayer ? colors[classement - 1] : Colors.blue,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child:

@@ -32,6 +32,18 @@ class _FishInfoState extends State<FishInfo> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(
+                  //color: Colors.blueGrey,
+        border: Border.all(
+          color: Colors.grey,
+          width: 2,
+        ),
+        borderRadius: BorderRadius.circular(12)
+
+      ),
       child: Card(
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
@@ -74,18 +86,18 @@ class _FishInfoState extends State<FishInfo> {
                   SizedBox(
                     height: 8,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      widget.fishname,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                    ),
-                  )
+                  // Padding(
+                  //   padding: const EdgeInsets.all(4.0),
+                  //   child: Text(
+                  //     widget.fishname,
+                  //     overflow: TextOverflow.ellipsis,
+                  //     style: TextStyle(
+                  //       color: Colors.black,
+                  //       fontWeight: FontWeight.bold,
+                  //       fontSize: 15,
+                  //     ),
+                  //   ),
+                  // )
                 ],
               ),
             ],
