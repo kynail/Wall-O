@@ -21,58 +21,23 @@ class Home extends StatefulWidget {
     @required this.cameraController,
     @required this.appBarHeight,
     @required this.user,
+    @required this.onLeaderboardTap,
   }) : super(key: key);
 
   final User user;
   final CameraController cameraController;
   final double appBarHeight;
+  final Function() onLeaderboardTap;
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  HomeAnimationController _profileAnimationControler;
-  HomeAnimationController _leaderBoardAnimationControler;
-  HomeAnimationController _contactAnimationControler;
-  // CameraController _controller;
-  // Future<void> _initializeControllerFuture;
   final picker = ImagePicker();
-
-  @override
-  void initState() {
-    super.initState();
-    // _controller = CameraController(
-    //   widget.camera,
-    //   ResolutionPreset.medium,
-    // );
-
-    // _initializeControllerFuture = _controller.initialize();
-
-    _profileAnimationControler = HomeAnimationController(
-      AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 400),
-      ),
-    );
-    _leaderBoardAnimationControler = HomeAnimationController(
-      AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 400),
-      ),
-    );
-
-    _contactAnimationControler = HomeAnimationController(
-      AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 400),
-      ),
-    );
-  }
 
   onTakePicture() async {
     try {
-      // await _initializeControllerFuture;
       final image = await widget.cameraController.takePicture();
 
       Navigator.push(
@@ -116,7 +81,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
           longitude = res;
         }
-        // print("key ${data[key].tagType}:${key}  - ${data[key]}");
       }
 
       Navigator.push(
@@ -159,9 +123,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   onTakePicture: () => onTakePicture(),
                   onOpenGallery: () => onOpenGallery(),
                   onArrowTap: () {
-                    pageController.animateToPage(1,
-                        duration: Duration(milliseconds: 600),
-                        curve: Curves.fastOutSlowIn);
+                    pageController.animateToPage(
+                      1,
+                      duration: Duration(milliseconds: 600),
+                      curve: Curves.fastOutSlowIn,
+                    );
                   },
                 ),
                 Align(
@@ -187,6 +153,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         );
                       },
                       onLeaderboardTap: () {
+                        widget.onLeaderboardTap();
                         showMaterialModalBottomSheet(
                           expand: true,
                           context: context,
@@ -209,7 +176,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                             );
                           },
                         );
-                        _contactAnimationControler.controller.forward();
                       },
                     ),
                   ),

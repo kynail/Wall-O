@@ -19,7 +19,7 @@ Future<User> login(String mail, String password) async {
       ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
 
       if (res.success == true) {
-        return User.fromJson(jsonDecode(response.body)["data"]);
+        return User.fromJson(res.data);
       } else {
         return Future.error(getServerMessage(response, true));
       }

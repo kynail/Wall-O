@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:wallo_flutter/models/viewmodels/profile_viewmodel.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/views/profile/profile.dart';
-import 'package:wallo_flutter/widgets/messenger_handler.dart';
 
 import '../theme.dart';
 
@@ -15,16 +14,21 @@ class ProfileScreen extends StatelessWidget {
   }) : super(key: key);
 
   Widget buildContent(ProfileViewModel viewModel, double statusBarHeight) {
-    return MessengerHandler(
-        child: Padding(
-      padding: EdgeInsets.only(top: statusBarHeight),
-      child: Profile(
-        onSaveAvatarPressed: viewModel.onSaveAvatarPressed,
-        addExp: (xp) => viewModel.addExp(xp),
-        user: viewModel.user,
-        onCloseArrowTap: onCloseArrowTap,
-      ),
-    ));
+    return Stack(
+      children: [
+        Padding(
+          padding: EdgeInsets.only(top: statusBarHeight),
+          child: Profile(
+            onSaveAvatarPressed: (seed, type) =>
+                viewModel.onSaveAvatarPressed(seed, type),
+            addExp: (xp) => viewModel.addExp(xp),
+            user: viewModel.user,
+            onCloseArrowTap: onCloseArrowTap,
+            achievements: viewModel.achievements,
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -37,6 +41,11 @@ class ProfileScreen extends StatelessWidget {
         distinct: true,
         converter: (store) => ProfileViewModel.fromStore(store),
         builder: (_, viewModel) => buildContent(viewModel, statusBarHeight),
+        // onWillChange: (oldViewModel, viewModel) async {
+        //   if (oldViewModel.messenger.showConfetti !=
+        //           viewModel.messenger.showConfetti &&
+        //       viewModel.messenger.showConfetti == true) {}
+        // },
       ),
     );
   }

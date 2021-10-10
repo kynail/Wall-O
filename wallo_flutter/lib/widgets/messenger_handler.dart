@@ -15,6 +15,9 @@ class MessengerHandler extends StatelessWidget {
     return StoreConnector<AppState, MessengerViewModel>(
       distinct: true,
       converter: (store) => MessengerViewModel.fromStore(store),
+      // builder: (context, viewModel) => AchievementConfetti(
+      //   child: child,
+      // ),
       builder: (context, viewModel) => child,
       onWillChange: (_, viewModel) {
         if (viewModel.messenger.showSnackbar == true) {

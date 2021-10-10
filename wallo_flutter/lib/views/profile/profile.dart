@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wallo_flutter/models/achievement.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/theme.dart';
 import 'package:wallo_flutter/views/floating_page_top_bar.dart';
 import 'package:wallo_flutter/views/profile/profile_main_info.dart';
-import 'package:wallo_flutter/widgets/achievement.dart';
+import 'package:wallo_flutter/widgets/achievement/achievement_profile.dart';
 
 class Profile extends StatelessWidget {
   const Profile({
@@ -12,12 +13,14 @@ class Profile extends StatelessWidget {
     @required this.addExp,
     @required this.onCloseArrowTap,
     @required this.onSaveAvatarPressed,
+    @required this.achievements,
   }) : super(key: key);
 
   final Function() onCloseArrowTap;
   final User user;
   final Function(double xp) addExp;
   final Function(String, String) onSaveAvatarPressed;
+  final List<Achievement> achievements;
 
   @override
   Widget build(BuildContext context) {
@@ -37,47 +40,28 @@ class Profile extends StatelessWidget {
                       onSaveAvatarPressed: onSaveAvatarPressed,
                     ),
                     SizedBox(height: 12),
-                    // ProfileFishInfo(),
-                    // SizedBox(height: 60),
-                    // Divider(thickness: 2),
-                    // AddExp(user: user, addExp: (xp) => addExp(xp))
-                    SizedBox(
-                      height: 300,
-                      child: GridView.count(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 20,
-                        children: [
-                          Achievement(
-                            unlockedImagePath: "assets/star.png",
-                            description: "Première connexion",
-                            title: "Explorateur",
-                            lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: false,
-                          ),
-                          Achievement(
-                            unlockedImagePath: "assets/star.png",
-                            description: "Première connexion",
-                            title: "Explorateur",
-                            lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: true,
-                          ),
-                          Achievement(
-                            unlockedImagePath: "assets/star.png",
-                            description: "Première connexion",
-                            title: "Explorateur",
-                            lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: true,
-                          ),
-                          Achievement(
-                            unlockedImagePath: "assets/star.png",
-                            description: "Première connexion",
-                            title: "Explorateur",
-                            lockedImagePath: "assets/starblack.jpeg",
-                            isUnlocked: true,
-                          ),
-                        ],
-                      ),
-                    )
+                    if (achievements.isNotEmpty)
+                      SizedBox(
+                        height: 300,
+                        child: GridView.count(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 20,
+                          children: achievements
+                              .map(
+                                (achievement) => AchievementProfile(
+                                  title: achievement.title,
+                                  description: achievement.description,
+                                  unlockedImagePath: "assets/star.png",
+                                  lockedImagePath: "assets/starblack.jpeg",
+                                  xp: achievement.xp,
+                                  isUnlocked: user.level.achievements.contains(
+                                    achievement.uniqueName,
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      )
                   ],
                 ),
               ),

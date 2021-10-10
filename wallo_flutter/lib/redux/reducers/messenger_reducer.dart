@@ -8,6 +8,8 @@ final messengerReducer = combineReducers<MessengerState>([
   TypedReducer<MessengerState, RequestSucceedAction>(_requestSucceed),
   TypedReducer<MessengerState, RequestFailedAction>(_requestFailed),
   TypedReducer<MessengerState, StartLoadingAction>(_startLoading),
+  TypedReducer<MessengerState, PlayConfettiAction>(_playConfetti),
+  TypedReducer<MessengerState, StopConfettiAction>(_stopConfetti),
   TypedReducer<MessengerState, MarkSnackbarHasHandledAction>(
       _markSnackbarHasHandled),
 ]);
@@ -49,6 +51,14 @@ MessengerState _startLoading(MessengerState state, StartLoadingAction action) {
       isError: false,
       errorMessage: null,
       successMessage: null);
+}
+
+MessengerState _playConfetti(MessengerState state, PlayConfettiAction action) {
+  return state.copyWith(showConfetti: true);
+}
+
+MessengerState _stopConfetti(MessengerState state, StopConfettiAction action) {
+  return state.copyWith(showConfetti: false);
 }
 
 MessengerState _markSnackbarHasHandled(
