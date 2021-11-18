@@ -46,6 +46,8 @@ dependencies:
   map: ^0.3.0
   modal_bottom_sheet: ^2.0.0
   confetti: ^0.6.0
+  lottie: ^1.2.1
+  animations: ^2.0.2
 
 dev_dependencies:
   flutter_test:
