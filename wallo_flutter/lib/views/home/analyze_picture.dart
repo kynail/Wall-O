@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:lottie/lottie.dart';
 
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -71,7 +72,10 @@ class _AnalyzePictureState extends State<AnalyzePicture>
           ),
         ),
         if (widget.isLoading == true)
-          Center(child: CircularProgressIndicator(strokeWidth: 2)),
+          Center(child: Lottie.network('https://assets2.lottiefiles.com/packages/lf20_IVn5L1.json'),),
+        if (widget.isLoading == true)
+          Center(child: Lottie.network('https://assets3.lottiefiles.com/packages/lf20_n9LEii.json')),
+        
         SlideTransition(
           position: _tween.animate(_bottomSheetAnimController),
           child: DraggableScrollableSheet(
