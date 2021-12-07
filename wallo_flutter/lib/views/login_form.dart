@@ -146,11 +146,16 @@ class _LoginFormState extends State<LoginForm> {
                     )),
                     Center(
                       child: TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, Routes.forget);
-                          },
-                          child: Text("Mot de passe oublié ?",
-                              style: TextStyle(color: Color(0xffFEBD72)))),
+                        onPressed: () {
+                          Navigator.pushNamed(context, Routes.forget);
+                        },
+                        child: Text(
+                          "Mot de passe oublié ?",
+                          style: TextStyle(
+                            color: Color(0xffFEBD72),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 30),
                     Center(
