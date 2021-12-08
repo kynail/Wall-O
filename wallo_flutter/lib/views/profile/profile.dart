@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:wallo_flutter/models/achievement.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/theme.dart';
@@ -33,36 +34,48 @@ class Profile extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    ProfileMainInfo(
-                      user: user,
-                      onSaveAvatarPressed: onSaveAvatarPressed,
-                    ),
-                    SizedBox(height: 12),
-                    if (achievements.isNotEmpty)
-                      SizedBox(
-                        height: 300,
-                        child: GridView.count(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 20,
-                          children: achievements
-                              .map(
-                                (achievement) => AchievementProfile(
-                                  title: achievement.title,
-                                  description: achievement.description,
-                                  unlockedImagePath: "assets/star.png",
-                                  lockedImagePath: "assets/starblack.jpeg",
-                                  xp: achievement.xp,
-                                  isUnlocked: user.level.achievements.contains(
-                                    achievement.uniqueName,
-                                  ),
-                                ),
-                              )
-                              .toList(),
+                child: AnimationLimiter(
+                  child: Column(
+                    children: AnimationConfiguration.toStaggeredList(
+                      duration: const Duration(milliseconds: 1000),
+                      childAnimationBuilder: (widget) => SlideAnimation(
+                        horizontalOffset: 100.0,
+                        child: FadeInAnimation(
+                          child: widget,
                         ),
-                      )
-                  ],
+                      ),
+                      children: [
+                        ProfileMainInfo(
+                          user: user,
+                          onSaveAvatarPressed: onSaveAvatarPressed,
+                        ),
+                        SizedBox(height: 12),
+                        if (achievements.isNotEmpty)
+                          SizedBox(
+                            height: 300,
+                            child: GridView.count(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 20,
+                              children: achievements
+                                  .map(
+                                    (achievement) => AchievementProfile(
+                                      title: achievement.title,
+                                      description: achievement.description,
+                                      unlockedImagePath: "assets/star.png",
+                                      lockedImagePath: "assets/starblack.jpeg",
+                                      xp: achievement.xp,
+                                      isUnlocked:
+                                          user.level.achievements.contains(
+                                        achievement.uniqueName,
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),

@@ -153,6 +153,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_animated_dialog:
+    dependency: "direct main"
+    description:
+      name: flutter_animated_dialog
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   flutter_dotenv:
     dependency: "direct main"
     description:
@@ -174,6 +181,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.0"
+  flutter_staggered_animations:
+    dependency: "direct main"
+    description:
+      name: flutter_staggered_animations
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -191,13 +205,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_webview_plugin:
-    dependency: "direct main"
-    description:
-      name: flutter_webview_plugin
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.11"
   geocoding:
     dependency: "direct main"
     description:

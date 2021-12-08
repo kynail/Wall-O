@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/views/home/fishinfo.dart';
@@ -27,7 +28,6 @@ class _AquadexState extends State<Aquadex> {
   bool changePage = false;
   bool isScrollUpdated = false;
   final ScrollController _controller = ScrollController();
-  
 
   @override
   void initState() {
@@ -90,75 +90,80 @@ class _AquadexState extends State<Aquadex> {
       });
     }
 
-    return Stack(
-      
-          children: <Widget>[
-        Image.asset(
-          "assets/fonddex.png",
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          fit: BoxFit.cover,
-        ),
-    Padding(
-      
-      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 90, top: 20),
-      
-      child: Column(
-        children: [
-          FloatingPageTopBar(
-            onCloseArrowTap: widget.onCloseArrowTap,
-            title: "Aquadex",
-
-          ),
-          TextField(
-            textAlign: TextAlign.center,
-            decoration: const InputDecoration(
-              //border: OutlineInputBorder(),
-              
-              hintText: "Poissons vus : 2"
-            ),
-          ),
-      Expanded(
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (scrollNotification) {
-          if (scrollNotification is ScrollStartNotification) {
-            _onStartScroll(scrollNotification.metrics);
-          } else if (scrollNotification is ScrollUpdateNotification) {
-            _onUpdateScroll(scrollNotification.metrics);
-          } else if (scrollNotification is ScrollEndNotification) {
-            _onEndScroll(scrollNotification.metrics);
-          }
-          return true;
-        },
-        child: GridView.count(
-          controller: _controller,
-          crossAxisCount: 3,
-          
-          childAspectRatio: (MediaQuery.of(context).size.width/3) / 180,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          shrinkWrap: true,
-          //scrollDirection: Axis.horizontal,
-          
-          children: widget.aquadex
-              .map(
-                (fish) => FishInfo(
-                  fishId: fish.id,
-                  fishname: fish.name,
-                  urlfish: fish.image,
-                  description: fish.desc,
-                  scientificName: fish.scientificName,
-                  slug: fish.slug,
-                  isunlocked: widget.user.aquadex.contains(fish.id),
-                ),
-                
-              )
-              .toList(),
-
-        ),
+    return Stack(children: <Widget>[
+      Image.asset(
+        "assets/fonddex.png",
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        fit: BoxFit.cover,
       ),
-    )
-    ]
-    ))]);
+      Padding(
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, bottom: 90, top: 20),
+          child: Column(children: [
+            FloatingPageTopBar(
+              onCloseArrowTap: widget.onCloseArrowTap,
+              title: "Aquadex",
+            ),
+            TextField(
+              textAlign: TextAlign.center,
+              decoration: const InputDecoration(
+                  //border: OutlineInputBorder(),
+
+                  hintText: "Poissons vus : 2"),
+            ),
+            Expanded(
+              child: NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  if (scrollNotification is ScrollStartNotification) {
+                    _onStartScroll(scrollNotification.metrics);
+                  } else if (scrollNotification is ScrollUpdateNotification) {
+                    _onUpdateScroll(scrollNotification.metrics);
+                  } else if (scrollNotification is ScrollEndNotification) {
+                    _onEndScroll(scrollNotification.metrics);
+                  }
+                  return true;
+                },
+                child: AnimationLimiter(
+                  child: GridView.count(
+                    controller: _controller,
+                    crossAxisCount: 3,
+
+                    childAspectRatio:
+                        (MediaQuery.of(context).size.width / 3) / 180,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    shrinkWrap: true,
+                    //scrollDirection: Axis.horizontal,
+
+                    children: widget.aquadex
+                        .map(
+                          (fish) => AnimationConfiguration.staggeredGrid(
+                            position: widget.aquadex.indexOf(fish),
+                            duration: const Duration(milliseconds: 800),
+                            columnCount: widget.aquadex.length,
+                            child: ScaleAnimation(
+                              child: FadeInAnimation(
+                                child: FishInfo(
+                                  fishId: fish.id,
+                                  fishname: fish.name,
+                                  urlfish: fish.image,
+                                  description: fish.desc,
+                                  scientificName: fish.scientificName,
+                                  slug: fish.slug,
+                                  isunlocked:
+                                      widget.user.aquadex.contains(fish.id),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+            )
+          ]))
+    ]);
   }
 }

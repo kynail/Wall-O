@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wallo_flutter/models/avatar.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/views/floating_page_top_bar.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class Leaderboard extends StatefulWidget {
   final Function() onCloseArrowTap;
@@ -22,46 +23,54 @@ class Leaderboard extends StatefulWidget {
 class _LeaderboardState extends State<Leaderboard> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Image.asset(
-          "assets/fondconnex.png",
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          fit: BoxFit.cover,
-        ),
-    Padding(
-      padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
-      child: Column(
-        children: [
-          FloatingPageTopBar(
-            onCloseArrowTap: widget.onCloseArrowTap,
-            title: "Classement",
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              
-              child: Column(
-                
-                children: widget.leaderboard.map((user) {
-                  var index = widget.leaderboard.indexOf(user) + 1;
-                  SizedBox(height: 20, width: 20);
-                  return user.isValid()
-                      ? ClassementCard(
-                          classement: index,
-                          name: user.firstName + " " + user.lastName,
-                          avatar: user.avatar,
-                          score: user.level.totalXp,
-                          color: Colors.white)
-                      : Container();
-                }).toList(),
+    return Stack(children: <Widget>[
+      Image.asset(
+        "assets/fondconnex.png",
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        fit: BoxFit.cover,
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
+        child: Column(
+          children: [
+            FloatingPageTopBar(
+              onCloseArrowTap: widget.onCloseArrowTap,
+              title: "Classement",
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: AnimationLimiter(
+                  child: Column(
+                    children: AnimationConfiguration.toStaggeredList(
+                      duration: const Duration(milliseconds: 800),
+                      childAnimationBuilder: (widget) => SlideAnimation(
+                        horizontalOffset: 100.0,
+                        child: FadeInAnimation(
+                          child: widget,
+                        ),
+                      ),
+                      children: widget.leaderboard.map((user) {
+                        var index = widget.leaderboard.indexOf(user) + 1;
+                        SizedBox(height: 20, width: 20);
+                        return user.isValid()
+                            ? ClassementCard(
+                                classement: index,
+                                name: user.firstName + " " + user.lastName,
+                                avatar: user.avatar,
+                                score: user.level.totalXp,
+                                color: Colors.white)
+                            : Container();
+                      }).toList(),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    )]
-    );
+          ],
+        ),
+      )
+    ]);
   }
 }
 
@@ -81,7 +90,11 @@ class ClassementCard extends StatelessWidget {
   final Color color;
   final count = 3;
 
-  static final colors = [Colors.lightBlueAccent, Colors.lightBlue, Colors.lightBlue];
+  static final colors = [
+    Colors.lightBlueAccent,
+    Colors.lightBlue,
+    Colors.lightBlue
+  ];
 
   @override
   Widget build(BuildContext context) {
