@@ -47,6 +47,8 @@ dependencies:
   modal_bottom_sheet: ^2.0.0
   confetti: ^0.6.0
   flutter_animated_dialog: ^2.0.1
+  lottie: ^1.2.1
+  animations: ^2.0.2
 
 dev_dependencies:
   flutter_test:
