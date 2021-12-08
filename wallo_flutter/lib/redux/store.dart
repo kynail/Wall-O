@@ -1,7 +1,6 @@
 import 'package:redux/redux.dart';
 import 'package:wallo_flutter/redux/reducers/app_reducer.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
-import 'package:wallo_flutter/redux/state/user_state.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 
 class Redux {

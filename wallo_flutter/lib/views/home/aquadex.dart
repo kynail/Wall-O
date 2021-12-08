@@ -115,7 +115,7 @@ class _AquadexState extends State<Aquadex> {
             decoration: const InputDecoration(
               //border: OutlineInputBorder(),
               
-              hintText: "Poissons vus : 9"
+              hintText: "Poissons vus : 2"
             ),
           ),
       Expanded(

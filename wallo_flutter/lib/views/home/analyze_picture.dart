@@ -258,7 +258,7 @@ class _FishDetailsState extends State<FishDetails> {
                                                         builder: (BuildContext
                                                                 context) =>
                                                             PopupMap());
-                                                  }))),
+                                                  }, child: null,))),
                                       SizedBox(
                                         height: 0,
                                       )

@@ -114,11 +114,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                               widget.onSendForget(_mail);
                             }
                           },
-                          child: Flexible(
-                            child: Text(
-                              "Envoyer les instructions de réinitialisation",
-                              style: TextStyle(color: Colors.white),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Color(0xff4BBCFC),
                             ),
+                          ),
+                          child: Text(
+                            "Envoyer",
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),

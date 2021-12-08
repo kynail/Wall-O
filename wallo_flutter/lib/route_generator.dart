@@ -27,7 +27,6 @@ class Keys {
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    final args = settings.arguments;
     List<String> pathComponents = settings.name.split('/');
     switch (settings.name) {
       case Routes.loginScreen:

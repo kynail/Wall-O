@@ -2,7 +2,6 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:wallo_flutter/models/new_achievement.dart';
 
 class ModalConfetti extends StatefulWidget {
   const ModalConfetti({Key key, this.child}) : super(key: key);
@@ -22,7 +21,6 @@ class ModalConfettiState extends State<ModalConfetti>
 
   ConfettiController _confettiController;
   bool _showModal = false;
-  NewAchievement _achievementData;
 
   @override
   void initState() {

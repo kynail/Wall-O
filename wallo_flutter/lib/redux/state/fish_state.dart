@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:meta/meta.dart';
-
-import 'package:wallo_flutter/models/Fish.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
 
 @immutable

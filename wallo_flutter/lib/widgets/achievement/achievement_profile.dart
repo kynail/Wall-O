@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class AchievementProfile extends StatelessWidget {
   const AchievementProfile({
@@ -20,32 +21,48 @@ class AchievementProfile extends StatelessWidget {
   final bool isUnlocked;
 
   showPopUp(BuildContext context) {
-    return showDialog(
+    return showAnimatedDialog(
       context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title),
-            SizedBox(height: 8),
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(32.0))),
+          content: Stack(children: <Widget>[
+            Image.asset(
+              "assets/pop.png",
+              fit: BoxFit.cover,
+            ),
             Text(
-              "${xp.toString()} points d'expérience",
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontStyle: FontStyle.italic,
-                fontSize: 14,
+              description,
+              textAlign: TextAlign.center,
+            )
+          ]),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title),
+              SizedBox(height: 8),
+              Text(
+                "${xp.toString()} points d'expérience",
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontStyle: FontStyle.italic,
+                  fontSize: 14,
+                ),
               ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
             ),
           ],
-        ),
-        content: Text(description),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'OK'),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
+        );
+      },
+      animationType: DialogTransitionType.size,
+      curve: Curves.fastOutSlowIn,
+      duration: Duration(seconds: 1),
     );
   }
 
