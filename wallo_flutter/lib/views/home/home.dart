@@ -171,6 +171,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                           context: context,
                           builder: (BuildContext context) {
                             return Contact(
+                              user: widget.user,
                               onCloseArrowTap: () =>
                                   Navigator.of(context).pop(),
                             );

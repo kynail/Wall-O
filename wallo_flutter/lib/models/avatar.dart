@@ -1,4 +1,3 @@
-
 class Avatar {
   Avatar({
     this.type = "",
@@ -9,7 +8,8 @@ class Avatar {
   String seed;
 
   factory Avatar.fromJson(Map<String, dynamic> json) {
-    return Avatar(type: json['type'], seed: json['seed']);
+    return Avatar(
+        type: json['type'] ?? "jdenticon", seed: json['seed'] ?? "see");
   }
 
   @override

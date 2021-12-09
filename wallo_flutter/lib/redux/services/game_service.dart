@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:wallo_flutter/models/achievement.dart';
 import 'package:wallo_flutter/models/server_message.dart';
 import 'package:wallo_flutter/models/user.dart';
@@ -40,6 +41,26 @@ Future<List<Achievement>> getAchievementRequest() async {
         achievements.add(Achievement.fromMap(achievement));
       });
       return achievements;
+    } else {
+      return Future.error(getServerMessage(response, true));
+    }
+  } on Exception {
+    return Future.error("Connexion au serveur impossible");
+  }
+}
+
+Future<int> incFishCountRequest(String userId) async {
+  try {
+    print("DEDJEDHQZJDQZHJDQHJDHZKJHJQZHDJZDHKJQDHKDH");
+    final response = await http.put(
+      Uri.parse(env["API_URL"] + "/game/incFishCount"),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: {'id': userId},
+    );
+    ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
+    log(res.toString());
+    if (res.success == true) {
+      return res.data;
     } else {
       return Future.error(getServerMessage(response, true));
     }

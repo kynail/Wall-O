@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-
+import 'package:http/http.dart' as http;
 import 'package:wallo_flutter/redux/state/app_state.dart';
+import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/state/user_state.dart';
 import 'package:wallo_flutter/views/floating_page_top_bar.dart';
 
@@ -10,14 +11,44 @@ class Contact extends StatefulWidget {
 
   const Contact({
     Key key,
+    @required this.user,
     @required this.onCloseArrowTap,
   }) : super(key: key);
+
+  final User user;
 
   @override
   MyCustomFormState createState() {
     return MyCustomFormState();
   }
 }
+
+sendEmail(String objet, String requete, String user) async {
+  if (objet.isEmpty || requete.isEmpty) {
+    Error error = new Error();
+    return Future.error(error);
+  } else {
+    try {
+      final response = await http.post(
+          Uri.parse("https://wall-o.herokuapp.com" + "/users/contact"),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: {'object': objet, 'message': requete, 'id': user});
+
+      print("mail send");
+      // ServerMessage res = new ServerMessage.fromJson(jsonDecode(response.body));
+
+      // if (res.success == true) {
+      //   return User.fromJson(res.data);
+      // } else {
+      //   return Future.error(getServerMessage(response, true));
+      // }
+
+    } on Exception {
+      return Future.error("Envoie du mail impossible");
+    }
+  } 
+}
+
 
 // Create a corresponding State class.
 // This class holds data related to the form.
@@ -108,6 +139,7 @@ class MyCustomFormState extends State<Contact> {
                                       // Validate returns true if the form is valid, or false
                                       // otherwise.
                                       if (_formKey.currentState.validate()) {
+                                        sendEmail(myController.text, myController2.text, widget.user.id);
                                         // Redux.store.dispatch((store) => sendContact(
                                         //     store,
                                         //     userState.user,
