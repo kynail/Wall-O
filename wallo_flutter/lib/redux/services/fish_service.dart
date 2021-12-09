@@ -46,12 +46,8 @@ Future<List<AquadexFish>> analyseFishRequest(
 
     final rawResponse =
         await dio.post('http://50.17.147.88/analyse', data: formData);
-    print("rawResponse ${rawResponse.data}");
     final response = jsonDecode(rawResponse.toString());
-    print("RESPONSE $response");
     final fishesResponse = response["fishes"];
-
-    print("fishesReponse $fishesResponse");
 
     if (fishesResponse == "") {
       return [];

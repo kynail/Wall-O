@@ -105,13 +105,7 @@ class _AquadexState extends State<Aquadex> {
               onCloseArrowTap: widget.onCloseArrowTap,
               title: "Aquadex",
             ),
-            TextField(
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                  //border: OutlineInputBorder(),
-
-                  hintText: "Poissons vus : 2"),
-            ),
+            Text("Poissons photographié : ${widget.user.totalFishes}"),
             Expanded(
               child: NotificationListener<ScrollNotification>(
                 onNotification: (scrollNotification) {
