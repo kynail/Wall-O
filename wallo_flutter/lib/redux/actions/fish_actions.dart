@@ -1,10 +1,12 @@
 import 'package:redux/redux.dart';
 import 'package:redux_thunk/redux_thunk.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
+import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/redux/actions/achievement_actions.dart';
 import 'package:wallo_flutter/redux/actions/messenger_actions.dart';
 import 'package:wallo_flutter/redux/actions/user_action.dart';
 import 'package:wallo_flutter/redux/services/fish_service.dart';
+import 'package:wallo_flutter/redux/services/game_service.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
 
 ThunkAction analyzedPictureAction(String filePath, List<AquadexFish> aquadex) {
@@ -23,6 +25,12 @@ ThunkAction analyzedPictureAction(String filePath, List<AquadexFish> aquadex) {
               ),
             );
             store.dispatch(new RequestSucceedAction());
+            User user = store.state.userState.user;
+            incFishCountRequest(user.id).then((count) {
+              user = user.copyWith(totalFishes: count);
+              print("USERR $user");
+              store.dispatch(new UpdateUserAction(user));
+            });
           }
         }, onError: (errorMessage) {
           store.dispatch(new RequestFailedAction(errorMessage));

@@ -15,6 +15,7 @@ class User {
     this.level,
     this.aquadex,
     this.newAchievement,
+    this.totalFishes,
   });
 
   final String lastName;
@@ -25,6 +26,7 @@ class User {
   final Level level;
   final List<String> aquadex;
   final NewAchievement newAchievement;
+  final int totalFishes;
 
   factory User.fromJson(Map<String, dynamic> json) {
     print("NEW ACHIEVEMENT ${json["newAchievement"]}");
@@ -39,6 +41,7 @@ class User {
       newAchievement: json["newAchievement"] != null
           ? NewAchievement.fromMap(json["newAchievement"])
           : null,
+      totalFishes: json['totalFishes'],
     );
   }
 
@@ -57,7 +60,7 @@ class User {
 
   @override
   String toString() {
-    return 'User: {user: $lastName, firstName: $firstName, mail: $mail, id: $id, avatar: $avatar, level: $level, aquadex: $aquadex}';
+    return 'User: {user: $lastName, firstName: $firstName, totalFishes: $totalFishes}';
   }
 
   User copyWith({
@@ -69,6 +72,7 @@ class User {
     Level level,
     List<String> aquadex,
     NewAchievement newAchievement,
+    int totalFishes,
   }) {
     return User(
       lastName: lastName ?? this.lastName,
@@ -79,6 +83,7 @@ class User {
       level: level ?? this.level,
       aquadex: aquadex ?? this.aquadex,
       newAchievement: newAchievement ?? this.newAchievement,
+      totalFishes: totalFishes ?? this.totalFishes,
     );
   }
 }
