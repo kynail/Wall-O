@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
+import 'package:wallo_flutter/models/aquadex_fish.dart';
+import 'package:wallo_flutter/widgets/Popup_Map.dart';
 
 class FishInfo extends StatefulWidget {
   const FishInfo({
@@ -12,8 +14,10 @@ class FishInfo extends StatefulWidget {
     @required this.scientificName,
     @required this.slug,
     this.isunlocked,
+    @required this.location,
   }) : super(key: key);
 
+  final FishLocation location;
   final String fishId;
   final String fishname;
   final String scientificName;
@@ -66,32 +70,54 @@ class _FishInfoState extends State<FishInfo> {
                         ),
                       ],
                     ),
-                    content: Stack(alignment: Alignment.center, children: <Widget>[
-                    Image.asset(
-                      "assets/fondaq.png",
-                      fit: BoxFit.cover,
-                    ),
-                    SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Image.network(widget.urlfish),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Description",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Text(widget.description),
-                        ],
+                    content:
+                        Stack(alignment: Alignment.center, children: <Widget>[
+                      Image.asset(
+                        "assets/fondaq.png",
+                        fit: BoxFit.cover,
                       ),
-                    ),
-                  ]),
+                      SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Image.network(widget.urlfish),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Description",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Text(widget.description),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 40),
+                              child: Center(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    print(widget.location.lat);
+                                    print(widget.location.long);
+                                    showDialog(
+                                      builder: (BuildContext context) => PopupMap(
+                                          latitude: -20.463043,
+                                          longitude: 53.572621), context: context,
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text("Localisation"),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ]),
                     actions: <Widget>[
                       new TextButton(
                         onPressed: () {

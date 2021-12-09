@@ -4,9 +4,10 @@ import 'mapé.dart';
 
 
 class PopupMap extends StatelessWidget {
-  const PopupMap({Key key, @required this.latitude, @required this.longitude}) : super(key: key);
+  const PopupMap({Key key, @required this.latitude, @required this.longitude, @required this.zoom}) : super(key: key);
   final double latitude;
   final double longitude;
+  final double zoom;
 
   @override
   Widget build(BuildContext context) {
