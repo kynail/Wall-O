@@ -257,16 +257,16 @@ class _FishDetailsState extends State<FishDetails> {
                                               child: ElevatedButton(
                                                   style:
                                                       ElevatedButton.styleFrom(
-                                                          primary: Colors.white,
+                                                          primary: Colors.lightBlueAccent,
                                                           onPrimary:
-                                                              Colors.black),
+                                                              Colors.white),
                                                   onPressed: () {
                                                     showDialog(
                                                         context: context,
                                                         builder: (BuildContext
                                                                 context) =>
-                                                            PopupMap());
-                                                  }))),
+                                                            PopupMap(latitude: widget.latitude??_currentPosition.latitude, longitude: widget.longitude??_currentPosition.longitude));
+                                                  }, child: const Text("Voir sur la carte"),))),
                                       SizedBox(
                                         height: 0,
                                       )

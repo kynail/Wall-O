@@ -1,7 +1,5 @@
-import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:wallo_flutter/views/home/analyze_picture.dart';
 import 'dart:math' as math;
 
 class TakePicture extends StatefulWidget {
@@ -10,7 +8,6 @@ class TakePicture extends StatefulWidget {
   final Function() onTakePicture;
   final Function() onOpenGallery;
   final Function() onArrowTap;
-  AnimationController _iconAnimationController;
   final double appBarHeight;
 
   TakePicture({
@@ -113,7 +110,6 @@ class AnimatedIconButton extends StatefulWidget {
 class _AnimatedIconButtonState extends State<AnimatedIconButton>
     with TickerProviderStateMixin {
   AnimationController _iconAnimationController;
-  bool _active = false;
 
   @override
   void initState() {

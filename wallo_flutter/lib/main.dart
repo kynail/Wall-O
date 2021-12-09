@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:wallo_flutter/redux/state/app_state.dart';
 import 'package:wallo_flutter/route_generator.dart';
@@ -7,7 +6,6 @@ import 'package:wallo_flutter/redux/store.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 import 'package:flutter/services.dart';
-import 'package:wallo_flutter/widgets/LifeCycleManager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

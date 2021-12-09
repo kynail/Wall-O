@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wallo_flutter/views/home/PopUp_Fish.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 class FishInfo extends StatefulWidget {
   const FishInfo({
@@ -36,27 +36,75 @@ class _FishInfoState extends State<FishInfo> {
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
-                  //color: Colors.blueGrey,
-        border: Border.all(
-          color: Colors.grey,
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(12)
-
-      ),
+          //color: Colors.blueGrey,
+          border: Border.all(
+            color: Colors.grey,
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(12)),
       child: Card(
         child: InkWell(
           splashColor: Colors.blue.withAlpha(30),
           onTap: () {
             if (widget.isunlocked == true) {
-              showDialog(
+              showAnimatedDialog(
                 context: context,
-                builder: (BuildContext context) => PopupFish(
-                  fishName: widget.fishname,
-                  scientificName: widget.scientificName,
-                  url: widget.urlfish,
-                  description: widget.description,
-                ),
+                barrierDismissible: true,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.fishname,
+                          style: TextStyle(fontSize: 22),
+                        ),
+                        Text(
+                          widget.scientificName,
+                          style: TextStyle(
+                              fontSize: 14, fontStyle: FontStyle.italic),
+                        ),
+                      ],
+                    ),
+                    content: Stack(alignment: Alignment.center, children: <Widget>[
+                    Image.asset(
+                      "assets/fondaq.png",
+                      fit: BoxFit.cover,
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Image.network(widget.urlfish),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Description",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Text(widget.description),
+                        ],
+                      ),
+                    ),
+                  ]),
+                    actions: <Widget>[
+                      new TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Fermer'),
+                      ),
+                    ],
+                  );
+                },
+                animationType: DialogTransitionType.fadeRotate,
+                curve: Curves.fastOutSlowIn,
+                duration: Duration(seconds: 1),
               );
             }
           },

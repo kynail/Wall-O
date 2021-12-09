@@ -21,7 +21,7 @@ class AquadexScreen extends StatelessWidget {
         : Aquadex(
             user: viewModel.user,
             aquadex: viewModel.aquadex,
-            pageController: pageController,
+            pageController: pageController, onCloseArrowTap: () {  },
           );
   }
 

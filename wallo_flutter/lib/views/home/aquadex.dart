@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:wallo_flutter/models/aquadex_fish.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/views/home/fishinfo.dart';
 import 'package:wallo_flutter/views/floating_page_top_bar.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 
 class Aquadex extends StatefulWidget {
   final PageController pageController;
@@ -118,30 +118,42 @@ class _AquadexState extends State<Aquadex> {
                   }
                   return true;
                 },
-                child: GridView.count(
-                  controller: _controller,
-                  crossAxisCount: 3,
+                child: AnimationLimiter(
+                  child: GridView.count(
+                    controller: _controller,
+                    crossAxisCount: 3,
 
-                  childAspectRatio:
-                      (MediaQuery.of(context).size.width / 3) / 180,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  shrinkWrap: true,
-                  //scrollDirection: Axis.horizontal,
+                    childAspectRatio:
+                        (MediaQuery.of(context).size.width / 3) / 180,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    shrinkWrap: true,
+                    //scrollDirection: Axis.horizontal,
 
-                  children: widget.aquadex
-                      .map(
-                        (fish) => FishInfo(
-                          fishId: fish.id,
-                          fishname: fish.name,
-                          urlfish: fish.image,
-                          description: fish.desc,
-                          scientificName: fish.scientificName,
-                          slug: fish.slug,
-                          isunlocked: widget.user.aquadex.contains(fish.id),
-                        ),
-                      )
-                      .toList(),
+                    children: widget.aquadex
+                        .map(
+                          (fish) => AnimationConfiguration.staggeredGrid(
+                            position: widget.aquadex.indexOf(fish),
+                            duration: const Duration(milliseconds: 800),
+                            columnCount: widget.aquadex.length,
+                            child: ScaleAnimation(
+                              child: FadeInAnimation(
+                                child: FishInfo(
+                                  fishId: fish.id,
+                                  fishname: fish.name,
+                                  urlfish: fish.image,
+                                  description: fish.desc,
+                                  scientificName: fish.scientificName,
+                                  slug: fish.slug,
+                                  isunlocked:
+                                      widget.user.aquadex.contains(fish.id),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
             )

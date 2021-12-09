@@ -1,4 +1,4 @@
-package com.example.wallo_flutter
+package our.app.wallo_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 
