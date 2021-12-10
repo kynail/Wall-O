@@ -82,6 +82,7 @@ class _AquadexState extends State<Aquadex> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.aquadex.elementAt(0).location.elementAt(0));
     if (changePage == true) {
       widget.pageController.previousPage(
           duration: Duration(milliseconds: 600), curve: Curves.fastOutSlowIn);
@@ -146,7 +147,7 @@ class _AquadexState extends State<Aquadex> {
                                   scientificName: fish.scientificName,
                                   slug: fish.slug,
                                   isunlocked:
-                                      widget.user.aquadex.contains(fish.id),
+                                      widget.user.aquadex.contains(fish.id), location: null,
                                 ),
                               ),
                             ),

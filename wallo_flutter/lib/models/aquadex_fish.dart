@@ -4,6 +4,25 @@ import 'package:flutter/material.dart';
 
 import 'package:wallo_flutter/models/Fish.dart';
 
+class FishLocation {
+  String lat;
+  String long;
+
+  FishLocation({this.lat, this.long});
+
+  factory FishLocation.fromMap(Map<String, dynamic> map) {
+    return FishLocation(
+      lat: map["lat"],
+      long: map["long"],
+    );
+  }
+
+@override
+  String toString() {
+    return 'FishLocation(lat: $lat, long: $long)';
+  }
+}
+
 class AquadexFish {
   String id;
   String name;
@@ -12,6 +31,7 @@ class AquadexFish {
   String slug;
   String desc;
   Fish fish;
+  List<FishLocation> location;
 
   AquadexFish({
     @required this.id,
@@ -20,6 +40,7 @@ class AquadexFish {
     @required this.image,
     @required this.desc,
     @required this.slug,
+    @required this.location,
     this.fish,
   });
 
@@ -50,7 +71,7 @@ class AquadexFish {
 
   @override
   String toString() {
-    return 'AquadexFish(id: $id, name: $name, scientificName: $scientificName, image: $image, slug: $slug, desc: $desc, fish: $fish)';
+    return 'AquadexFish(id: $id, name: $name, scientificName: $scientificName, image: $image, slug: $slug, desc: $desc, fish: $fish, location: $location)';
   }
 
   Map<String, dynamic> toMap() {
@@ -66,12 +87,14 @@ class AquadexFish {
 
   factory AquadexFish.fromMap(Map<String, dynamic> map) {
     return AquadexFish(
-        id: map["_id"],
-        name: map['name'],
-        scientificName: map['scientificName'],
-        image: map['image'],
-        desc: map['desc'],
-        slug: map['slug']);
+      id: map["_id"],
+      name: map['name'],
+      scientificName: map['scientificName'],
+      image: map['image'],
+      desc: map['desc'],
+      slug: map['slug'],
+      location: List.from(map["geoData"].map((data) => FishLocation.fromMap(data))),
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -95,7 +118,7 @@ class AquadexFish {
       image: image ?? this.image,
       slug: slug ?? this.slug,
       desc: desc ?? this.desc,
-      fish: fish ?? this.fish,
+      fish: fish ?? this.fish, location: [],
     );
   }
 }

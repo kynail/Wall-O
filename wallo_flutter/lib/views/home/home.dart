@@ -8,7 +8,6 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/screens/analyze_picture_screen.dart';
 import 'package:wallo_flutter/screens/aquadex_screen.dart';
-import 'package:wallo_flutter/screens/contact.dart';
 import 'package:wallo_flutter/screens/leaderboard_screen.dart';
 import 'package:wallo_flutter/screens/profile_screen.dart';
 import 'package:wallo_flutter/views/home/take_picture.dart';

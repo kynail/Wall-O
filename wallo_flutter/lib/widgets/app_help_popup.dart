@@ -63,7 +63,7 @@ class AppHelpPopup extends StatelessWidget {
               flex: 3,
               child: HelpFishCard(
                 subtitle: "Plusieurs espèces",
-                assets: "assets/plusieurs-espèces.jpg",
+                assets: "assets/plusieurs-especes.jpg",
               ),
             ),
           ],

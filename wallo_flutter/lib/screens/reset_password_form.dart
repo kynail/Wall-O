@@ -33,7 +33,6 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Token : ${widget.token}"),
                 Text("Nouveau mot de passe"),
                 SizedBox(height: 10),
                 TextFormField(
@@ -45,6 +44,14 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                     fillColor: Color(0xfffff6d4),
                     filled: true,
                   ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Veuillez remplir ce champ';
+                    } else if (value.length < 6) {
+                      return 'Veuillez entrer au moins 6 caractères';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 20),
                 Text("Confirmation du mot de passe"),
@@ -58,6 +65,14 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                     fillColor: Color(0xfffff6d4),
                     filled: true,
                   ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Veuillez remplir ce champ';
+                    } else if (value.length < 6) {
+                      return 'Veuillez entrer au moins 6 caractères';
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(height: 20),
                 Center(

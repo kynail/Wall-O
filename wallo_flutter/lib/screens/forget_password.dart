@@ -81,9 +81,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         validator: (value) {
                           final regexep = RegExp(pattern);
                           if (value.isEmpty) {
-                            return 'Enter an email';
+                            return 'Entrer un email';
                           } else if (!regexep.hasMatch(value)) {
-                            return 'Enter valid Email';
+                            return 'Veuillez entrer une adresse mail vailide';
                           } else
                             return null;
                         },
