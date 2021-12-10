@@ -63,8 +63,12 @@ class _LoginFormState extends State<LoginForm> {
                     TextFormField(
                         controller: mailController,
                         validator: (value) {
+                          const emailRegex = r"""^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+.[a-zA-Z]+""";
                           if (value.isEmpty) {
                             return 'Veuillez remplir ce champ';
+                          }
+                          else if (!RegExp(emailRegex).hasMatch(value)) {
+                            return 'Veuillez entrer une adresse mail vailide';
                           }
                           return null;
                         },
@@ -88,6 +92,8 @@ class _LoginFormState extends State<LoginForm> {
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Veuillez remplir ce champ';
+                          } else if (value.length < 6) {
+                            return 'Veuillez entrer au moins 6 caractères';
                           }
                           return null;
                         },
