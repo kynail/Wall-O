@@ -265,7 +265,7 @@ class _FishDetailsState extends State<FishDetails> {
                                                         context: context,
                                                         builder: (BuildContext
                                                                 context) =>
-                                                            PopupMap(latitude: widget.latitude??_currentPosition.latitude, longitude: widget.longitude??_currentPosition.longitude));
+                                                            PopupMap(latitude: widget.latitude??_currentPosition.latitude, longitude: widget.longitude??_currentPosition.longitude, zoom: null,));
                                                   }, child: const Text("Voir sur la carte"),))),
                                       SizedBox(
                                         height: 0,

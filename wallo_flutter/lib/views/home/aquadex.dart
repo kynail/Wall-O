@@ -147,7 +147,7 @@ class _AquadexState extends State<Aquadex> {
                                   scientificName: fish.scientificName,
                                   slug: fish.slug,
                                   isunlocked:
-                                      widget.user.aquadex.contains(fish.id),
+                                      widget.user.aquadex.contains(fish.id), location: null,
                                 ),
                               ),
                             ),

@@ -33,7 +33,6 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Token : ${widget.token}"),
                 Text("Nouveau mot de passe"),
                 SizedBox(height: 10),
                 TextFormField(

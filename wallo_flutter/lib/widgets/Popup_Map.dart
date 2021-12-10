@@ -15,10 +15,7 @@ class PopupMap extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Localisation'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ShowMap(latitude: latitude, longitude: longitude,),
-      ),
+      body:  ShowMap(latitude: latitude, longitude: longitude,),
     );
 
     // return new AlertDialog(

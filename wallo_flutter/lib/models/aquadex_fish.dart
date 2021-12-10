@@ -118,7 +118,7 @@ class AquadexFish {
       image: image ?? this.image,
       slug: slug ?? this.slug,
       desc: desc ?? this.desc,
-      fish: fish ?? this.fish,
+      fish: fish ?? this.fish, location: [],
     );
   }
 }
