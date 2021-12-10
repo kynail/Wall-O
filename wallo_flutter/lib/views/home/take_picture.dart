@@ -36,7 +36,9 @@ class _TakePictureState extends State<TakePicture> {
             widget.controller,
           ),
         ),
-        Align(alignment: Alignment.center, child: Image(image: AssetImage('assets/Cadre.png'))),
+        Align(
+            alignment: Alignment.center,
+            child: Image(image: AssetImage('assets/Cadre.png'))),
         TakePictureButtons(
           onTakePicture: () => widget.onTakePicture(),
           onOpenGallery: () => widget.onOpenGallery(),

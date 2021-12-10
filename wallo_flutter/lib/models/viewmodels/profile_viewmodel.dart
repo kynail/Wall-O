@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:wallo_flutter/models/achievement.dart';
 import 'package:wallo_flutter/models/avatar.dart';
@@ -15,6 +16,7 @@ class ProfileViewModel {
   final Function(double exp) addExp;
   final Function(String seed, String type) onSaveAvatarPressed;
   final Function() playConfetti;
+  final Function(BuildContext context) onDisconnect;
 
   ProfileViewModel({
     this.messenger,
@@ -23,6 +25,7 @@ class ProfileViewModel {
     this.onSaveAvatarPressed,
     this.playConfetti,
     this.achievements,
+    this.onDisconnect,
   });
 
   static ProfileViewModel fromStore(Store<AppState> store) {
@@ -45,6 +48,11 @@ class ProfileViewModel {
           print("WUUUUT STOP");
           store.dispatch(new StopConfettiAction());
         });
+      },
+      onDisconnect: (context) {
+        store.dispatch(new StopLoadingAction());
+        Navigator.of(context).pushReplacementNamed("/");
+        print("DISCONNECT FROM REDUX");
       },
     );
   }

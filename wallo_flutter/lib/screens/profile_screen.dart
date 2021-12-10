@@ -19,13 +19,13 @@ class ProfileScreen extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: statusBarHeight),
           child: Profile(
-            onSaveAvatarPressed: (seed, type) =>
-                viewModel.onSaveAvatarPressed(seed, type),
-            addExp: (xp) => viewModel.addExp(xp),
-            user: viewModel.user,
-            onCloseArrowTap: onCloseArrowTap,
-            achievements: viewModel.achievements,
-          ),
+              onSaveAvatarPressed: (seed, type) =>
+                  viewModel.onSaveAvatarPressed(seed, type),
+              addExp: (xp) => viewModel.addExp(xp),
+              user: viewModel.user,
+              onCloseArrowTap: onCloseArrowTap,
+              achievements: viewModel.achievements,
+              onDisconnect: (context) => viewModel.onDisconnect(context)),
         ),
       ],
     );

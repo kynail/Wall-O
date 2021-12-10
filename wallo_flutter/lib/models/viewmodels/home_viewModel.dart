@@ -18,6 +18,7 @@ class HomeViewModel {
   final Function() getLeaderboard;
   final CameraController cameraController;
   final NewAchievement newAchievement;
+  final Function() onDisconnect;
 
   HomeViewModel({
     this.isCameraLoading,
@@ -30,6 +31,7 @@ class HomeViewModel {
     this.newAchievementShowed,
     this.newAchievement,
     this.getLeaderboard,
+    this.onDisconnect,
   });
 
   static HomeViewModel fromStore(Store<AppState> store) {
@@ -50,7 +52,9 @@ class HomeViewModel {
         NewAchievementShowedAction(),
       ),
       newAchievement: store.state.achievementState.newAchievement,
-      getLeaderboard: () => store.dispatch(getLeaderboardAction()),
+      getLeaderboard: () => store.dispatch(
+        getLeaderboardAction(),
+      ),
     );
   }
 }

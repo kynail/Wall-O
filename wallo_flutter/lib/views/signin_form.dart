@@ -185,30 +185,30 @@ class _SignInFormState extends State<SignInForm> {
                         )),
                   )),
                   SizedBox(height: 18),
-                  Center(
-                    child: Container(
-                      width: 250,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.white, onPrimary: Colors.black),
-                        onPressed: () {
-                          Keys.navKey.currentState.pushNamed(Routes.webview);
-                        },
-                        child: Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            Image(
-                              image: AssetImage("assets/google.png"),
-                              width: 20,
-                              height: 20,
-                            ),
-                            SizedBox(width: 10),
-                            Text("Continuer avec Google"),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Center(
+                  //   child: Container(
+                  //     width: 250,
+                  //     child: ElevatedButton(
+                  //       style: ElevatedButton.styleFrom(
+                  //           primary: Colors.white, onPrimary: Colors.black),
+                  //       onPressed: () {
+                  //         Keys.navKey.currentState.pushNamed(Routes.webview);
+                  //       },
+                  //       child: Wrap(
+                  //         crossAxisAlignment: WrapCrossAlignment.center,
+                  //         children: [
+                  //           Image(
+                  //             image: AssetImage("assets/google.png"),
+                  //             width: 20,
+                  //             height: 20,
+                  //           ),
+                  //           SizedBox(width: 10),
+                  //           Text("Continuer avec Google"),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

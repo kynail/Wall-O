@@ -14,6 +14,7 @@ import 'package:wallo_flutter/screens/profile_screen.dart';
 import 'package:wallo_flutter/views/home/take_picture.dart';
 import 'package:wallo_flutter/views/profile/profile_main_info.dart';
 import 'package:wallo_flutter/wall_o_icons.dart';
+import 'package:wallo_flutter/widgets/app_help_popup.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -22,12 +23,14 @@ class Home extends StatefulWidget {
     @required this.appBarHeight,
     @required this.user,
     @required this.onLeaderboardTap,
+    @required this.onDisconnect,
   }) : super(key: key);
 
   final User user;
   final CameraController cameraController;
   final double appBarHeight;
   final Function() onLeaderboardTap;
+  final Function() onDisconnect;
 
   @override
   _HomeState createState() => _HomeState();
@@ -166,15 +169,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                         );
                       },
                       onContactTap: () {
-                        showMaterialModalBottomSheet(
-                          expand: true,
+                        showDialog(
                           context: context,
-                          builder: (BuildContext context) {
-                            return Contact(
-                              onCloseArrowTap: () =>
-                                  Navigator.of(context).pop(),
-                            );
-                          },
+                          builder: (BuildContext context) => AppHelpPopup(),
                         );
                       },
                     ),
@@ -261,22 +258,22 @@ class TopBar extends StatelessWidget {
         SizedBox(
           width: 24,
         ),
-        InkWell(
-          onTap: () => Navigator.of(context).pushReplacementNamed("/"),
-          child: Container(
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.black26),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, left: 8.0, right: 8.0, bottom: 8.0),
-              child: Icon(
-                Icons.logout,
-                color: Colors.white,
-                size: 20,
-              ),
-            ),
-          ),
-        ),
+        // InkWell(
+        //   onTap: () => Navigator.of(context).pushReplacementNamed("/"),
+        //   child: Container(
+        //     decoration:
+        //         BoxDecoration(shape: BoxShape.circle, color: Colors.black26),
+        //     child: Padding(
+        //       padding: const EdgeInsets.only(
+        //           top: 8.0, left: 8.0, right: 8.0, bottom: 8.0),
+        //       child: Icon(
+        //         Icons.logout,
+        //         color: Colors.white,
+        //         size: 20,
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }

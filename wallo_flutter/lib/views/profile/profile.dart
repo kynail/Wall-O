@@ -15,6 +15,7 @@ class Profile extends StatelessWidget {
     @required this.onCloseArrowTap,
     @required this.onSaveAvatarPressed,
     @required this.achievements,
+    @required this.onDisconnect,
   }) : super(key: key);
 
   final Function() onCloseArrowTap;
@@ -22,6 +23,7 @@ class Profile extends StatelessWidget {
   final Function(double xp) addExp;
   final Function(String, String) onSaveAvatarPressed;
   final List<Achievement> achievements;
+  final Function(BuildContext context) onDisconnect;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,11 @@ class Profile extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          FloatingPageTopBar(onCloseArrowTap: onCloseArrowTap, title: "Profil"),
+          FloatingPageTopBar(
+            onCloseArrowTap: onCloseArrowTap,
+            title: "Profil",
+            showHelp: true,
+          ),
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -72,7 +78,14 @@ class Profile extends StatelessWidget {
                                   )
                                   .toList(),
                             ),
-                          )
+                          ),
+                        ElevatedButton(
+                          onPressed: () {
+                            onDisconnect(context);
+                            // Navigator.of(context).pushReplacementNamed("/");
+                          },
+                          child: Text("Se déconnecter"),
+                        )
                       ],
                     ),
                   ),

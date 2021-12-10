@@ -58,6 +58,7 @@ ThunkAction googleLogin(String requestUrl) {
         store.dispatch(
           new RequestSucceedActionWithMessage("Bienvenue, " + user.firstName),
         );
+        print("USER $user");
         store.dispatch(new LoginSuccessAction(user));
         if (user.newAchievement != null) {
           store.dispatch(SetNewAchievementAction(user.newAchievement));

@@ -18,6 +18,10 @@ class StartLoadingAction {
   StartLoadingAction();
 }
 
+class StopLoadingAction {
+  StopLoadingAction();
+}
+
 class PlayConfettiAction {
   PlayConfettiAction();
 }
