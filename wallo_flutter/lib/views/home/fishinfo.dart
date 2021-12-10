@@ -101,9 +101,15 @@ class _FishInfoState extends State<FishInfo> {
                                     print(widget.location.lat);
                                     print(widget.location.long);
                                     showDialog(
-                                      builder: (BuildContext context) => PopupMap(
-                                          latitude: -20.463043,
-                                          longitude: 53.572621, zoom: null,), context: context,
+                                      builder: (BuildContext context) =>
+                                          PopupMap(
+                                        latitude:
+                                            double.parse(widget.location.lat),
+                                        longitude:
+                                            double.parse(widget.location.long),
+                                        zoom: null,
+                                      ),
+                                      context: context,
                                     );
                                   },
                                   child: Padding(
