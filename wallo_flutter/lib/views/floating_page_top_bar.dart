@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:wallo_flutter/models/user.dart';
 import 'package:wallo_flutter/screens/contact.dart';
 import 'package:wallo_flutter/wall_o_icons.dart';
 
@@ -7,12 +7,14 @@ class FloatingPageTopBar extends StatelessWidget {
   final Function() onCloseArrowTap;
   final String title;
   final bool showHelp;
+  final User user;
 
   const FloatingPageTopBar({
     Key key,
     @required this.onCloseArrowTap,
     @required this.title,
     this.showHelp = false,
+    this.user,
   }) : super(key: key);
 
   @override
@@ -40,6 +42,7 @@ class FloatingPageTopBar extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return Contact(
+                              user: user,
                               onCloseArrowTap: () =>
                                   Navigator.of(context).pop(),
                             );
