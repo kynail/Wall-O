@@ -35,6 +35,7 @@ class Profile extends StatelessWidget {
             onCloseArrowTap: onCloseArrowTap,
             title: "Profil",
             showHelp: true,
+            user: user,
           ),
           Expanded(
             child: SingleChildScrollView(

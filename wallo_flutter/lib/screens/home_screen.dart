@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onLeaderboardTap: () => viewModel.getLeaderboard(),
                       user: viewModel.user,
                       cameraController: viewModel.cameraController,
-                      appBarHeight: appBarHeight,
+                      appBarHeight: appBarHeight, onDisconnect: () {  },
                     ),
                   ),
                   ModalConfetti(

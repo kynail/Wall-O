@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wallo_flutter/widgets/loading_button.dart';
 
-import '../route_generator.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({Key key, this.isLoading, this.onRegisterValidationSuccess})
