@@ -42,7 +42,6 @@ print("model load")
 def home():
     return "Hello World from python server"
 
-
 @app.route("/analyse", methods=['POST'])
 def base64Image():
     # A faire : verifier le bon format de l'image en base 64 sinon crash
